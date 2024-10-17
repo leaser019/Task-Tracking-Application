@@ -12,18 +12,22 @@ import ApplicationDetail from './pages/ApplicationDetail'
 import { Toaster } from 'sonner';
 import Application from './pages/Application';
 import UserDetail from './pages/UserDetail'
+import { useSelector } from 'react-redux'
+import SideBar from './components/SideBar';
+import MobileSideBar from './components/MobileSideBar';
+import NavBar from './components/NavBar';
 
 const Layout = () => {
-  const user = ''
+  const { user } = useSelector(state => state.authentication)
   const location = useLocation()
   return user ? (
     <div className='w-full h-screen flex flex-col md:flex-row'>
-      <div className='w-1/5 h-screen bg-white sticky top-0 hidden md:block'>
-        {/*<SideBar/>*/}
+      <div className='w-1/5 h-screen bg-white sticky top-0 hidden md:block shadow-lg'>
+        <SideBar />
       </div>
-      {/*<MobileSideBar/>*/}
+      {/* <MobileSideBar /> */}
       <div className='flex-1 overflow-y-auto'>
-        {/* NavBar */}
+        <NavBar />
         <div className='p-4 2x1:px-10'>
           <Outlet />
         </div>

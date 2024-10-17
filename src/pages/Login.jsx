@@ -4,13 +4,16 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import TextFieldElement from '../components/TextFieldElement'
 import ButtonElement from '../components/ButtonElement'
+import { useSelector } from 'react-redux'
+
 const Login = () => {
-  const user = ''
+  const { user } = useSelector(state => state.authentication)
   const { register, handleSubmit, formState: { errors } } = useForm()
   const navigate = useNavigate()
 
   const submitHandler = async (data) => {
     console.log(data);
+    console.log(user);
   }
 
   useEffect(() => {
@@ -87,7 +90,7 @@ const Login = () => {
 
               <ButtonElement
                 type='submit'
-                label='Submit'
+                label='Login'
                 className='w-full h-10 bg-blue-700 text-white rounded-full'
               />
               <span className='text-md text-black-700 text-center'>
