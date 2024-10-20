@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import React from "react";
-import tailwindToHex from '../../../utils/tailwindToHex'
+import { tailwindToHex } from '../../../utils'
 import { LocationAdd } from "iconsax-react";
 
 const TaskTitle = ({ label, className = '', bgColor = 'bg-gray-100' }) => {

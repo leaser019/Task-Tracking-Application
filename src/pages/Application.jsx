@@ -11,6 +11,7 @@ import Tabs from '../components/apps/applicationFeat/Tabs'
 import TaskTitle from '../components/apps/applicationFeat/TaskTitle'
 import { tasks as applications } from '../assets/data'
 import BoardView from '../components/apps/applicationFeat/BoardView'
+import ListView from './../components/apps/applicationFeat/ListView';
 const Application = () => {
 
   const Tab = [
@@ -44,7 +45,7 @@ const Application = () => {
                 <ButtonElement
                   label='Create Application'
                   icon={<Add size="20" color="#FFFFFF" />}
-                  className='flex flex-row-reverse gap-1 items-start bg-blue-600 text-white rounded px-2 py-3  2xl:py-2.5'
+                  className='flex flex-row-reverse gap-1 items-start bg-[#2563eb] text-white rounded-xl px-2 py-3  2xl:py-2.5'
                 />
               )
             }
@@ -60,7 +61,9 @@ const Application = () => {
               </div>
             )}
             {
-              selected === 0 ? <div><BoardView applications={applications} /></div> : <div></div>
+              selected === 0
+                ? (<div><BoardView applications={applications} /></div>)
+                : (<div><ListView applications={applications} /></div>)
             }
           </Tabs>
         </div>

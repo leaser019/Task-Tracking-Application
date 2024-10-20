@@ -12,7 +12,7 @@ const ApplicationCard = ({ application }) => {
  const ICONS = {
   high: "",
   medium: "",
-  low: ""
+  low: ''
  };
 
  const { user } = useSelector(state => state.authentication);
@@ -24,7 +24,7 @@ const ApplicationCard = ({ application }) => {
     <div className='w-full flex justify-between'>
      <div
       className={clsx(
-       "flex flex-1 gap-1 items-center text-sm font-medium",
+       "flex flex-1 gap-1 items-center text-sm font-medium ",
        PRIORITY_STYLES[application?.priority]
       )}
      >
@@ -32,7 +32,7 @@ const ApplicationCard = ({ application }) => {
       <span className='uppercase'>{application?.priority} Priority</span>
      </div>
 
-     {/* {user?.isAdmin && <ApplicationDialog application={application} />} */}
+     {/* {user?.isAdmin && <ApplicationDialog application={application} />} */}...
     </div>
 
     <div className='flex items-center gap-2'>

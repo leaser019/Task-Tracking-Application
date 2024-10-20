@@ -1,8 +1,11 @@
 import React from 'react'
+import ApplicationTable from './ApplicationTable'
 
-const ListView = () => {
+const ListView = ({ applications }) => {
   return (
-    <div>ListView</div>
+  <>
+    <ApplicationTable applications={applications} />
+  </>
   )
 }
 
