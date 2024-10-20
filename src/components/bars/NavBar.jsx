@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setSlideBarOpen } from '../redux/slices/authenticationSlice'
+import { setSlideBarOpen } from '../../redux/slices/authenticationSlice'
 import { Menu } from 'iconsax-react';
 import { SearchNormal1 } from 'iconsax-react';
 import NotificationPanel from './NotificationPanel';

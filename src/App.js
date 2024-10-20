@@ -15,8 +15,8 @@ import UserDetail from './pages/UserDetail'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { useRef } from 'react'
-import SideBar from './components/SideBar';
-import NavBar from './components/NavBar';
+import SideBar from './components/bars/SideBar';
+import NavBar from './components/bars/NavBar';
 import { setSlideBarOpen } from './redux/slices/authenticationSlice';
 import React from 'react'
 import { Transition } from '@headlessui/react'

@@ -2,8 +2,8 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import TextFieldElement from '../components/TextFieldElement'
-import ButtonElement from '../components/ButtonElement'
+import TextFieldElement from '../components/common/TextFieldElement'
+import ButtonElement from '../components/common/ButtonElement'
 import { useSelector } from 'react-redux'
 
 const Login = () => {

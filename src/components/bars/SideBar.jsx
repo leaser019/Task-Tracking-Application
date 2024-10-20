@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { setSlideBarOpen } from '../redux/slices/authenticationSlice';
+import { setSlideBarOpen } from '../../redux/slices/authenticationSlice';
 import clsx from 'clsx';
 
 const iconSize = '30'
