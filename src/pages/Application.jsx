@@ -7,11 +7,11 @@ import { useParams } from 'react-router-dom'
 import Loading from '../components/common/Loading'
 import Title from '../components/common/Title'
 import ButtonElement from '../components/common/ButtonElement'
-import Tabs from '../components/apps/applicationFeat/Tabs'
-import TaskTitle from '../components/apps/applicationFeat/TaskTitle'
+import Tabs from '../components/apps/application/Tabs'
+import TaskTitle from '../components/apps/application/TaskTitle'
 import { tasks as applications } from '../assets/data'
-import BoardView from '../components/apps/applicationFeat/BoardView'
-import ListView from './../components/apps/applicationFeat/ListView';
+import BoardView from '../components/apps/application/BoardView'
+import ListView from '../components/apps/application/ListView';
 const Application = () => {
 
   const Tab = [
