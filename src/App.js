@@ -13,9 +13,70 @@ import { Toaster } from 'sonner';
 import Application from './pages/Application';
 import UserDetail from './pages/UserDetail'
 import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { useRef } from 'react'
 import SideBar from './components/SideBar';
-import MobileSideBar from './components/MobileSideBar';
 import NavBar from './components/NavBar';
+import { setSlideBarOpen } from './redux/slices/authenticationSlice';
+import React from 'react'
+import { Transition } from '@headlessui/react'
+import clsx from 'clsx'
+import { CloseCircle } from 'iconsax-react';
+
+
+const MobileSideBar = () => {
+  const { isSideBarOpen } = useSelector(state => state?.authentication)
+  const moblieMenuRef = useRef(null)
+  const dispatch = useDispatch()
+
+  const closeSideBar = () => {
+    dispatch(setSlideBarOpen(false))
+  }
+
+  return (
+    <>
+      <Transition
+        show={isSideBarOpen || false}
+        as={React.Fragment}
+        enter='transition-opacity duration-700'
+        enterFrom='opacity-x-10'
+        enterTo='opacity-x-100'
+        leave='transition-opacity duration-700'
+        leaveFrom='opacity-x-100'
+        leaveTo='opacity-x-0'
+      >
+        {(ref) => (
+          <div
+            ref={(node) => (moblieMenuRef.current = node)}
+            className={clsx(
+              "md:hidden w-full h-full bg-black/40 transition-all duration-700 transform ",
+              isSideBarOpen ? "translate-x-0" : "translate-x-full"
+            )}
+            onClick={() => closeSideBar()}
+          >
+            <div className='bg-white w-3/4 h-full'>
+              <div className='w-full flex justify-end px-5 mt-5'>
+                <button
+                  onClick={() => closeSideBar()}
+                  className='flex justify-end items-end'
+                >
+                  <CloseCircle
+                    size="25"
+                    color="#FF8A65"
+                  />
+                </button>
+              </div>
+
+              <div className='-mt-10'>
+                <SideBar />
+              </div>
+            </div>
+          </div>
+        )}
+      </Transition>
+    </>
+  )
+}
 
 const Layout = () => {
   const { user } = useSelector(state => state.authentication)
@@ -25,8 +86,8 @@ const Layout = () => {
       <div className='w-1/5 h-screen bg-white sticky top-0 hidden md:block shadow-lg'>
         <SideBar />
       </div>
-      {/* <MobileSideBar /> */}
-      <div className='flex-1 overflow-y-auto'>
+      <MobileSideBar />
+      <div className='flex-1 overflow-y-auto shadow-lg'>
         <NavBar />
         <div className='p-4 2x1:px-10'>
           <Outlet />

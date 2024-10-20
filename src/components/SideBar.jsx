@@ -8,8 +8,10 @@ import { Task } from 'iconsax-react';
 import { Profile2User } from 'iconsax-react';
 import { Trash } from 'iconsax-react';
 import { Stickynote } from 'iconsax-react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { setSlideBarOpen } from '../redux/slices/authenticationSlice';
 import clsx from 'clsx';
 
@@ -73,26 +75,25 @@ const SideBar = () => {
  const user = useSelector(state => state.authentication)
  const dispatch = useDispatch()
  const location = useLocation()
- const sideBarUserData = user?.isAdmin ? defaultData : defaultData.slice(0, 6)
+ const sideBarUserData = (user?.isAdmin) ? defaultData : defaultData
  const path = location.pathname.split('/')[1]
 
  const closeSideBar = () => {
   dispatch(setSlideBarOpen(false))
  }
+
  const NavigationLink = ({ element }) => <Link to={element.link} onClick={closeSideBar} className={clsx("w-full lg:w-3/4 gap-2 px-3 py-2 rounded-full items-center text-gray-800 text-base hover:bg-[#2564ed2d]", path === element.link.split('/')[0] ? "bg-blue-600 text-neutral-100" : "")}>
-  <div className='flex flex-row'>
+  <div className='flex flex-row items-center' >
    <i>{path === element.link.split('/')[0] ? element.iconChoose : element.icon}</i>
-   <span className='pl-2 text-xl hover:text-[#0084FF] text-pretty'>{element.label}</span>
+   <span className='pl-3 text-lg hover:text-[#0084FF] text-pretty'>{element.label}</span>
   </div>
  </Link>
-
-
 
  return (
   <div className='w-full h-full flex flex-col gap-6 p-5'>
    <h1 className='flex gap-1 items-center'>
-    <p ><Stickynote size="50" color="#0084ff" /></p>
-    <span className='font-bold text-black text-3xl'>TASKCHICK .</span>
+    <p><Stickynote size="50" color="#0084ff" /></p>
+    <span className='font-bold text-black text-3xl pl-3'>Kepler</span>
    </h1>
    <div className='flex-1 flex flex-col gap-y-4 py-4'>
     {sideBarUserData.map((element) => <NavigationLink element={element} />)}

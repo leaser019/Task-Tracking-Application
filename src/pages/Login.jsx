@@ -30,7 +30,7 @@ const Login = () => {
               Welcome Back!
             </span>
             <p className='flex flex-col gap-0 md:gap-4 text-4xl md:text-6xl 2xl:text-7xl font-black text-center text-blue-700'>
-              <span>TaskChicken.</span>
+              <span>Kepler.</span>
             </p>
             <span className='text-sm md:text-base  text-gray-600'>
               "The best way to predict the future is to create it."
@@ -62,13 +62,13 @@ const Login = () => {
 
             <div className='flex flex-col gap-y-5'>
               <TextFieldElement
-                placeholder='Enter your username'
-                type='text'
-                name='username'
-                label='Username'
+                placeholder='Enter your email'
+                type='email'
+                name='email'
+                label='Email'
                 className='w-full rounded-full'
-                register={register("username", {
-                  required: "Username is required!",
+                register={register("email", {
+                  required: "Email is required!",
                 })}
                 error={errors.email ? errors.email.message : ""}
               />
