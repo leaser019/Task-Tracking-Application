@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { Profile } from 'iconsax-react'
 import { Lock } from 'iconsax-react'
 import { Logout } from 'iconsax-react'
-import Modal from '../common/Modal'
+import Modal from '../common/modal/Modal'
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
@@ -154,8 +154,8 @@ const UserAvatar = () => {
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    onClick={() => setOpenPassword(true)}
-                    className={`tetx-gray-700 group flex w-full items-center rounded-md px-2 py-2 text-base`}
+                    onClick={() => { handlePassword() }}
+                    className={`text-gray-700 group flex w-full items-center rounded-md px-2 py-2 text-base`}
                   >
                     <Lock
                       size="25"
