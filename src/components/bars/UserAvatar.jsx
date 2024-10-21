@@ -18,7 +18,6 @@ const UserAvatar = () => {
   const mainColor = "#0084ff"
   const { user } = useSelector(state => state.authentication)
   const config = genConfig({ id: JSON.stringify(user?.id), bgColor: { mainColor } })
-  const [open, setOpen] = useState(false)
   const [openPassword, setOpenPassword] = useState(false)
   const [modal, setModal] = useState(false)
   const dispatch = useDispatch()
@@ -27,16 +26,59 @@ const UserAvatar = () => {
   const logoutHandler = () => { console.log('Logout'); }
 
   const handleModal = () => {
-    setModal(!modal);
+    setModal(!modal)
+    setOpenPassword(false)
+  }
+
+  const handlePassword = () => {
+    setOpenPassword(!openPassword)
+    setModal(false)
   }
 
   return (
     <React.Fragment>
 
+      {/* Change Password */}
+
+      <div>
+        <Modal show={openPassword} onClose={handlePassword}>
+          <div className="flex flex-row justify-center items-center text-center w-[100%] gap-2">
+            <div className="bg-white p-6 rounded-lg w-[100%] md:w-[93%] lg:w-[95%]">
+              <h1 className='text-2xl font-bold'>Change Password</h1>
+              <div className='flex justify-center'>
+                <Avatar className="w-20 h-20 px-1" {...config} />
+              </div>
+              <h1 className="text-xl font-semibold mt-4">{(user?.username)}</h1>
+              <p>{(user?.role)}</p>
+              <div className='flex flex-row w-[100%] gap-4 py-6'>
+                <Grid container spacing={3}>
+                  <Grid item xs={12}>
+                    <TextField id="oldPassword" name='oldPassword' label="Old Password" size='normal' variant="outlined" fullWidth />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField id="newPassword" name='newPassword' label="New Password" size='normal' variant="outlined" fullWidth />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField id="reTypeNewPassword" name='reTypeNewPassword' label="Re-type New Password" size='normal' variant="outlined" defaultValue={(user?.email)} fullWidth />
+                  </Grid>
+
+                  <Grid item xs={4}></Grid>
+                  <Grid item xs={4}></Grid>
+                  <Grid item xs={4}>
+                    <Button style={{ backgroundColor: '#2489FF', marginLeft: '34%' }} variant="contained" size='medium'>Save Change</Button>
+                  </Grid>
+                </Grid>
+              </div>
+            </div>
+          </div>
+        </Modal>
+      </div>
+
+      {/* Change User Profile */}
       <div>
         <Modal show={modal} onClose={handleModal}>
           <div className="flex flex-row justify-center items-center text-center w-[100%] gap-2">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-[100%] md:w-[93%] lg:w-[95%]">
+            <div className="bg-white p-6 rounded-lg w-[100%] md:w-[93%] lg:w-[95%]">
               <div className='flex justify-center'>
                 <Avatar className="w-20 h-20 px-1" {...config} />
               </div>
@@ -95,7 +137,6 @@ const UserAvatar = () => {
                 {({ active }) => (
                   <button
                     onClick={() => {
-                      setOpen(true)
                       handleModal()
                     }}
                     className='text-gray-700 group flex w-full items-center rounded-md px-2 py-2 text-base'
