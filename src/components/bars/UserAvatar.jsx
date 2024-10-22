@@ -13,6 +13,7 @@ import Modal from '../common/modal/Modal'
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
+import { useForm } from 'react-hook-form'
 
 const UserAvatar = () => {
   const mainColor = "#0084ff"
@@ -35,80 +36,115 @@ const UserAvatar = () => {
     setModal(false)
   }
 
+  const {
+    register: registerProfile,
+    handleSubmit: submitProfile,
+    formState: { error: errorProfile }
+  } = useForm()
+
+  const profileSubmitHandler = (payload) => { console.log(payload) }
+
+  const {
+    register: registerPassword,
+    handleSubmit: submitPassword,
+    formState: { error: errorPassword }
+  } = useForm()
+
+  const passwordSubmitHandler = (payload) => { console.log(payload) }
+
   return (
     <React.Fragment>
 
       {/* Change Password */}
 
       <div>
-        <Modal show={openPassword} onClose={handlePassword}>
-          <div className="flex flex-row justify-center items-center text-center w-[100%] gap-2">
-            <div className="bg-white p-6 rounded-lg w-[100%] md:w-[93%] lg:w-[95%]">
-              <h1 className='text-2xl font-bold'>Change Password</h1>
-              <div className='flex justify-center'>
-                <Avatar className="w-20 h-20 px-1" {...config} />
-              </div>
-              <h1 className="text-xl font-semibold mt-4">{(user?.username)}</h1>
-              <p>{(user?.role)}</p>
-              <div className='flex flex-row w-[100%] gap-4 py-6'>
-                <Grid container spacing={3}>
-                  <Grid item xs={12}>
-                    <TextField id="oldPassword" name='oldPassword' label="Old Password" size='normal' variant="outlined" fullWidth />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField id="newPassword" name='newPassword' label="New Password" size='normal' variant="outlined" fullWidth />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField id="reTypeNewPassword" name='reTypeNewPassword' label="Re-type New Password" size='normal' variant="outlined" defaultValue={(user?.email)} fullWidth />
-                  </Grid>
+        <form onSubmit={submitPassword(passwordSubmitHandler)}>
+          <Modal show={openPassword} onClose={handlePassword}>
+            <div className="flex flex-row justify-center items-center text-center w-[100%] gap-2">
+              <div className="bg-white p-6 rounded-lg w-[100%] md:w-[93%] lg:w-[95%]">
+                <h1 className='text-2xl font-bold'>Change Password</h1>
+                <div className='flex justify-center'>
+                  <Avatar className="w-20 h-20 px-1" {...config} />
+                </div>
+                <h1 className="text-xl font-semibold mt-4">{(user?.username)}</h1>
+                <p>{(user?.role)}</p>
+                <div className='flex flex-row w-[100%] gap-4 py-6'>
+                  <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                      <TextField
+                        {...registerPassword('oldPassword', { title: 'Old Password Is Require' })}
+                        id="oldPassword" name='oldPassword' label="Old Password" size='normal' variant="outlined" fullWidth required />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        {...registerPassword('newPassword', { title: 'New Password Is Require' })}
+                        id="newPassword" name='newPassword' label="New Password" size='normal' variant="outlined" fullWidth required />
+                    </Grid>
+                    <Grid item xs={12}>
 
-                  <Grid item xs={4}></Grid>
-                  <Grid item xs={4}></Grid>
-                  <Grid item xs={4}>
-                    <Button style={{ backgroundColor: '#2489FF', marginLeft: '34%' }} variant="contained" size='medium'>Save Change</Button>
+                      <TextField
+                        {...registerPassword('reTypeNewPassword', { title: 'Re-type New Password Is Require' })}
+                        id="reTypeNewPassword" name='reTypeNewPassword' label="Re-type New Password" size='normal' variant="outlined" defaultValue={(user?.email)} fullWidth required />
+                    </Grid>
+
+                    <Grid item xs={4}></Grid>
+                    <Grid item xs={4}></Grid>
+                    <Grid item xs={4}>
+                      <Button style={{ backgroundColor: '#2489FF', marginLeft: '34%' }} variant="contained" size='medium'>Save Change</Button>
+                    </Grid>
                   </Grid>
-                </Grid>
+                </div>
               </div>
             </div>
-          </div>
-        </Modal>
+          </Modal>
+        </form>
       </div>
 
       {/* Change User Profile */}
       <div>
-        <Modal show={modal} onClose={handleModal}>
-          <div className="flex flex-row justify-center items-center text-center w-[100%] gap-2">
-            <div className="bg-white p-6 rounded-lg w-[100%] md:w-[93%] lg:w-[95%]">
-              <div className='flex justify-center'>
-                <Avatar className="w-20 h-20 px-1" {...config} />
-              </div>
-              <h1 className="text-xl font-semibold mt-4">{(user?.username)}</h1>
-              <p>{(user?.role)}</p>
-              <div className='flex flex-row w-[100%] gap-4 py-6'>
-                <Grid container spacing={3}>
-                  <Grid item xs={12}>
-                    <TextField id="username" name='username' label="Username" size='normal' variant="outlined" defaultValue={(user?.username)} fullWidth />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField id="title" name='title' label="Title" size='normal' variant="outlined" defaultValue={(user?.role)} fullWidth />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField id="email" name='email' label="Email" size='normal' variant="outlined" defaultValue={(user?.email)} fullWidth />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField id="role" name='role' label="Role" size='normal' variant="outlined" defaultValue={(user?.isAdmin) ? "Admin" : "Member"} fullWidth />
-                  </Grid>
+        <form onSubmit={submitProfile(profileSubmitHandler)}>
+          <Modal show={modal} onClose={handleModal}>
+            <div className="flex flex-row justify-center items-center text-center w-[100%] gap-2">
+              <div className="bg-white p-6 rounded-lg w-[100%] md:w-[93%] lg:w-[95%]">
+                <h1 className='text-2xl font-bold'>Edit Your Profile</h1>
+                <div className='flex justify-center'>
+                  <Avatar className="w-20 h-20 px-1" {...config} />
+                </div>
+                <h1 className="text-xl font-semibold mt-4">{(user?.username)}</h1>
+                <p>{(user?.role)}</p>
+                <div className='flex flex-row w-[100%] gap-4 py-6'>
+                  <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                      <TextField
+                        {...registerProfile('username', { title: 'Username Is Require' })}
+                        id="username" name='username' label="Username" size='normal' variant="outlined" defaultValue={(user?.username)} fullWidth />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        {...registerProfile('title', { title: 'Title Is Require' })}
+                        id="title" name='title' label="Title" size='normal' variant="outlined" defaultValue={(user?.role)} fullWidth />
+                    </Grid>
+                    <Grid item xs={12}>
 
-                  <Grid item xs={4}></Grid>
-                  <Grid item xs={4}></Grid>
-                  <Grid item xs={4}>
-                    <Button style={{ backgroundColor: '#2489FF', marginLeft: '34%' }} variant="contained" size='medium'>Save Change</Button>
+                      <TextField
+                        {...registerProfile('email', { title: 'Email Is Require' })}
+                        id="email" name='email' label="Email" size='normal' variant="outlined" defaultValue={(user?.email)} fullWidth />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField id="role" name='role' label="Role" size='normal' variant="outlined" defaultValue={(user?.isAdmin) ? "Admin" : "Member"} fullWidth disabled />
+                    </Grid>
+
+                    <Grid item xs={4}></Grid>
+                    <Grid item xs={4}></Grid>
+                    <Grid item xs={4}>
+                      <Button style={{ backgroundColor: '#2489FF', marginLeft: '34%' }} variant="contained" size='medium'>Save Change</Button>
+                    </Grid>
                   </Grid>
-                </Grid>
+                </div>
               </div>
             </div>
-          </div>
-        </Modal>
+          </Modal>
+        </form>
       </div>
 
       <Menu as='div' className='relative inline-block text-left pl-5'>
@@ -154,7 +190,9 @@ const UserAvatar = () => {
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    onClick={() => { handlePassword() }}
+                    onClick={() => {
+                      handlePassword()
+                    }}
                     className={`text-gray-700 group flex w-full items-center rounded-md px-2 py-2 text-base`}
                   >
                     <Lock
