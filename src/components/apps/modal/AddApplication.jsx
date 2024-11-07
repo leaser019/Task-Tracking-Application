@@ -53,17 +53,25 @@ const AddApplication = ({ open, setOpen }) => {
                   as="h1"
                   className="bg-white rounded-lg w-[100%] text-2xl font-bold py-4 text-center"
                 >
-                  {task ? 'Update Task' : 'Add Task'}
+                  {task ? 'Update Application' : 'Add Application'}
                 </Dialog.Title>
+              </Grid>
+              <Grid xs={12} item className="flex justify-center">
+                <img
+                  src="./assets/images/application/logoWaiting.gif"
+                  alt=""
+                  style={{ objectFit: 'cover', width: '45%', height: 'auto' }}
+                  className="justify-center items-center"
+                />
               </Grid>
               <Grid xs={12} className="my-4">
                 <TextField
                   {...register('title', {
                     required: 'Title Is Required',
                   })}
-                  id="taskTitle"
+                  id="applicationTitle"
                   name="title"
-                  label="Task Title"
+                  label="Application Title"
                   size="normal"
                   variant="outlined"
                   fullWidth
@@ -82,14 +90,16 @@ const AddApplication = ({ open, setOpen }) => {
               </Grid>
               <Grid xs={5} className="py-4 mr-8">
                 <FormControl fullWidth>
-                  <InputLabel id="task-stage">Task Stage</InputLabel>
+                  <InputLabel id="application-stage">
+                    Application Stage
+                  </InputLabel>
                   <Select
-                    labelId="task-stage"
-                    id="task-stage"
+                    labelId="application-stage"
+                    id="application-stage"
                     {...register('stage', {
-                      required: 'Task Stage is required',
+                      required: 'Application Stage is required',
                     })}
-                    label="Task Stage"
+                    label="Application Stage"
                   >
                     {taskStage.map((stage) => (
                       <MenuItem key={stage} value={stage}>
@@ -107,7 +117,7 @@ const AddApplication = ({ open, setOpen }) => {
                   render={({ field }) => (
                     <DatePicker
                       {...field}
-                      label="Task Date"
+                      label="Application Date"
                       renderInput={(params) => <TextField {...params} />}
                     />
                   )}
@@ -172,7 +182,6 @@ const AddApplication = ({ open, setOpen }) => {
                   </Button>
                 </Grid>
                 <Grid item xs={6}>
-                  {' '}
                   <Button variant="outlined" type="submit">
                     Submit
                   </Button>
