@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setSlideBarOpen } from '../../redux/slices/authenticationSlice'
 import { Menu } from 'iconsax-react'
 import { SearchNormal1 } from 'iconsax-react'
-import NotificationPanel from './NotificationPanel'
-import UserAvatar from './UserAvatar'
+import NotificationPanel from './subComponents/NotificationPanel'
+import UserAvatar from './subComponents/UserAvatar'
 
 const NavBar = () => {
   const { user } = useSelector((state) => state.authentication)
