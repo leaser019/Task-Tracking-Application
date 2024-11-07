@@ -162,7 +162,12 @@ const AddApplication = ({ open, setOpen }) => {
               <Grid xs={6}></Grid>
               <Grid container spacing={2} xs={6} className="pt-5">
                 <Grid item xs={6}>
-                  <Button variant="text" color="error" fullWidth>
+                  <Button
+                    variant="text"
+                    color="error"
+                    fullWidth
+                    onClick={() => setOpen(false)}
+                  >
                     Cancel
                   </Button>
                 </Grid>
