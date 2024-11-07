@@ -3,9 +3,9 @@ import ApplicationTable from './ApplicationTable'
 
 const ListView = ({ applications }) => {
   return (
-  <>
-    <ApplicationTable applications={applications} />
-  </>
+    <>
+      <ApplicationTable applications={applications} />
+    </>
   )
 }
 

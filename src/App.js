@@ -7,7 +7,7 @@ import { Outlet } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login'
-import Users from './pages/Users'
+import Team from './pages/Team'
 import ApplicationDetail from './pages/ApplicationDetail'
 import { Toaster } from 'sonner';
 import Application from './pages/Application';
@@ -21,7 +21,8 @@ import { setSlideBarOpen } from './redux/slices/authenticationSlice';
 import React from 'react'
 import { Transition } from '@headlessui/react'
 import clsx from 'clsx'
-import { CloseCircle } from 'iconsax-react';
+import { CloseCircle, Trash } from 'iconsax-react';
+
 
 
 const MobileSideBar = () => {
@@ -106,13 +107,14 @@ function App() {
         <Route element={<Layout />}>
           <Route path='/' Navigate to="/dashboard" />
           <Route path='/dashboard' element={<Dashboard />} />
-          <Route path='/team' element={<Users />} />
+          <Route path='/team' element={<Team />} />
           <Route path='/application' element={<Application />} />
           <Route path='/todo/:status' element={<Application />} />
           <Route path='/implement/:status' element={<Application />} />
           <Route path='/qa-qc/:status' element={<Application />} />
           <Route path='/production/:status' element={<Application />} />
           <Route path='/application/:id' element={<ApplicationDetail />} />
+          <Route path='/trash' element={<Trash />} />
         </Route>
         <Route path='/login' element={<Login />} />
         <Route path='/user/:id' element={<UserDetail />} />
