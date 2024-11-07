@@ -6,6 +6,9 @@ import { PRIORITY_STYLES } from '../../../utils'
 import { formatDate } from '../../../utils'
 import ButtonElement from '../../common/ButtonElement'
 import UserInfo from './UserInfo'
+import { Message } from 'iconsax-react'
+import { AttachSquare } from 'iconsax-react'
+import { Chart2 } from 'iconsax-react'
 
 const ApplicationTable = ({ applications }) => {
   const ICONS = {
@@ -72,15 +75,15 @@ const ApplicationTable = ({ applications }) => {
       <td className="py-2">
         <div className="flex items-center gap-3">
           <div className="flex gap-1 items-center text-sm text-gray-600">
-            {/* <BiMessageAltDetail /> */}
+            <Message size="20" color="#697689" />
             <span>{application?.activities?.length}</span>
           </div>
           <div className="flex gap-1 items-center text-sm text-gray-600 dark:text-gray-400">
-            {/* <MdAttachFile /> */}
+            <AttachSquare size="20" color="#697689" />
             <span>{application?.assets?.length}</span>
           </div>
           <div className="flex gap-1 items-center text-sm text-gray-600 dark:text-gray-400">
-            {/* <FaList /> */}
+            <Chart2 size="20" color="#697689" />
             <span>0/{application?.subTasks?.length}</span>
           </div>
         </div>

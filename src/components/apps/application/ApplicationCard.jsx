@@ -5,6 +5,9 @@ import { formatDate } from '../../../utils'
 import { PRIORITY_STYLES } from '../../../utils'
 import { TASK_TYPE } from '../../../utils'
 import ApplicationDialog from './ApplicationDialog'
+import { Message } from 'iconsax-react'
+import { AttachSquare } from 'iconsax-react'
+import { Chart2 } from 'iconsax-react'
 import { BGS } from '../../../utils'
 import UserInfo from './UserInfo'
 
@@ -52,15 +55,15 @@ const ApplicationCard = ({ application }) => {
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-3">
             <div className="flex gap-1 items-center text-sm text-gray-600">
+              <Message size="20" color="#697689" />
               <span>{application?.activities?.length}</span>
             </div>
-            {/* <BiMessageAltDetail /> */}
             <div className="flex gap-1 items-center text-sm text-gray-600 ">
-              {/* <MdAttachFile /> */}
+              <AttachSquare size="20" color="#697689" />
               <span>{application?.assets?.length}</span>
             </div>
             <div className="flex gap-1 items-center text-sm text-gray-600 ">
-              {/* <FaList /> */}
+              <Chart2 size="20" color="#697689" />
               <span>0/{application?.subTasks?.length}</span>
             </div>
           </div>
