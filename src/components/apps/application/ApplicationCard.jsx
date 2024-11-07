@@ -10,14 +10,9 @@ import { AttachSquare } from 'iconsax-react'
 import { Chart2 } from 'iconsax-react'
 import { BGS } from '../../../utils'
 import UserInfo from './UserInfo'
+import { ICONS } from '../../../utils/index'
 
 const ApplicationCard = ({ application }) => {
-  const ICONS = {
-    high: '',
-    medium: '',
-    low: '',
-  }
-
   const { user } = useSelector((state) => state.authentication)
   const [open, setOpen] = React.useState(false)
 

@@ -130,6 +130,7 @@ const UserAvatar = () => {
                           backgroundColor: '#2489FF',
                           marginLeft: '34%',
                         }}
+                        type="submit"
                         variant="contained"
                         size="medium"
                       >
@@ -223,6 +224,7 @@ const UserAvatar = () => {
                         }}
                         variant="contained"
                         size="medium"
+                        type="submit"
                       >
                         Save Change
                       </Button>

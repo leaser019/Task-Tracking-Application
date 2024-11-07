@@ -1,3 +1,7 @@
+import { MdKeyboardArrowDown } from "react-icons/md"
+import { MdKeyboardArrowUp } from "react-icons/md"
+import { MdKeyboardDoubleArrowUp } from "react-icons/md"
+
 export { tailwindToHex } from "./tailwindToHex"
 
 export function getInitials(fullName) {
@@ -52,5 +56,11 @@ export const TASK_TYPE = {
  'implement': 'bg-yellow-600',
  "qa-qc": "bg-purple-600",
  'production': 'bg-green-600',
+}
+
+export const ICONS = {
+ high: <MdKeyboardDoubleArrowUp />,
+ medium: <MdKeyboardArrowUp />,
+ low: <MdKeyboardArrowDown />
 }
 
