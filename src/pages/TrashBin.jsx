@@ -8,11 +8,7 @@ import { tasks as applications } from '../assets/data'
 import TableRow from '../components/common/table/TableRow'
 
 const Trash = () => {
-  const ICONS = {
-    high: '',
-    medium: '',
-    low: '',
-  }
+
 
   const [open, setOpen] = React.useState(false)
   const [openDialog, setOpenDialog] = React.useState(false)
