@@ -23,6 +23,7 @@ import { Transition } from '@headlessui/react'
 import clsx from 'clsx'
 import { CloseCircle } from 'iconsax-react';
 import TrashBin from './pages/TrashBin'
+import Contact from './components/apps/login/Contact';
 
 const MobileSideBar = () => {
   const { isSideBarOpen } = useSelector(state => state?.authentication)
@@ -81,7 +82,8 @@ const MobileSideBar = () => {
 const Layout = () => {
   const { user } = useSelector(state => state.authentication)
   const location = useLocation()
-  return user ? (
+
+  return location.pathname != '/contact' ? (user ? (
     <div className='w-full h-screen flex flex-col md:flex-row'>
       <div className='w-1/5 h-screen bg-white sticky top-0 hidden md:block shadow-lg'>
         <SideBar />
@@ -96,7 +98,7 @@ const Layout = () => {
     </div>
   ) : (
     <Navigate to='login' state={{ from: location }} replace />
-  )
+  )) : (<Navigate to='contact' state={{ from: location }} replace />)
 }
 
 function App() {
@@ -116,6 +118,7 @@ function App() {
           <Route path='/trash' element={<TrashBin />} />
         </Route>
         <Route path='/login' element={<Login />} />
+        <Route path='/contact' element={<Contact />} />
         <Route path='/user/:id' element={<UserDetail />} />
       </Routes>
       <Toaster richColors />
