@@ -7,10 +7,17 @@ import TerminalCard from '../../common/TerminalCard'
 import AboutUs from './AboutUs'
 import Feature from './Feature'
 import { useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
 
 const Content = () => {
   const navigate = useNavigate()
-
+  const StyledWrapper = styled.div`
+    @media (max-width: 990px) {
+      .call-action-info {
+        display: none;
+      }
+    }
+  `
   const fadeInUp = {
     initial: { opacity: 0, y: 60 },
     animate: { opacity: 1, y: 0 },
@@ -103,6 +110,7 @@ const Content = () => {
               variants={fadeInUp}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              style={{ maxWidth: '100%', margin: '0 auto' }}
             >
               <div className="mb-4">{feature.icon}</div>
               <h3 className="text-2xl font-bold mb-2">{feature.title}</h3>
@@ -157,6 +165,7 @@ const Content = () => {
                 whileInView={{ y: 0, opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.2 }}
+                style={{ maxWidth: '100%', margin: '0 auto' }}
               >
                 <p className="italic mb-4">"{testimonial.quote}"</p>
                 <h4 className="font-bold">{testimonial.name}</h4>
@@ -168,38 +177,42 @@ const Content = () => {
       </motion.section>
 
       <Technologies />
-
-      {/* Call to Action */}
-      <section id="contact-section">
-        <motion.section
-          className="py-20 text-center"
-          initial={{ opacity: 0, y: 100 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="px-40 flex flex-row justify-between content-center">
-            <div className="w-full h-auto">
-              <h2 className="text-4xl font-bold mb-8 items-start content-center mt-12">
-                Ready to Get Started?
-              </h2>
-            </div>
-            <div className="w-full h-auto">
-              <TerminalCard />
-            </div>
-          </div>
-          <div className="flex justify-center content-center pt-8">
-            <motion.button
-              className="bg-blue-600 text-white px-8 py-4 rounded-xl text-xl font-semibold"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => navigate('/contact')}
+      <StyledWrapper>
+        {/* Call to Action */}
+        <section id="contact-section">
+          <motion.section
+            className="py-20 text-center"
+            initial={{ opacity: 0, y: 100 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <div
+              className="px-40 flex flex-col justify-between content-center call-action-info"
+              style={{ flexDirection: 'column', alignItems: 'center' }}
             >
-              Join Kepler Now
-            </motion.button>
-          </div>
-        </motion.section>
-      </section>
+              <div className="w-full h-auto">
+                <h2 className="text-4xl font-bold mb-8 items-start content-center mt-12">
+                  Ready to Get Started?
+                </h2>
+              </div>
+              <div className="w-[50%] h-[10%]">
+                <TerminalCard />
+              </div>
+            </div>
+            <div className="flex justify-center content-center pt-8">
+              <motion.button
+                className="bg-blue-600 text-white px-8 py-4 rounded-xl text-xl font-semibold"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => navigate('/contact')}
+              >
+                Join Kepler Now
+              </motion.button>
+            </div>
+          </motion.section>
+        </section>
+      </StyledWrapper>
     </div>
   )
 }

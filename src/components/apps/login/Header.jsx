@@ -74,7 +74,7 @@ function Header() {
         isScrolled ? 'backdrop-blur-md bg-opacity-70' : 'bg-opacity-100'
       } p-4 bg-blue-200/30 hidden md:block`}
     >
-      <div className="flex items-center justify-between px-4 md:px-10">
+      <div className="flex items-center justify-between ">
         {/* Logo */}
         <div
           className="flex items-center space-x-4 group cursor-pointer"
