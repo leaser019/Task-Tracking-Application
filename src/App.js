@@ -21,9 +21,9 @@ import { setSlideBarOpen } from './redux/slices/authenticationSlice';
 import React from 'react'
 import { Transition } from '@headlessui/react'
 import clsx from 'clsx'
-import { CloseCircle, Trash } from 'iconsax-react';
-
-
+import { CloseCircle } from 'iconsax-react';
+import TrashBin from './pages/TrashBin'
+import Contact from './components/apps/login/Contact';
 
 const MobileSideBar = () => {
   const { isSideBarOpen } = useSelector(state => state?.authentication)
@@ -82,13 +82,14 @@ const MobileSideBar = () => {
 const Layout = () => {
   const { user } = useSelector(state => state.authentication)
   const location = useLocation()
-  return user ? (
+
+  return location.pathname != '/contact' ? (user ? (
     <div className='w-full h-screen flex flex-col md:flex-row'>
       <div className='w-1/5 h-screen bg-white sticky top-0 hidden md:block shadow-lg'>
         <SideBar />
       </div>
       <MobileSideBar />
-      <div className='flex-1 overflow-y-auto shadow-lg'>
+      <div className=' flex-1 overflow-y-auto shadow-lg'>
         <NavBar />
         <div className='p-4 2x1:px-10'>
           <Outlet />
@@ -97,7 +98,7 @@ const Layout = () => {
     </div>
   ) : (
     <Navigate to='login' state={{ from: location }} replace />
-  )
+  )) : (<Navigate to='contact' state={{ from: location }} replace />)
 }
 
 function App() {
@@ -114,9 +115,10 @@ function App() {
           <Route path='/qa-qc/:status' element={<Application />} />
           <Route path='/production/:status' element={<Application />} />
           <Route path='/application/:id' element={<ApplicationDetail />} />
-          <Route path='/trash' element={<Trash />} />
+          <Route path='/trash' element={<TrashBin />} />
         </Route>
         <Route path='/login' element={<Login />} />
+        <Route path='/contact' element={<Contact />} />
         <Route path='/user/:id' element={<UserDetail />} />
       </Routes>
       <Toaster richColors />

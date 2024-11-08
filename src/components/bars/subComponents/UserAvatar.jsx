@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { Profile } from 'iconsax-react'
 import { Lock } from 'iconsax-react'
 import { Logout } from 'iconsax-react'
-import Modal from '../common/modal/Modal'
+import Modal from '../../common/modal/Modal'
 import TextField from '@mui/material/TextField'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
@@ -130,6 +130,7 @@ const UserAvatar = () => {
                           backgroundColor: '#2489FF',
                           marginLeft: '34%',
                         }}
+                        type="submit"
                         variant="contained"
                         size="medium"
                       >
@@ -223,6 +224,7 @@ const UserAvatar = () => {
                         }}
                         variant="contained"
                         size="medium"
+                        type="submit"
                       >
                         Save Change
                       </Button>

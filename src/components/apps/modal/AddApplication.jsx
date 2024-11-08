@@ -19,7 +19,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 
 const AddApplication = ({ open, setOpen }) => {
   const taskStage = ['To Do', 'Implement', 'QA/QC', 'Production']
-  const priorityLevel = ['None', 'Normal', 'High']
+  const priorityLevel = ['Low', 'Normal', 'High']
   var task = ''
   const [team, setTeam] = React.useState(task?.team || [])
   const {

@@ -1,3 +1,7 @@
+import { MdKeyboardArrowDown } from "react-icons/md"
+import { MdKeyboardArrowUp } from "react-icons/md"
+import { MdKeyboardDoubleArrowUp } from "react-icons/md"
+
 export { tailwindToHex } from "./tailwindToHex"
 
 export function getInitials(fullName) {
@@ -53,4 +57,20 @@ export const TASK_TYPE = {
  "qa-qc": "bg-purple-600",
  'production': 'bg-green-600',
 }
+
+export const ICONS = {
+ high: <MdKeyboardDoubleArrowUp />,
+ medium: <MdKeyboardArrowUp />,
+ low: <MdKeyboardArrowDown />
+}
+
+export const scrollToSection = (elementId) => {
+ const element = document.getElementById(elementId);
+ if (element) {
+  element.scrollIntoView({
+   behavior: 'smooth',
+   block: 'start',
+  });
+ }
+};
 
