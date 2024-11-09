@@ -3,12 +3,14 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import TextFieldElement from '../components/common/TextFieldElement'
-import ButtonElement from '../components/common/ButtonElement'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import Header from '../components/apps/login/Header'
 import Content from '../components/apps/login/Content'
 import Footer from '../components/apps/login/Footer'
 import styled from 'styled-components'
+import { useLoginMutation } from '../redux/slices/api/authApiSlice'
+import { toast } from 'sonner'
+import { setCredentials } from '../redux/slices/authenticationSlice'
 
 const BackToTop = () => {
   const StyledWrapper = styled.div`
@@ -262,6 +264,7 @@ const Login = () => {
       transition-delay: calc(0.045s * 10);
     }
   `
+  const dispatch = useDispatch()
   const { user } = useSelector((state) => state.authentication)
   const {
     register,
@@ -270,8 +273,23 @@ const Login = () => {
   } = useForm()
   const navigate = useNavigate()
 
-  const submitHandler = async (data) => {
-    console.log(user)
+  const [login, { isLoading }] = useLoginMutation()
+
+  const submitHandler = async (payload) => {
+    try {
+      const res = await login(payload).unwrap()
+      dispatch(setCredentials(res))
+      navigate('/')
+      console.log('R', res)
+    } catch (error) {
+      toast.error(
+        error?.message ||
+          error?.data?.message ||
+          error?.data?.detail ||
+          error?.data?.errors ||
+          'An error occurred: unknown error'
+      )
+    }
   }
 
   useEffect(() => {

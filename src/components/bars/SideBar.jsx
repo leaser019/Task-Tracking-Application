@@ -74,7 +74,7 @@ const SideBar = () => {
   const user = useSelector((state) => state.authentication)
   const dispatch = useDispatch()
   const location = useLocation()
-  const sideBarUserData = user?.isAdmin ? defaultData : defaultData
+  const sideBarUserData = user?.isAdmin ? defaultData : defaultData.slice(0, -2)
   const path = location.pathname.split('/')[1]
 
   const closeSideBar = () => {
