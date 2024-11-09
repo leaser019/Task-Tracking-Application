@@ -19,7 +19,7 @@ const UserAvatar = () => {
   const mainColor = '#0084ff'
   const { user } = useSelector((state) => state.authentication)
   const config = genConfig({
-    id: JSON.stringify(user?.id),
+    id: JSON.stringify(user?.user_name),
     bgColor: { mainColor },
   })
   const [openPassword, setOpenPassword] = useState(false)
@@ -74,7 +74,9 @@ const UserAvatar = () => {
                 <div className="flex justify-center">
                   <Avatar className="w-20 h-20 px-1" {...config} />
                 </div>
-                <h1 className="text-xl font-semibold mt-4">{user?.username}</h1>
+                <h1 className="text-xl font-semibold mt-4">
+                  {user?.user_name}
+                </h1>
                 <p>{user?.role}</p>
                 <div className="flex flex-row w-[100%] gap-4 py-6">
                   <Grid container spacing={3}>
@@ -155,7 +157,9 @@ const UserAvatar = () => {
                 <div className="flex justify-center">
                   <Avatar className="w-20 h-20 px-1" {...config} />
                 </div>
-                <h1 className="text-xl font-semibold mt-4">{user?.username}</h1>
+                <h1 className="text-xl font-semibold mt-4">
+                  {user?.user_name}
+                </h1>
                 <p>{user?.role}</p>
                 <div className="flex flex-row w-[100%] gap-4 py-6">
                   <Grid container spacing={3}>
@@ -169,7 +173,7 @@ const UserAvatar = () => {
                         label="Username"
                         size="normal"
                         variant="outlined"
-                        defaultValue={user?.username}
+                        defaultValue={user?.user_name}
                         fullWidth
                       />
                     </Grid>
@@ -236,12 +240,12 @@ const UserAvatar = () => {
           </Modal>
         </form>
       </div>
-
+      {/* Main User Avatar Component */}
       <Menu as="div" className="relative inline-block text-left pl-5">
         <div>
           <Menu.Button className="inline-flex w-full justify-center rounded-md bg-[#0084ff] px-2 py-2 text-sm font-medium text-white hover:bg-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
             <div className="flex flex-col font-semibold hidden md:block">
-              <h5>{user?.username}</h5>
+              <h5>{user?.user_name}</h5>
               <p>{user?.role}</p>
             </div>
             <Avatar className="w-8 h-8 px-1" {...config} />
