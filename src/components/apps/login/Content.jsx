@@ -10,6 +10,11 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 const Content = () => {
+  const MissionContent = React.useCallback(() => (
+    <>
+      <Mission />
+    </>
+  ))
   const navigate = useNavigate()
   const StyledWrapper = styled.div`
     @media (max-width: 990px) {
@@ -120,7 +125,7 @@ const Content = () => {
         </div>
       </motion.section>
       <section id="mission">
-        <Mission />
+        <MissionContent />
       </section>
       <section id="features">
         <Feature />
