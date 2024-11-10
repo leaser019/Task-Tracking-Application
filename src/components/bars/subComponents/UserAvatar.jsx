@@ -17,6 +17,10 @@ import { useForm } from 'react-hook-form'
 import { useLogoutMutation } from '../../../redux/slices/api/authApiSlice'
 import { toast } from 'sonner'
 import { setCredentials } from '../../../redux/slices/authenticationSlice'
+import {
+  useUpdateUserMutation,
+  useChangePasswordMutation,
+} from '../../../redux/slices/api/userApiSlice'
 
 const UserAvatar = () => {
   const mainColor = '#0084ff'
@@ -28,6 +32,8 @@ const UserAvatar = () => {
   const [openPassword, setOpenPassword] = useState(false)
   const [modal, setModal] = useState(false)
   const [logout] = useLogoutMutation()
+  const [updateUser] = useUpdateUserMutation()
+  const [updatePassword] = useChangePasswordMutation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -37,6 +43,38 @@ const UserAvatar = () => {
       dispatch(setCredentials(null))
       toast.success(data?.message)
       navigate('/login')
+    } catch (error) {
+      toast.error(
+        error?.message ||
+          error?.data?.message ||
+          error?.data?.detail ||
+          error?.data?.errors ||
+          'An error occurred: unknown error'
+      )
+    }
+  }
+
+  const updateUserHandler = async (payload) => {
+    try {
+      const { data } = await updateUser({ body: payload })
+      toast.success(data?.message)
+      setModal(false)
+    } catch (error) {
+      toast.error(
+        error?.message ||
+          error?.data?.message ||
+          error?.data?.detail ||
+          error?.data?.errors ||
+          'An error occurred: unknown error'
+      )
+    }
+  }
+
+  const updatePasswordHandler = async (payload) => {
+    try {
+      const { data } = await updatePassword({ body: payload })
+      toast.success(data?.message)
+      setOpenPassword(false)
     } catch (error) {
       toast.error(
         error?.message ||
@@ -65,7 +103,7 @@ const UserAvatar = () => {
   } = useForm()
 
   const profileSubmitHandler = (payload) => {
-    console.log(payload)
+    updateUserHandler(payload)
   }
 
   const {
@@ -75,7 +113,7 @@ const UserAvatar = () => {
   } = useForm()
 
   const passwordSubmitHandler = (payload) => {
-    console.log(payload)
+    updatePasswordHandler(payload)
   }
 
   return (
@@ -126,15 +164,11 @@ const UserAvatar = () => {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
-                        {...registerPassword('reTypeNewPassword', {
-                          title: 'Re-type New Password Is Require',
-                        })}
                         id="reTypeNewPassword"
                         name="reTypeNewPassword"
                         label="Re-type New Password"
                         size="normal"
                         variant="outlined"
-                        defaultValue={user?.email}
                         fullWidth
                         required
                       />
@@ -181,11 +215,11 @@ const UserAvatar = () => {
                   <Grid container spacing={3}>
                     <Grid item xs={12}>
                       <TextField
-                        {...registerProfile('username', {
+                        {...registerProfile('user_name', {
                           title: 'Username Is Require',
                         })}
-                        id="username"
-                        name="username"
+                        id="user_name"
+                        name="user_name"
                         label="Username"
                         size="normal"
                         variant="outlined"
@@ -195,11 +229,11 @@ const UserAvatar = () => {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
-                        {...registerProfile('title', {
+                        {...registerProfile('role', {
                           title: 'Title Is Require',
                         })}
-                        id="title"
-                        name="title"
+                        id="role"
+                        name="role"
                         label="Title"
                         size="normal"
                         variant="outlined"
@@ -209,9 +243,6 @@ const UserAvatar = () => {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
-                        {...registerProfile('email', {
-                          title: 'Email Is Require',
-                        })}
                         id="email"
                         name="email"
                         label="Email"
@@ -219,6 +250,7 @@ const UserAvatar = () => {
                         variant="outlined"
                         defaultValue={user?.email}
                         fullWidth
+                        disabled
                       />
                     </Grid>
                     <Grid item xs={12}>
