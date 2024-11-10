@@ -74,7 +74,9 @@ const SideBar = () => {
   const user = useSelector((state) => state.authentication)
   const dispatch = useDispatch()
   const location = useLocation()
-  const sideBarUserData = user?.isAdmin ? defaultData : defaultData.slice(0, -2)
+  const sideBarUserData = user?.user?.isAdmin
+    ? defaultData
+    : defaultData.slice(0, 6)
   const path = location.pathname.split('/')[1]
 
   const closeSideBar = () => {
@@ -104,6 +106,9 @@ const SideBar = () => {
       </div>
     </Link>
   )
+  React.useEffect(() => {
+    console.log(user)
+  }, [])
 
   return (
     <div className="w-full h-full flex flex-col gap-6 p-5">

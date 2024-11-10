@@ -132,7 +132,6 @@ const BackToTop = React.memo(() => {
 
   const [isVisible, setIsVisible] = React.useState(false)
 
-  // Show button when page is scrolled up to given distance
   const toggleVisibility = () => {
     if (window.pageYOffset > 300) {
       setIsVisible(true)
