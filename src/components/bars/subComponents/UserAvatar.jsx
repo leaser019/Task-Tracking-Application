@@ -14,6 +14,9 @@ import TextField from '@mui/material/TextField'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import { useForm } from 'react-hook-form'
+import { useLogoutMutation } from '../../../redux/slices/api/authApiSlice'
+import { toast } from 'sonner'
+import { setCredentials } from '../../../redux/slices/authenticationSlice'
 
 const UserAvatar = () => {
   const mainColor = '#0084ff'
@@ -24,11 +27,24 @@ const UserAvatar = () => {
   })
   const [openPassword, setOpenPassword] = useState(false)
   const [modal, setModal] = useState(false)
+  const [logout] = useLogoutMutation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const logoutHandler = () => {
-    console.log('Logout')
+  const logoutHandler = async () => {
+    try {
+      localStorage.removeItem('userInfo')
+      const res = await logout()
+      navigate('/login')
+    } catch (error) {
+      toast.error(
+        error?.message ||
+          error?.data?.message ||
+          error?.data?.detail ||
+          error?.data?.errors ||
+          'An error occurred: unknown error'
+      )
+    }
   }
 
   const handleModal = () => {
@@ -64,7 +80,6 @@ const UserAvatar = () => {
   return (
     <React.Fragment>
       {/* Change Password */}
-
       <div>
         <form onSubmit={submitPassword(passwordSubmitHandler)}>
           <Modal show={openPassword} onClose={handlePassword}>

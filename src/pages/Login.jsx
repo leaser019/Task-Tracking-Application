@@ -12,7 +12,7 @@ import { useLoginMutation } from '../redux/slices/api/authApiSlice'
 import { toast } from 'sonner'
 import { setCredentials } from '../redux/slices/authenticationSlice'
 
-const BackToTop = () => {
+const BackToTop = React.memo(() => {
   const StyledWrapper = styled.div`
     @keyframes bounceIn {
       0% {
@@ -164,7 +164,7 @@ const BackToTop = () => {
       </div>
     </StyledWrapper>
   )
-}
+})
 
 const Login = () => {
   const StyledWrapper = styled.div`
@@ -264,6 +264,16 @@ const Login = () => {
       transition-delay: calc(0.045s * 10);
     }
   `
+  const LoginContent = React.useCallback(
+    () => (
+      <div>
+        <Content />
+        <Footer />
+        <BackToTop />
+      </div>
+    ),
+    []
+  )
   const dispatch = useDispatch()
   const { user } = useSelector((state) => state.authentication)
   const {
@@ -280,7 +290,6 @@ const Login = () => {
       const res = await login(payload).unwrap()
       dispatch(setCredentials(res))
       navigate('/')
-      console.log('R', res)
     } catch (error) {
       toast.error(
         error?.message ||
@@ -412,9 +421,7 @@ const Login = () => {
           </div>
         </div>
       </section>
-      <Content />
-      <Footer />
-      <BackToTop />
+      <LoginContent />
     </>
   )
 }
