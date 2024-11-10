@@ -33,8 +33,9 @@ const UserAvatar = () => {
 
   const logoutHandler = async () => {
     try {
-      localStorage.removeItem('userInfo')
-      const res = await logout()
+      const { data } = await logout({})
+      dispatch(setCredentials(null))
+      toast.success(data?.message)
       navigate('/login')
     } catch (error) {
       toast.error(
