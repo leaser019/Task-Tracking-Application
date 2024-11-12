@@ -56,8 +56,11 @@ const UserAvatar = () => {
 
   const updateUserHandler = async (payload) => {
     try {
-      const { data } = await updateUser({ body: payload })
-      toast.success(data?.message)
+      const res = await updateUser(payload)
+      if (res) {
+        dispatch(updateUser(res))
+        toast.success('Profile updated successfully')
+      }
       setModal(false)
     } catch (error) {
       toast.error(
@@ -103,6 +106,7 @@ const UserAvatar = () => {
   } = useForm()
 
   const profileSubmitHandler = (payload) => {
+    console.log(payload)
     updateUserHandler(payload)
   }
 

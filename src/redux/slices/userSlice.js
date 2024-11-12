@@ -1,40 +1,50 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit'
+import { update } from 'react-spring'
 
 const initialState = {
- selectedUser: null,
- loading: false,
- error: null
-};
+  selectedUser:
+    localStorage.getItem('userInfo') &&
+    JSON.parse(localStorage.getItem('userInfo')),
+  loading: false,
+  error: null,
+}
 
 const userSlice = createSlice({
- name: 'users',
- initialState,
- reducers: {
-  setSelectedUser: (state, action) => {
-   state.selectedUser = action.payload;
+  name: 'users',
+  initialState,
+  reducers: {
+    updateUser: (state, action) => {
+      if (state.selectedUser) {
+        state.selectedUser = { ...state.selectedUser, ...action.payload }
+        localStorage.removeItem('userInfo')
+        localStorage.setItem('userInfo', JSON.stringify(state.selectedUser))
+      }
+    },
+    changePassword: (state, action) => {
+      if (state.selectedUser) {
+        state.selectedUser = { ...state.selectedUser, ...action.payload }
+        localStorage.setItem('userInfo', JSON.stringify(state.selectedUser))
+      }
+    },
+    clearSelectedUser: (state) => {
+      state.selectedUser = null
+    },
+    setLoading: (state, action) => {
+      state.loading = action.payload
+    },
+    setError: (state, action) => {
+      state.error = action.payload
+    },
   },
-  clearSelectedUser: (state) => {
-   state.selectedUser = null;
-  },
-  setLoading: (state, action) => {
-   state.loading = action.payload;
-  },
-  setError: (state, action) => {
-   state.error = action.payload;
-   state.loading = false;
-  },
-  clearError: (state) => {
-   state.error = null;
-  }
- }
-});
+})
 
 export const {
- setSelectedUser,
- clearSelectedUser,
- setLoading,
- setError,
- clearError
-} = userSlice.actions;
+  updateUser,
+  changePassword,
+  clearSelectedUser,
+  setLoading,
+  setError,
+  clearError,
+} = userSlice.actions
 
-export default userSlice.reducer;
+export default userSlice.reducer
