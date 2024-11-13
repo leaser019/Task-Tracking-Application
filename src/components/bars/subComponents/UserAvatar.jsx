@@ -117,6 +117,7 @@ const UserAvatar = () => {
   } = useForm()
 
   const passwordSubmitHandler = (payload) => {
+    console.log(payload)
     updatePasswordHandler(payload)
   }
 
