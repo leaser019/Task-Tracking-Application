@@ -119,12 +119,12 @@ const SideBar = () => {
 
   return (
     <div className="w-full h-full flex flex-col bg-white shadow-xl">
-      <div className="px-6 py-8  ">
+      <div className="px-6 py-8">
         <div className="flex items-center gap-3">
           <img
             src="./assets/logo/logoApp.png"
             alt="Logo"
-            className="w-10 h-10 object-contain hidden xl:block "
+            className="w-10 h-10 object-contain hidden xl:block"
           />
           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
             Kepler.
@@ -137,10 +137,11 @@ const SideBar = () => {
           <NavigationLink key={index} element={element} />
         ))}
       </nav>
-
-      <div className="p-4 border-t border-gray-100">
-        <div className="px-3 py-2 text-sm text-gray-500">© 2024 Kepler</div>
-      </div>
+      {!user?.user?.isAdmin && (
+        <div className="p-4">
+          <div className="px-3 py-2 text-sm text-gray-500">© 2024 Kepler</div>
+        </div>
+      )}
     </div>
   )
 }
