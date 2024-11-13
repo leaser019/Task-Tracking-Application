@@ -31,9 +31,9 @@ const Team = () => {
       <thead className="w-full border-b border-gray-300">
         <tr className="w-full text-black  text-left">
           <th className="py-2">Username</th>
-          <th className="py-2">Email</th>
           <th className="py-2">Role</th>
-          <th className="py-2 line-clamp-1">Created At</th>
+          <th className="py-2">Email</th>
+          <th className="py-2 line-clamp-1">Title</th>
           <th className="py-2">Active</th>
         </tr>
       </thead>

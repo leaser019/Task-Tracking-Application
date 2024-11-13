@@ -288,7 +288,7 @@ const Login = () => {
                 <img
                   src="./assets/logo/logoApp.png"
                   alt="Logo"
-                  className=" mr-2 pb-2 w-auto h-20 2xl:h-30 2xl:mb-1 2xl:pt-1"
+                  className="w-5 h-5"
                 />
                 Kepler.
               </span>
