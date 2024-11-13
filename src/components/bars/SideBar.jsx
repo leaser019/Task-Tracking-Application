@@ -15,9 +15,9 @@ import { Link } from 'react-router-dom'
 import { setSlideBarOpen } from '../../redux/slices/authenticationSlice'
 import clsx from 'clsx'
 
-const iconSize = '30'
-const colorTag = '#292d32'
-const colorChoose = '#F5F5F0'
+const iconSize = '24'
+const colorTag = '#4B5563'
+const colorChoose = '#FFFFFF'
 
 const defaultData = [
   {
@@ -79,53 +79,67 @@ const SideBar = () => {
     : defaultData.slice(0, 6)
   const path = location.pathname.split('/')[1]
 
-  const closeSideBar = () => {
-    dispatch(setSlideBarOpen(false))
-  }
+  const closeSideBar = () => dispatch(setSlideBarOpen(false))
 
   const NavigationLink = ({ element }) => (
     <Link
       to={element.link}
       onClick={closeSideBar}
       className={clsx(
-        'w-full lg:w-3/4 gap-2 px-3 py-2 rounded-full items-center text-gray-800 text-base hover:bg-[#2564ed2d]',
+        'w-full lg:w-[90%] mx-auto transition-all duration-200 ease-in-out',
+        'flex items-center px-4 py-3 rounded-xl',
+        'hover:bg-blue-50 hover:scale-105',
         path === element.link.split('/')[0]
-          ? 'bg-blue-600 text-neutral-100'
-          : ''
+          ? 'bg-blue-600 shadow-lg shadow-blue-200 text-white transform scale-105'
+          : 'text-gray-700 hover:text-blue-600'
       )}
     >
-      <div className="flex flex-row items-center">
-        <i>
+      <div className="flex items-center w-full">
+        <div
+          className={clsx(
+            'p-2 rounded-lg',
+            path === element.link.split('/')[0] ? 'bg-blue-500' : 'bg-gray-100'
+          )}
+        >
           {path === element.link.split('/')[0]
             ? element.iconChoose
             : element.icon}
-        </i>
-        <span className="pl-3 text-lg hover:text-[#0084FF] text-pretty">
+        </div>
+        <span
+          className={clsx(
+            'ml-3 font-medium text-base transition-colors duration-200',
+            path === element.link.split('/')[0] ? 'text-white' : 'text-gray-700'
+          )}
+        >
           {element.label}
         </span>
       </div>
     </Link>
   )
-  React.useEffect(() => {
-    console.log(user)
-  }, [])
 
   return (
-    <div className="w-full h-full flex flex-col gap-6 p-5">
-      <h1 className="flex gap-1 items-center text-4xl font-extrabold text-blue-600">
-        <p>
+    <div className="w-full h-full flex flex-col bg-white shadow-xl">
+      <div className="px-6 py-8  ">
+        <div className="flex items-center gap-3">
           <img
             src="./assets/logo/logoApp.png"
             alt="Logo"
-            className="mr-2 pb-2 w-auto h-20 2xl:h-30 2xl:mb-1 2xl:pt-1 hidden xl:block"
+            className="w-10 h-10 object-contain hidden xl:block "
           />
-        </p>
-        <span className="pl-3">Kepler.</span>
-      </h1>
-      <div className="flex-1 flex flex-col gap-y-4 py-4">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+            Kepler.
+          </h1>
+        </div>
+      </div>
+
+      <nav className="flex-1 px-3 py-6 space-y-2">
         {sideBarUserData.map((element, index) => (
           <NavigationLink key={index} element={element} />
         ))}
+      </nav>
+
+      <div className="p-4 border-t border-gray-100">
+        <div className="px-3 py-2 text-sm text-gray-500">© 2024 Kepler</div>
       </div>
     </div>
   )

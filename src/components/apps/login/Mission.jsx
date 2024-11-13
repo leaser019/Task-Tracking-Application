@@ -29,18 +29,6 @@ const StyledMission = styled.div`
   }
 
   .mission-title {
-    @keyframes gradient {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
-    }
-
     background: linear-gradient(90deg, #0084ff, #4b79e4, #0084ff);
     background-size: 200% auto;
     -webkit-background-clip: text;
@@ -51,20 +39,7 @@ const StyledMission = styled.div`
   .mission-image {
     max-width: 300px;
     margin: 2rem auto;
-    animation: float 6s ease-in-out infinite;
     border-radius: 1rem;
-  }
-
-  @keyframes float {
-    0% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-20px);
-    }
-    100% {
-      transform: translateY(0px);
-    }
   }
 
   .icon-wrapper {
@@ -140,7 +115,7 @@ const StyledMission = styled.div`
   }
 `
 
-const Mission = () => {
+const Mission = React.memo(() => {
   const missionPoints = [
     {
       text: 'Track applications efficiently',
@@ -223,6 +198,6 @@ const Mission = () => {
       </div>
     </StyledMission>
   )
-}
+})
 
 export default Mission
