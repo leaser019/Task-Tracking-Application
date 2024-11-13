@@ -112,15 +112,19 @@ const SideBar = () => {
 
   return (
     <div className="w-full h-full flex flex-col gap-6 p-5">
-      <h1 className="flex gap-1 items-center">
+      <h1 className="flex gap-1 items-center text-4xl font-extrabold text-blue-600">
         <p>
-          <Stickynote size="50" color="#0084ff" />
+          <img
+            src="./assets/logo/logoApp.png"
+            alt="Logo"
+            className="mr-2 pb-2 w-auto h-20 2xl:h-30 2xl:mb-1 2xl:pt-1 hidden xl:block"
+          />
         </p>
-        <span className="font-bold text-black text-3xl pl-3">Kepler</span>
+        <span className="pl-3">Kepler.</span>
       </h1>
       <div className="flex-1 flex flex-col gap-y-4 py-4">
-        {sideBarUserData.map((element) => (
-          <NavigationLink element={element} />
+        {sideBarUserData.map((element, index) => (
+          <NavigationLink key={index} element={element} />
         ))}
       </div>
     </div>
