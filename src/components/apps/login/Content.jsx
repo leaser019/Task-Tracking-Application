@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { FaRocket, FaLightbulb, FaChartLine, FaUsers } from 'react-icons/fa'
 import Technologies from './Technology'
 import Mission from './Mission'
+import { useInView } from 'react-intersection-observer'
 import TerminalCard from '../../common/TerminalCard'
 import AboutUs from './AboutUs'
 import Feature from './Feature'
@@ -10,6 +11,15 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 const Content = () => {
+  const { ref: missionRef, inView: missionInView } = useInView({
+    triggerOnce: true,
+  })
+  const { ref: featureRef, inView: featureInView } = useInView({
+    triggerOnce: true,
+  })
+  const { ref: aboutUsRef, inView: aboutUsInView } = useInView({
+    triggerOnce: true,
+  })
   const MissionContent = React.useCallback(() => (
     <>
       <Mission />
@@ -99,12 +109,12 @@ const Content = () => {
       {/* Features Grid */}
       <motion.section
         className="py-20 px-8"
-        initial="initial"
-        whileInView="animate"
+        initial="hidden"
+        whileInView="visible"
         viewport={{ once: true }}
         variants={{
-          initial: { opacity: 0 },
-          animate: { opacity: 1, transition: { staggerChildren: 0.2 } },
+          hidden: { opacity: 0 },
+          visible: { opacity: 1, transition: { staggerChildren: 0.3 } },
         }}
       >
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -112,7 +122,14 @@ const Content = () => {
             <motion.div
               key={index}
               className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow"
-              variants={fadeInUp}
+              variants={{
+                hidden: { scale: 0.8, opacity: 0 },
+                visible: {
+                  scale: 1,
+                  opacity: 1,
+                  transition: { duration: 0.5 },
+                },
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               style={{ maxWidth: '100%', margin: '0 auto' }}
@@ -124,14 +141,15 @@ const Content = () => {
           ))}
         </div>
       </motion.section>
-      <section id="mission">
-        <MissionContent />
+
+      <section id="mission" ref={missionRef}>
+        {missionInView && <MissionContent />}
       </section>
-      <section id="features">
-        <Feature />
+      <section id="features" ref={featureRef}>
+        {featureInView && <Feature />}
       </section>
-      <section id="about-us">
-        <AboutUs />
+      <section id="about-us" ref={aboutUsRef}>
+        {aboutUsInView && <AboutUs />}
       </section>
       {/* Testimonials Section */}
       <motion.section
