@@ -27,6 +27,14 @@ export const teamApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Users'],
     }),
+    updateUsers: builder.mutation({
+      query: (body) => ({
+        url: `${TEAM_URL}/profile`,
+        method: 'PUT',
+        body,
+        credentials: 'include',
+      }),
+    }),
   }),
 })
 
@@ -34,4 +42,5 @@ export const {
   useGetAllUsersQuery,
   useDeleteUserMutation,
   useActiveAccountMutation,
+  useUpdateUsersMutation,
 } = teamApiSlice

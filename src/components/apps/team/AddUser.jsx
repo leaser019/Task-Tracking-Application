@@ -6,13 +6,13 @@ import { Dialog } from '@headlessui/react'
 import Loading from '../../common/Loading'
 import { Grid, TextField, Button, MenuItem } from '@mui/material'
 import { useRegisterMutation } from '../../../redux/slices/api/authApiSlice'
-import { useUpdateUserMutation } from '../../../redux/slices/api/userApiSlice'
+import { useUpdateUsersMutation } from '../../../redux/slices/api/teamApiSlice'
 import { toast } from 'sonner'
 
 const AddUser = ({ open, setOpen, userData, refetch }) => {
   const defaultValues = userData ?? {}
   const [register, { isLoading: isRegistering }] = useRegisterMutation()
-  const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation()
+  const [updateUsers, { isLoading: isUpdating }] = useUpdateUsersMutation()
   const isLoading = isRegistering || isUpdating
 
   const {
@@ -32,11 +32,11 @@ const AddUser = ({ open, setOpen, userData, refetch }) => {
   const handleOnSubmit = async (data) => {
     try {
       if (userData) {
-        const { message } = await updateUser({
-          email: userData.email,
+        const { message } = await updateUsers({
           body: {
             user_name: data.user_name,
             role: data.role,
+            email: data.email,
           },
         }).unwrap()
         toast.success(message || 'User profile updated successfully!')

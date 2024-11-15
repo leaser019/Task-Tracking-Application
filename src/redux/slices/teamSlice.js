@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { act } from 'react'
+import { updateUser } from './userSlice'
 
 const initialState = {
   teams: [],
@@ -29,10 +30,21 @@ const teamSlice = createSlice({
     removeTeam: (state, action) => {
       state.teams = state.teams.filter((team) => team.id !== action.payload)
     },
+    updateUsers: (state, action) => {
+      state.teams = state.teams.map((team) =>
+        team.id === action.payload.id ? action.payload : team
+      )
+    },
   },
 })
 
-export const { getAllUsers, deleteUser, activeAccount, addTeam, removeTeam } =
-  teamSlice.actions
+export const {
+  getAllUsers,
+  deleteUser,
+  activeAccount,
+  addTeam,
+  removeTeam,
+  updateUsers,
+} = teamSlice.actions
 
 export default teamSlice.reducer
