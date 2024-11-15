@@ -57,22 +57,22 @@ const UserAvatar = () => {
     }
   }
 
-const updateUserHandler = async (payload) => {
+  const updateUserHandler = async (payload) => {
     try {
-        const { data } = await updateUser({ body: payload })
-        dispatch(setCredentials(data))
-        toast.success('Profile updated successfully')
-        setModal(false)
+      const { data } = await updateUser({ body: payload })
+      dispatch(setCredentials(data))
+      toast.success('Profile updated successfully')
+      setModal(false)
     } catch (error) {
-        toast.error(
-            error?.message ||
-                error?.data?.message ||
-                error?.data?.detail ||
-                error?.data?.errors ||
-                'An error occurred: unknown error'
-        )
+      toast.error(
+        error?.message ||
+          error?.data?.message ||
+          error?.data?.detail ||
+          error?.data?.errors ||
+          'An error occurred: unknown error'
+      )
     }
-}
+  }
 
   const updatePasswordHandler = async (payload) => {
     try {

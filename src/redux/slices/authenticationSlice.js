@@ -24,6 +24,6 @@ const authenticationSlice = createSlice({
   },
 })
 
-export const { setCredentials, logout, setSlideBarOpen } =
+export const { setCredentials, logout, setSlideBarOpen, register } =
   authenticationSlice.actions
 export default authenticationSlice.reducer
