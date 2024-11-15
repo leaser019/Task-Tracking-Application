@@ -283,12 +283,12 @@ const Login = () => {
             <span className="flex gap-1 py-1 px-3 border rounded-full text-sm md:text-base border-gray-300 text-gray-600">
               Application Tracking
             </span>
-            <p className="flex flex-col gap-0 md:gap-4 text-5xl md:text-7xl 2xl:text-7xl font-black text-center text-blue-700">
+            <p className="flex flex-col gap-0 md:gap-4 text-5xl md:text-7xl 2xl:text-7xl font-black text-center text-blue-700 pl-14 ml-4">
               <span className="flex">
                 <img
                   src="./assets/logo/logoApp.png"
                   alt="Logo"
-                  className="w-5 h-5"
+                  className="w-[15%] h-[50%] flex mr-4"
                 />
                 Kepler.
               </span>
@@ -320,7 +320,6 @@ const Login = () => {
     const submitHandler = async (payload) => {
       try {
         const res = await login(payload).unwrap()
-        console.log(res)
         toast.success('Login successful! Have a great day ahead!')
         dispatch(setCredentials(res))
         navigate('/')

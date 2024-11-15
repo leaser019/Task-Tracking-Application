@@ -7,6 +7,7 @@ import { TbBrandSpeedtest } from 'react-icons/tb'
 import { MdCloudDone } from 'react-icons/md'
 import { FaTrash } from 'react-icons/fa'
 import Title from '../components/common/Title'
+import Chart from '../components/apps/dashboard/Chart'
 
 const Dashboard = () => {
   const Card = React.memo(({ icon, label, bg, total }) => {
@@ -110,10 +111,17 @@ const Dashboard = () => {
         <div className="flex items-center justify-between mb-4">
           <Title title={' Dashboard'} />
         </div>
-        <div className="grid grid-cols-3 grid-rows-2 gap-4">
+        {/** Total data visualize */}
+        <div className="grid grid-cols-3 grid-rows-2 gap-4 pb-10">
           {stats.map(({ icon, label, bg, total }) => (
-            <Card icon={icon} label={label} bg={bg} total={total} />
+            <Card key={label} icon={icon} label={label} bg={bg} total={total} />
           ))}
+        </div>
+        <div className="w-[90%] bg-white mt-10 ml-14 p-4 rounded-xl shadow-md flex flex-col">
+          <h1 className="pb-10 text-4xl text-center capitalize font-bold impressive-title">
+            Chart
+          </h1>
+          <Chart />
         </div>
       </div>
     </>

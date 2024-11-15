@@ -53,7 +53,7 @@ const Application = () => {
               onClick={() => setOpen(true)}
               label="Create Application"
               icon={<Add size="20" color="#FFFFFF" />}
-              className="flex flex-row-reverse gap-1 items-start bg-[#2563eb] text-white rounded-xl px-2 py-3  2xl:py-2.5 rounded-md"
+              className="flex flex-row-reverse gap-1 items-start bg-[#2563eb] text-white rounded-xl px-2 py-3  2xl:py-2.5"
             />
           )}
         </div>

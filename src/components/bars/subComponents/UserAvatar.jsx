@@ -41,7 +41,10 @@ const UserAvatar = () => {
     try {
       const { data } = await logout({})
       dispatch(setCredentials(null))
-      toast.success(data?.message)
+      toast.success(
+        data?.message + ' Have a nice day!' ||
+          'Logout successfully! Have a nice day!'
+      )
       navigate('/login')
     } catch (error) {
       toast.error(
@@ -54,30 +57,30 @@ const UserAvatar = () => {
     }
   }
 
-  const updateUserHandler = async (payload) => {
+const updateUserHandler = async (payload) => {
     try {
-      const res = await updateUser(payload)
-      if (res) {
-        dispatch(updateUser(res))
+        const { data } = await updateUser({ body: payload })
+        dispatch(setCredentials(data))
         toast.success('Profile updated successfully')
-      }
-      setModal(false)
+        setModal(false)
     } catch (error) {
-      toast.error(
-        error?.message ||
-          error?.data?.message ||
-          error?.data?.detail ||
-          error?.data?.errors ||
-          'An error occurred: unknown error'
-      )
+        toast.error(
+            error?.message ||
+                error?.data?.message ||
+                error?.data?.detail ||
+                error?.data?.errors ||
+                'An error occurred: unknown error'
+        )
     }
-  }
+}
 
   const updatePasswordHandler = async (payload) => {
     try {
       const { data } = await updatePassword({ body: payload })
       toast.success(data?.message)
       setOpenPassword(false)
+      dispatch(setCredentials(null))
+      navigate('/login')
     } catch (error) {
       toast.error(
         error?.message ||
@@ -106,7 +109,6 @@ const UserAvatar = () => {
   } = useForm()
 
   const profileSubmitHandler = (payload) => {
-    console.log(payload)
     updateUserHandler(payload)
   }
 
@@ -114,11 +116,16 @@ const UserAvatar = () => {
     register: registerPassword,
     handleSubmit: submitPassword,
     formState: { error: errorPassword },
+    reset: resetPassword,
   } = useForm()
 
   const passwordSubmitHandler = (payload) => {
-    console.log(payload)
-    updatePasswordHandler(payload)
+    if (payload.newPassword !== payload.reTypeNewPassword) {
+      toast.error('New password does not match')
+    } else {
+      updatePasswordHandler(payload)
+      resetPassword()
+    }
   }
 
   return (
@@ -151,6 +158,7 @@ const UserAvatar = () => {
                         variant="outlined"
                         fullWidth
                         required
+                        type="password"
                       />
                     </Grid>
                     <Grid item xs={12}>
@@ -165,10 +173,14 @@ const UserAvatar = () => {
                         variant="outlined"
                         fullWidth
                         required
+                        type="password"
                       />
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
+                        {...registerPassword('reTypeNewPassword', {
+                          title: 'Re-write Password Is Require',
+                        })}
                         id="reTypeNewPassword"
                         name="reTypeNewPassword"
                         label="Re-type New Password"
@@ -176,6 +188,7 @@ const UserAvatar = () => {
                         variant="outlined"
                         fullWidth
                         required
+                        type="password"
                       />
                     </Grid>
 

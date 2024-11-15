@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { update } from 'react-spring'
 
 const initialState = {
   selectedUser:
@@ -16,6 +15,7 @@ const userSlice = createSlice({
     updateUser: (state, action) => {
       if (state.selectedUser) {
         state.selectedUser = { ...state.selectedUser, ...action.payload }
+
         localStorage.removeItem('userInfo')
         localStorage.setItem('userInfo', JSON.stringify(state.selectedUser))
       }
