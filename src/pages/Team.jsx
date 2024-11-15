@@ -2,22 +2,74 @@ import React from 'react'
 import Title from './../components/common/Title'
 import ButtonElement from './../components/common/ButtonElement'
 import { Add } from 'iconsax-react'
-import { getInitials } from '../utils'
+import { getInitialsUsername } from '../utils'
 import clsx from 'clsx'
 import { summary } from './../assets/data'
+import AddUser from '../components/apps/team/AddUser'
+import ConfirmatioDialog, { UserAction } from '../components/apps/team/Dialog'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  useGetAllUsersQuery,
+  useDeleteUserMutation,
+  useActiveAccountMutation,
+} from '../redux/slices/api/teamApiSlice'
+import { getAllUsers } from '../redux/slices/teamSlice'
+import { toast } from 'sonner'
 
 const Team = () => {
-  const users = summary.users
+  const dispatch = useDispatch()
   const [openDialog, setOpenDialog] = React.useState(false)
   const [open, setOpen] = React.useState(false)
   const [openAction, setOpenAction] = React.useState(false)
   const [selected, setSelected] = React.useState(null)
+  const { data: users, refetch } = useGetAllUsersQuery()
+  const [deleteUser] = useDeleteUserMutation()
+  const [activeAccount] = useActiveAccountMutation()
 
   const userActionHandler = () => {}
-  const deleteHandler = () => {}
 
-  const deleteClick = (id) => {
-    setSelected(id)
+
+
+  const activateHandler = React.useCallback(
+    async (email) => {
+      try {
+        const { message } = await activeAccount(email).unwrap()
+        toast.success(message || 'User activated successfully!')
+        refetch()
+      } catch (error) {
+        const errorMessage =
+          error?.message ||
+          error?.data?.message ||
+          error?.data?.detail ||
+          error?.data?.errors ||
+          'An error occurred: unknown error'
+        toast.error(errorMessage)
+      }
+    },
+    [activeAccount, refetch]
+  )
+
+  const deleteHandler = React.useCallback(
+    async (email) => {
+      try {
+        const { message } = await deleteUser(email).unwrap()
+        toast.success(message || 'User deleted successfully!')
+        refetch()
+      } catch (error) {
+        const errorMessage =
+          error?.message ||
+          error?.data?.message ||
+          error?.data?.detail ||
+          error?.data?.errors ||
+          'An error occurred: unknown error'
+        toast.error(errorMessage)
+      }
+    },
+    [deleteUser, refetch]
+  )
+
+  const deleteClick = (email) => {
+    setSelected(email)
     setOpenDialog(true)
   }
 
@@ -28,17 +80,17 @@ const Team = () => {
 
   const TableHeader = React.useCallback(() => {
     return (
-      <thead className="w-full border-b border-gray-300">
-        <tr className="w-full text-black  text-left">
-          <th className="py-2">Username</th>
-          <th className="py-2">Role</th>
-          <th className="py-2">Email</th>
-          <th className="py-2 line-clamp-1">Title</th>
-          <th className="py-2">Active</th>
+      <thead className="w-full border-b border-gray-300 bg-gray-50">
+        <tr className="w-full text-gray-700 text-left">
+          <th className="py-3 px-4 font-semibold">Username</th>
+          <th className="py-3 px-4 font-semibold">Email</th>
+          <th className="py-3 px-4 font-semibold">Role</th>
+          <th className="py-3 px-4 font-semibold">Status</th>
+          <th className="py-3 px-4 font-semibold pl-16">Actions</th>
         </tr>
       </thead>
     )
-  })
+  }, [])
 
   const TableRow = React.useCallback(
     ({ user }) => (
@@ -47,23 +99,20 @@ const Team = () => {
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-full text-white flex items-center justify-center text-sm bg-blue-700">
               <span className="text-xs md:text-sm text-center">
-                {getInitials(user.name)}
+                {getInitialsUsername(user?.user_name) || ''}
               </span>
             </div>
-            {user.name}
+            {user?.user_name || 'Unknown User'}
           </div>
         </td>
-
-        <td className="p-2">{user.title}</td>
-        <td className="p-2">{user.email || 'user.emal.com'}</td>
-        <td className="p-2">{user.role}</td>
+        <td className="p-2">{user.email || 'No Email'}</td>
+        <td className="p-2">{user.role || 'No Role'}</td>
 
         <td>
           <button
-            // onClick={() => userStatusClick(user)}
             className={clsx(
               'w-fit px-4 py-1 rounded-full',
-              user?.isActive ? 'bg-blue-200' : 'bg-yellow-100'
+              user?.isActive ? 'bg-green-200' : 'bg-yellow-100'
             )}
           >
             {user?.isActive ? 'Active' : 'Disabled'}
@@ -77,17 +126,25 @@ const Team = () => {
             type="button"
             onClick={() => editClick(user)}
           />
-
-          <ButtonElement
-            className="text-red-700 hover:text-red-500 font-semibold sm:px-0"
-            label="Delete"
-            type="button"
-            onClick={() => deleteClick(user?._id)}
-          />
+          {user?.isActive ? (
+            <ButtonElement
+              className="text-red-700 hover:text-red-500 font-semibold sm:px-0 ml-1"
+              label="Disable Account"
+              type="button"
+              onClick={() => deleteHandler(user?.email)}
+            />
+          ) : (
+            <ButtonElement
+              className="text-yellow-700 hover:text-yellow-500 font-semibold sm:px-0"
+              label="Activate Account"
+              type="button"
+              onClick={() => activateHandler(user?.email)}
+            />
+          )}
         </td>
       </tr>
     ),
-    []
+    [editClick, deleteClick, deleteHandler, activateHandler]
   )
 
   return (
@@ -96,10 +153,13 @@ const Team = () => {
         <div className="flex item-center justify-between mb-8">
           <Title title="Teams" />
           <ButtonElement
-            onClick={() => setOpen(true)}
+            onClick={() => {
+              setOpen(true)
+              setSelected(null)
+            }}
             label="Add New User"
             icon={<Add size="20" color="#FFFFFF" />}
-            className="flex flex-row-reverse gap-1 items-start bg-[#2563eb] text-white rounded-xl px-2 py-3  2xl:py-2.5"
+            className="flex flex-row-reverse gap-1 items-start bg-[#2563eb] text-white rounded-xl px-2 py-3 2xl:py-2.5"
           />
         </div>
         <div className="bg-white dark:bg-[#1f1f1f] px-2 md:px-4 py-4">
@@ -116,11 +176,12 @@ const Team = () => {
         </div>
       </div>
 
-      {/* <AddUser
+      <AddUser
         open={open}
         setOpen={setOpen}
         userData={selected}
         key={new Date().getTime().toString()}
+        refetch={refetch}
       />
 
       <ConfirmatioDialog
@@ -133,7 +194,7 @@ const Team = () => {
         open={openAction}
         setOpen={setOpenAction}
         onClick={userActionHandler}
-      /> */}
+      />
     </>
   )
 }

@@ -30,11 +30,9 @@ export const authApiSlice = apiSlice.injectEndpoints({
         body,
         credentials: 'include',
       }),
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-        return credentialsTransformer(dispatch, queryFulfilled)
-      },
     }),
   }),
 })
 
-export const { useLoginMutation, useLogoutMutation } = authApiSlice
+export const { useLoginMutation, useLogoutMutation, useRegisterMutation } =
+  authApiSlice
