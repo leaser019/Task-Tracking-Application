@@ -320,7 +320,6 @@ const Login = () => {
     const submitHandler = async (payload) => {
       try {
         const res = await login(payload).unwrap()
-        console.log(res)
         toast.success('Login successful! Have a great day ahead!')
         dispatch(setCredentials(res))
         navigate('/')

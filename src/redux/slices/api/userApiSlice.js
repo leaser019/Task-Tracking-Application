@@ -1,5 +1,5 @@
 import { apiSlice } from '../apiSlice'
-import { setCredentials } from '../authenticationSlice' // Import action
+import { credentialsTransformer } from '../../transformers/credentialsTransformer'
 
 const USER_URL = '/user'
 
@@ -13,12 +13,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         credentials: 'include',
       }),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled
-          dispatch(setCredentials(data))
-        } catch (error) {
-          console.error('Update user failed', error)
-        }
+        return credentialsTransformer(dispatch, queryFulfilled)
       },
     }),
     changePassword: builder.mutation({
@@ -29,12 +24,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         credentials: 'include',
       }),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled
-          dispatch(setCredentials(data))
-        } catch (error) {
-          console.error('Change password failed', error)
-        }
+        return credentialsTransformer(dispatch, queryFulfilled)
       },
     }),
   }),
