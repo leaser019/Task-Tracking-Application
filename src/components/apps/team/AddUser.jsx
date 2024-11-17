@@ -44,6 +44,7 @@ const AddUser = ({ open, setOpen, userData, refetch }) => {
       } else {
         await register(data).unwrap()
         toast.success('New user added successfully!')
+        refetch()
       }
       setOpen(false)
       reset()
