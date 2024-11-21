@@ -13,6 +13,7 @@ import { tasks as applications } from '../assets/data'
 import BoardView from '../components/apps/application/BoardView'
 import ListView from '../components/apps/application/ListView'
 import AddApplication from './../components/apps/modal/AddApplication'
+
 const Application = () => {
   const Tab = [
     {
@@ -39,27 +40,27 @@ const Application = () => {
   const [loading, setLoading] = useState(false)
 
   return loading ? (
-    <div className="flex text-center items-center py-[25%] px-[40%] ">
+    <div className="flex justify-center items-center h-screen">
       <Loading />
     </div>
   ) : (
     <>
       <AddApplication open={open} setOpen={setOpen} />
-      <div className="w-full">
+      <div className="w-full p-4">
         <div className="flex items-center justify-between mb-4">
-          <Title title={status ? status + ' Application' : 'Application'} />
+          <Title title={status ? `${status} Application` : 'Application'} />
           {!status && (
             <ButtonElement
               onClick={() => setOpen(true)}
               label="Create Application"
               icon={<Add size="20" color="#FFFFFF" />}
-              className="flex flex-row-reverse gap-1 items-start bg-[#2563eb] text-white rounded-xl px-2 py-3  2xl:py-2.5"
+              className="flex items-center gap-2 bg-blue-600 text-white rounded-xl px-4 py-2"
             />
           )}
         </div>
         <Tabs tabs={Tab} setSelected={setSelected}>
           {!status && (
-            <div className="grid grid-cols-4 grid-rows-1 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <TaskTitle label="To Do" className={ApplicationType.todo} />
               <TaskTitle
                 label="Implement"

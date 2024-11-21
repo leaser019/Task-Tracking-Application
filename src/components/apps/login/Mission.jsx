@@ -1,6 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
-import { motion } from 'framer-motion'
 import {
   Chart2,
   TaskSquare,
@@ -14,189 +12,100 @@ import {
   ShieldTick,
 } from 'iconsax-react'
 
-const StyledMission = styled.div`
-  .mission-container {
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 1rem;
-    backdrop-filter: blur(4px);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    margin: 2rem 0;
-    transition: transform 0.3s ease;
-    &:hover {
-      transform: translateY(-10px);
-    }
-  }
-
-  .mission-title {
-    background: linear-gradient(90deg, #0084ff, #4b79e4, #0084ff);
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gradient 3s ease infinite;
-  }
-
-  .mission-image {
-    max-width: 300px;
-    margin: 2rem auto;
-    border-radius: 1rem;
-  }
-
-  .icon-wrapper {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(75, 121, 228, 0.1);
-    margin-right: 1rem;
-    transition: background 0.3s ease, transform 0.3s ease;
-    &:hover {
-      background: rgba(75, 121, 228, 0.2);
-      transform: scale(1.1);
-    }
-  }
-
-  .mission-point {
-    transition: transform 0.3s ease;
-    &:hover {
-      transform: translateX(10px);
-    }
-  }
-
-  .mission-points {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-  }
-
-  @media (max-width: 1380px) {
-    .mission-container {
-      padding: 1rem;
-    }
-
-    .mission-title {
-      font-size: 1.5rem;
-    }
-
-    .mission-image {
-      max-width: 200px;
-    }
-
-    .mission-points {
-      grid-template-columns: 1fr;
-      padding: 0 1rem;
-    }
-
-    .mission-point {
-      margin-left: 0;
-      padding: 0 1rem;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .mission-title {
-      font-size: 1.25rem;
-    }
-
-    .mission-image {
-      max-width: 150px;
-    }
-
-    .mission-point {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .icon-wrapper {
-      margin-bottom: 0.5rem;
-    }
-  }
-`
-
 const Mission = React.memo(() => {
   const missionPoints = [
     {
       text: 'Track applications efficiently',
       icon: <TaskSquare size="24" color="#4b79e4" variant="Bulk" />,
+      description:
+        'Use our tools to keep track of all your applications in one place.',
     },
     {
       text: 'Collaborate with team members',
       icon: <People size="24" color="#4b79e4" variant="Bulk" />,
+      description: 'Work together with your team seamlessly and efficiently.',
     },
     {
       text: 'Monitor project progress',
       icon: <Chart2 size="24" color="#4b79e4" variant="Bulk" />,
+      description:
+        'Keep an eye on the progress of your projects with our monitoring tools.',
     },
     {
       text: 'Streamline workflow management',
       icon: <Timer1 size="24" color="#4b79e4" variant="Bulk" />,
+      description:
+        'Manage your workflows more effectively with our streamlined tools.',
     },
     {
       text: 'Communicate effectively',
       icon: <Message size="24" color="#4b79e4" variant="Bulk" />,
+      description: 'Ensure clear and effective communication within your team.',
     },
     {
       text: 'Manage project assets',
       icon: <AttachSquare size="24" color="#4b79e4" variant="Bulk" />,
+      description:
+        'Keep all your project assets organized and easily accessible.',
     },
     {
       text: 'Analyze performance metrics',
       icon: <Chart size="24" color="#4b79e4" variant="Bulk" />,
+      description:
+        'Analyze key performance metrics to improve your project outcomes.',
     },
     {
       text: 'Schedule and plan tasks',
       icon: <Calendar size="24" color="#4b79e4" variant="Bulk" />,
+      description:
+        'Plan and schedule tasks efficiently to meet your project deadlines.',
     },
     {
       text: 'Maintain documentation',
       icon: <ClipboardText size="24" color="#4b79e4" variant="Bulk" />,
+      description:
+        'Keep all your project documentation up-to-date and well-organized.',
     },
     {
       text: 'Ensure data security',
       icon: <ShieldTick size="24" color="#4b79e4" variant="Bulk" />,
+      description: 'Protect your data with our robust security measures.',
     },
   ]
 
   return (
-    <StyledMission>
-      <div className="mission-container">
-        <h2 className="mission-title text-3xl font-bold text-center mb-8">
-          Our Mission
-        </h2>
+    <div className="p-8 bg-white rounded-lg shadow-md">
+      <h2 className="text-3xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-700 animate-gradient">
+        Our Mission
+      </h2>
 
-        <div className="mission-image">
-          <img
-            src="./assets/images/mission/mission.jpg"
-            alt="Mission Illustration"
-            className="w-full h-auto"
-          />
-        </div>
-        <div>
-          <div className="mission-points px-20">
-            {missionPoints.map((point, index) => (
-              <motion.div
-                key={index}
-                className="mission-point flex items-center text-gray-600 ml-6 px-28"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.2 }}
-              >
-                <motion.div
-                  className="icon-wrapper"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  {point.icon}
-                </motion.div>
-                <span className="text-lg">{point.text}</span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+      <div className="max-w-xs mx-auto mb-8">
+        <img
+          src="./assets/images/mission/mission.jpg"
+          alt="Mission Illustration"
+          className="w-full h-auto rounded-lg"
+        />
       </div>
-    </StyledMission>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {missionPoints.map((point, index) => (
+          <div
+            key={index}
+            className="flex flex-row p-2 bg-gray-100 rounded-lg shadow-sm"
+          >
+            <div className="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-lg mb-4 mt-[2%]">
+              {point.icon}
+            </div>
+            <div className="flex flex-col ml-4 mt-2">
+              <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                {point.text}
+              </h3>
+              <p className="text-sm text-gray-600">{point.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   )
 })
 

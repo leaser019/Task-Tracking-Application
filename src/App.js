@@ -8,7 +8,6 @@ import { useLocation } from 'react-router-dom'
 import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import Team from './pages/Team'
-import ApplicationDetail from './pages/ApplicationDetail'
 import { Toaster } from 'sonner'
 import Application from './pages/Application'
 import UserDetail from './pages/UserDetail'
@@ -24,6 +23,7 @@ import clsx from 'clsx'
 import { CloseCircle } from 'iconsax-react'
 import TrashBin from './pages/TrashBin'
 import Contact from './components/apps/login/Contact'
+import ApplicationDetail from './components/apps/application/applicationDetail/ApplicationDetails'
 
 const MobileSideBar = () => {
   const { isSideBarOpen } = useSelector((state) => state?.authentication)
