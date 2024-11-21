@@ -2,7 +2,10 @@ import React from 'react'
 import Title from './../components/common/Title'
 import ButtonElement from './../components/common/ButtonElement'
 import { Add } from 'iconsax-react'
+import { BiMessageSquareEdit } from 'react-icons/bi'
 import { getInitialsUsername } from '../utils'
+import { GrPowerReset } from 'react-icons/gr'
+import { TiDelete } from 'react-icons/ti'
 import clsx from 'clsx'
 import { summary } from './../assets/data'
 import AddUser from '../components/apps/team/AddUser'
@@ -15,6 +18,7 @@ import {
 } from '../redux/slices/api/teamApiSlice'
 import { getAllUsers } from '../redux/slices/teamSlice'
 import { toast } from 'sonner'
+import Loading from './../components/common/Loading'
 
 const Team = () => {
   const dispatch = useDispatch()
@@ -22,13 +26,11 @@ const Team = () => {
   const [open, setOpen] = React.useState(false)
   const [openAction, setOpenAction] = React.useState(false)
   const [selected, setSelected] = React.useState(null)
-  const { data: users, refetch } = useGetAllUsersQuery()
+  const { data: users, refetch, isLoading, isError } = useGetAllUsersQuery()
   const [deleteUser] = useDeleteUserMutation()
   const [activeAccount] = useActiveAccountMutation()
 
   const userActionHandler = () => {}
-
-
 
   const activateHandler = React.useCallback(
     async (email) => {
@@ -94,7 +96,7 @@ const Team = () => {
 
   const TableRow = React.useCallback(
     ({ user }) => (
-      <tr className="border-b border-gray-200 text-gray-600 hover:bg-gray-400/10">
+      <tr className="border-b border-gray-200 text-gray-600 hover:bg-gray-100">
         <td className="p-2">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-full text-white flex items-center justify-center text-sm bg-blue-700">
@@ -121,21 +123,50 @@ const Team = () => {
 
         <td className="p-2 flex gap-4 justify-end">
           <ButtonElement
-            className="text-blue-600 hover:text-blue-500 font-semibold sm:px-0"
+            className={clsx(
+              'px-4 py-2 rounded-lg',
+              'bg-blue-50/50 text-blue-600',
+              'hover:bg-blue-100/80 hover:text-blue-700',
+              'backdrop-blur-sm shadow-sm',
+              'transition-all duration-300',
+              'flex items-center gap-2'
+            )}
+            icon={
+              <BiMessageSquareEdit
+                size="18"
+                className="group-hover:rotate-12 transition-transform"
+              />
+            }
             label="Edit"
             type="button"
             onClick={() => editClick(user)}
           />
           {user?.isActive ? (
             <ButtonElement
-              className="text-red-700 hover:text-red-500 font-semibold sm:px-0 ml-1"
+              className={clsx(
+                'px-4 py-2 rounded-lg',
+                'bg-red-50/50 text-red-600',
+                'hover:bg-red-100/80 hover:text-red-700',
+                'backdrop-blur-sm shadow-sm',
+                'transition-all duration-300',
+                'flex items-center gap-2'
+              )}
+              icon={<TiDelete size="18" />}
               label="Disable Account"
               type="button"
               onClick={() => deleteHandler(user?.email)}
             />
           ) : (
             <ButtonElement
-              className="text-yellow-700 hover:text-yellow-500 font-semibold sm:px-0"
+              className={clsx(
+                'px-4 py-2 rounded-lg',
+                'bg-green-50/50 text-green-600',
+                'hover:bg-green-100/80 hover:text-green-700',
+                'backdrop-blur-sm shadow-sm',
+                'transition-all duration-300',
+                'flex items-center gap-2'
+              )}
+              icon={<GrPowerReset size="18" />}
               label="Activate Account"
               type="button"
               onClick={() => activateHandler(user?.email)}
@@ -150,7 +181,7 @@ const Team = () => {
   return (
     <>
       <div className="w-full md:px-2 px-0 mb-6">
-        <div className="flex item-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-8">
           <Title title="Teams" />
           <ButtonElement
             onClick={() => {
@@ -159,17 +190,25 @@ const Team = () => {
             }}
             label="Add New User"
             icon={<Add size="20" color="#FFFFFF" />}
-            className="flex flex-row-reverse gap-1 items-start bg-[#2563eb] text-white rounded-xl px-2 py-3 2xl:py-2.5"
+            className="flex flex-row-reverse gap-1 items-center bg-blue-600 text-white rounded-xl px-4 py-2 transition duration-200 ease-in-out transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        <div className="bg-white dark:bg-[#1f1f1f] px-2 md:px-4 py-4">
+        <div className="bg-white px-2 md:px-4 py-4">
           <div className="overflow-x-auto">
             <table className="w-full mb-5">
               <TableHeader />
               <tbody>
-                {users?.map((user, index) => (
-                  <TableRow key={index} user={user} />
-                ))}
+                {isLoading ? (
+                  <tr>
+                    <td colSpan="5" className="text-center py-4">
+                      <Loading />
+                    </td>
+                  </tr>
+                ) : (
+                  users?.map((user, index) => (
+                    <TableRow key={index} user={user} />
+                  ))
+                )}
               </tbody>
             </table>
           </div>

@@ -1,6 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { act } from 'react'
-import { updateUser } from './userSlice'
 
 const initialState = {
   teams: [],

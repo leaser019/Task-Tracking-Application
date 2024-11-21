@@ -61,7 +61,7 @@ const AddUser = ({ open, setOpen, userData, refetch }) => {
     <ModalWrapper open={open} setOpen={setOpen}>
       <div className="bg-white rounded-xl p-6 max-w-md w-full mx-auto ">
         <Dialog.Title className="text-2xl font-bold text-center mb-8">
-          <span className={userData ? 'text-blue-600' : 'text-emerald-600'}>
+          <span className="text-blue-600">
             {userData ? 'Update User Profile' : 'Add New Team Member'}
           </span>
         </Dialog.Title>
@@ -170,9 +170,9 @@ const AddUser = ({ open, setOpen, userData, refetch }) => {
                   disabled={isLoading}
                   className="rounded-lg"
                   sx={{
-                    backgroundColor: userData ? '#3b82f6' : '#10b981',
+                    backgroundColor: '#3b82f6',
                     '&:hover': {
-                      backgroundColor: userData ? '#2563eb' : '#059669',
+                      backgroundColor: '#2563eb',
                     },
                   }}
                 >

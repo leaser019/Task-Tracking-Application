@@ -12,7 +12,7 @@ import {
 } from 'recharts'
 import { chartData } from '../../../assets/data'
 
-const Chart = () => {
+const BarChartVertical = () => {
   const data = chartData
   const gradientOffset = () => {
     const dataMax = Math.max(...data.map((i) => i.total))
@@ -31,7 +31,7 @@ const Chart = () => {
 
   return (
     <>
-      <ResponsiveContainer width={'100%'} height={500}>
+      <ResponsiveContainer width={400} height={300}>
         <BarChart width={150} height={40} data={data}>
           <defs>
             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -57,4 +57,4 @@ const Chart = () => {
   )
 }
 
-export default Chart
+export default BarChartVertical

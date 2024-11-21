@@ -149,23 +149,23 @@ const Feature = () => {
       <div className="feature-container">
         <div className="feature-blob blob-1" />
         <div className="feature-blob blob-2" />
-        <motion.div
+        <div
           className="feature-content"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
         >
-          <animated.div style={springProps}>
+          <div style={springProps}>
             <h2 className="feature-title">Powerful Features</h2>
             <p className="feature-description">
               Enhance your development workflow with our cutting-edge features
               designed for modern developers.
             </p>
-          </animated.div>
+          </div>
 
           <div className="feature-grid">
             {features.map((feature, index) => (
-              <motion.div
+              <div
                 key={index}
                 className="feature-card"
                 initial={{ opacity: 0, y: 20 }}
@@ -176,19 +176,19 @@ const Feature = () => {
                   boxShadow: '0 8px 16px rgba(0, 0, 0, 0.1)',
                 }}
               >
-                <motion.div
+                <div
                   className="icon-wrapper"
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.5 }}
                 >
                   {feature.icon}
-                </motion.div>
+                </div>
                 <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
                 <p className="text-gray-600">{feature.description}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
     </StyledFeature>
   )
