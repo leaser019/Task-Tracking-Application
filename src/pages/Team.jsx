@@ -7,16 +7,14 @@ import { getInitialsUsername } from '../utils'
 import { GrPowerReset } from 'react-icons/gr'
 import { TiDelete } from 'react-icons/ti'
 import clsx from 'clsx'
-import { summary } from './../assets/data'
 import AddUser from '../components/apps/team/AddUser'
 import ConfirmatioDialog, { UserAction } from '../components/apps/team/Dialog'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {
   useGetAllUsersQuery,
   useDeleteUserMutation,
   useActiveAccountMutation,
 } from '../redux/slices/api/teamApiSlice'
-import { getAllUsers } from '../redux/slices/teamSlice'
 import { toast } from 'sonner'
 import Loading from './../components/common/Loading'
 
@@ -96,7 +94,7 @@ const Team = () => {
 
   const TableRow = React.useCallback(
     ({ user }) => (
-      <tr className="border-b border-gray-200 text-gray-600 hover:bg-gray-100">
+      <tr className="border-b border-gray-200 text-gray-600">
         <td className="p-2">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-full text-white flex items-center justify-center text-sm bg-blue-700">
@@ -123,34 +121,15 @@ const Team = () => {
 
         <td className="p-2 flex gap-4 justify-end">
           <ButtonElement
-            className={clsx(
-              'px-4 py-2 rounded-lg',
-              'bg-blue-50/50 text-blue-600',
-              'hover:bg-blue-100/80 hover:text-blue-700',
-              'backdrop-blur-sm shadow-sm',
-              'transition-all duration-300',
-              'flex items-center gap-2'
-            )}
-            icon={
-              <BiMessageSquareEdit
-                size="18"
-                className="group-hover:rotate-12 transition-transform"
-              />
-            }
+            className="px-4 py-2 rounded-lg bg-blue-50 text-blue-600 flex items-center gap-2"
+            icon={<BiMessageSquareEdit size="18" />}
             label="Edit"
             type="button"
             onClick={() => editClick(user)}
           />
           {user?.isActive ? (
             <ButtonElement
-              className={clsx(
-                'px-4 py-2 rounded-lg',
-                'bg-red-50/50 text-red-600',
-                'hover:bg-red-100/80 hover:text-red-700',
-                'backdrop-blur-sm shadow-sm',
-                'transition-all duration-300',
-                'flex items-center gap-2'
-              )}
+              className="px-4 py-2 rounded-lg bg-red-50 text-red-600 flex items-center gap-2"
               icon={<TiDelete size="18" />}
               label="Disable Account"
               type="button"
@@ -158,14 +137,7 @@ const Team = () => {
             />
           ) : (
             <ButtonElement
-              className={clsx(
-                'px-4 py-2 rounded-lg',
-                'bg-green-50/50 text-green-600',
-                'hover:bg-green-100/80 hover:text-green-700',
-                'backdrop-blur-sm shadow-sm',
-                'transition-all duration-300',
-                'flex items-center gap-2'
-              )}
+              className="px-4 py-2 rounded-lg bg-green-50 text-green-600 flex items-center gap-2"
               icon={<GrPowerReset size="18" />}
               label="Activate Account"
               type="button"
@@ -190,7 +162,7 @@ const Team = () => {
             }}
             label="Add New User"
             icon={<Add size="20" color="#FFFFFF" />}
-            className="flex flex-row-reverse gap-1 items-center bg-blue-600 text-white rounded-xl px-4 py-2 transition duration-200 ease-in-out transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex flex-row-reverse gap-1 items-center bg-blue-600 text-white rounded-xl px-4 py-2"
           />
         </div>
         <div className="bg-white px-2 md:px-4 py-4">
