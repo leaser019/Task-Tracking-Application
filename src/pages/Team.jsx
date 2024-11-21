@@ -123,34 +123,15 @@ const Team = () => {
 
         <td className="p-2 flex gap-4 justify-end">
           <ButtonElement
-            className={clsx(
-              'px-4 py-2 rounded-lg',
-              'bg-blue-50/50 text-blue-600',
-              'hover:bg-blue-100/80 hover:text-blue-700',
-              'backdrop-blur-sm shadow-sm',
-              'transition-all duration-300',
-              'flex items-center gap-2'
-            )}
-            icon={
-              <BiMessageSquareEdit
-                size="18"
-                className="group-hover:rotate-12 transition-transform"
-              />
-            }
+            className="px-4 py-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 hover:text-blue-700 transition duration-200 flex items-center gap-2"
+            icon={<BiMessageSquareEdit size="18" />}
             label="Edit"
             type="button"
             onClick={() => editClick(user)}
           />
           {user?.isActive ? (
             <ButtonElement
-              className={clsx(
-                'px-4 py-2 rounded-lg',
-                'bg-red-50/50 text-red-600',
-                'hover:bg-red-100/80 hover:text-red-700',
-                'backdrop-blur-sm shadow-sm',
-                'transition-all duration-300',
-                'flex items-center gap-2'
-              )}
+              className="px-4 py-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 transition duration-200 flex items-center gap-2"
               icon={<TiDelete size="18" />}
               label="Disable Account"
               type="button"
@@ -158,14 +139,7 @@ const Team = () => {
             />
           ) : (
             <ButtonElement
-              className={clsx(
-                'px-4 py-2 rounded-lg',
-                'bg-green-50/50 text-green-600',
-                'hover:bg-green-100/80 hover:text-green-700',
-                'backdrop-blur-sm shadow-sm',
-                'transition-all duration-300',
-                'flex items-center gap-2'
-              )}
+              className="px-4 py-2 rounded-lg bg-green-50 text-green-600 hover:bg-green-100 hover:text-green-700 transition duration-200 flex items-center gap-2"
               icon={<GrPowerReset size="18" />}
               label="Activate Account"
               type="button"
