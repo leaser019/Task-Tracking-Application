@@ -34,12 +34,12 @@ const AddUser = ({ open, setOpen, userData, refetch }) => {
       if (userData) {
         const { message } = await updateUsers({
           body: {
-            user_name: data.user_name,
-            role: data.role,
-            email: data.email,
+            user_name: data?.user_name,
+            role: data?.role,
           },
+          email: data?.email,
         }).unwrap()
-        toast.success(message || 'User profile updated successfully!')
+        toast.success('User profile updated successfully!')
         refetch()
       } else {
         await register(data).unwrap()
@@ -73,6 +73,7 @@ const AddUser = ({ open, setOpen, userData, refetch }) => {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <TextField
+                required
                 fullWidth
                 label="Email Address"
                 disabled={!!userData}
@@ -98,6 +99,7 @@ const AddUser = ({ open, setOpen, userData, refetch }) => {
 
             <Grid item xs={12}>
               <TextField
+                required
                 fullWidth
                 label="Username"
                 {...registerField('user_name', {
@@ -115,6 +117,7 @@ const AddUser = ({ open, setOpen, userData, refetch }) => {
 
             <Grid item xs={12}>
               <TextField
+                required
                 fullWidth
                 label="Role"
                 {...registerField('role', {
@@ -128,6 +131,7 @@ const AddUser = ({ open, setOpen, userData, refetch }) => {
             {!userData && (
               <Grid item xs={12}>
                 <TextField
+                  required
                   fullWidth
                   type="password"
                   label="Password"

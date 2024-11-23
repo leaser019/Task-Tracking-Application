@@ -16,8 +16,8 @@ import BarChartHorizon from '../components/apps/dashboard/BarChartHorizon'
 
 const Dashboard = () => {
   const { data: priorityData } = useGetPriorityAppQuery()
+  var priority_data = priorityData?.Statistic
   const { data: statusData, isLoading, error } = useGetStatusQuery()
-  const data = statusData?.Statistic?.[0]
   const Card = React.memo(({ icon, label, bg, total }) => {
     return (
       <div
@@ -65,42 +65,42 @@ const Dashboard = () => {
     {
       id: '1',
       label: 'Total Applications',
-      total: data?.total || 0,
+      total: statusData?.untrashedStatistic?.[0]?.total || 0,
       icon: <IoIosApps />,
       bg: 'bg-gradient-to-r from-blue-500 to-indigo-500',
     },
     {
       id: '2',
       label: 'To Do',
-      total: data?.detail[0]?.count || 0,
+      total: statusData?.untrashedStatistic?.[0]?.detail[3]?.count || 0,
       icon: <TaskSquare />,
       bg: 'bg-gradient-to-r from-red-500 to-pink-500',
     },
     {
       id: '3',
       label: 'Implement',
-      total: data?.detail[1]?.count || 0,
+      total: statusData?.untrashedStatistic?.[0]?.detail[2]?.count || 0,
       icon: <FaFileCode />,
       bg: 'bg-gradient-to-r from-yellow-500 to-orange-500',
     },
     {
       id: '4',
       label: 'QA/QC',
-      total: data?.detail[2]?.count || 0,
+      total: statusData?.untrashedStatistic?.[0]?.detail[1]?.count || 0,
       icon: <TbBrandSpeedtest />,
       bg: 'bg-gradient-to-r from-blue-500 to-cyan-500',
     },
     {
       id: '5',
       label: 'Production',
-      total: data?.detail[3]?.count || 0,
+      total: statusData?.untrashedStatistic?.[0]?.detail[0]?.count || 0,
       icon: <MdCloudDone />,
       bg: 'bg-gradient-to-r from-green-500 to-teal-500',
     },
     {
       id: '6',
       label: 'Trash',
-      total: data?.trash || 0,
+      total: statusData?.trashedStatistic?.[0]?.total || 0,
       icon: <FaTrash />,
       bg: 'bg-gradient-to-r from-red-500 to-purple-500',
     },
@@ -143,15 +143,8 @@ const Dashboard = () => {
           Chart
         </h1>
         <div className="flex flex-row items-center justify-center">
-          <BarChartVertical data={priorityData} />
-          <PieChartUsage
-            data={[
-              { name: 'To Do', value: 400 },
-              { name: 'Implement', value: 300 },
-              { name: 'QA/QC', value: 300 },
-              { name: 'Production', value: 200 },
-            ]}
-          />
+          <BarChartVertical data={priority_data} />
+          <PieChartUsage data={statusData?.untrashedStatistic?.[0]?.detail} />
         </div>
         <BarChartHorizon
           data={[

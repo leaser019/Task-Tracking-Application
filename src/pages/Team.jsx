@@ -14,6 +14,7 @@ import {
   useGetAllUsersQuery,
   useDeleteUserMutation,
   useActiveAccountMutation,
+  useDeleteUserForeverMutation,
 } from '../redux/slices/api/teamApiSlice'
 import { toast } from 'sonner'
 import Loading from './../components/common/Loading'
@@ -27,6 +28,7 @@ const Team = () => {
   const { data: users, refetch, isLoading, isError } = useGetAllUsersQuery()
   const [deleteUser] = useDeleteUserMutation()
   const [activeAccount] = useActiveAccountMutation()
+  const [deleteTeam] = useDeleteUserForeverMutation()
 
   const userActionHandler = () => {}
 
@@ -66,6 +68,25 @@ const Team = () => {
       }
     },
     [deleteUser, refetch]
+  )
+
+  const deleteForeverHandler = React.useCallback(
+    async (email) => {
+      try {
+        const { message } = await deleteTeam(email).unwrap()
+        toast.success(message || 'User deleted successfully!')
+        refetch()
+      } catch (error) {
+        const errorMessage =
+          error?.message ||
+          error?.data?.message ||
+          error?.data?.detail ||
+          error?.data?.errors ||
+          'An error occurred: unknown error'
+        toast.error(errorMessage)
+      }
+    },
+    [deleteTeam, refetch]
   )
 
   const deleteClick = (email) => {
@@ -120,13 +141,23 @@ const Team = () => {
         </td>
 
         <td className="p-2 flex gap-4 justify-end">
-          <ButtonElement
-            className="px-4 py-2 rounded-lg bg-blue-50 text-blue-600 flex items-center gap-2"
-            icon={<BiMessageSquareEdit size="18" />}
-            label="Edit"
-            type="button"
-            onClick={() => editClick(user)}
-          />
+          {user?.isActive ? (
+            <ButtonElement
+              className="px-4 py-2 rounded-lg bg-blue-50 text-blue-600 flex items-center gap-4"
+              icon={<BiMessageSquareEdit size="18" />}
+              label="Edit"
+              type="button"
+              onClick={() => editClick(user)}
+            />
+          ) : (
+            <ButtonElement
+              className="px-4 py-2 rounded-lg bg-red-50 text-red-600 flex items-center gap-1"
+              icon={<TiDelete size="18" />}
+              label="Delete"
+              type="button"
+              onClick={() => deleteForeverHandler(user?.email)}
+            />
+          )}
           {user?.isActive ? (
             <ButtonElement
               className="px-4 py-2 rounded-lg bg-red-50 text-red-600 flex items-center gap-2"
