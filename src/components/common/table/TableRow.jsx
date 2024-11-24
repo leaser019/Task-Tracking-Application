@@ -25,6 +25,48 @@ const TableRow = ({ application, show = '' }) => {
     </div>
   )
 
+  const TeamMembers = ({ team }) => (
+    <div className="relative flex flex-row-reverse" style={{ zIndex: 1 }}>
+      {team?.map((member, index) => (
+        <div
+          key={index}
+          className={clsx(
+            // Base styles
+            'w-8 h-8 rounded-full -ml-2',
+            'border-2 border-white',
+            'flex items-center justify-center',
+            // Hover effects
+            'transform transition-all duration-200',
+            'hover:scale-110 hover:border-blue-200',
+            'hover:shadow-lg hover:z-[2]',
+            // Text styles
+            'text-white text-sm font-medium',
+            // Background color
+            BGS[index % BGS?.length]
+          )}
+        >
+          <div className="relative group">
+            <UserInfo user={member} />
+            {/* Tooltip */}
+            <div
+              className="absolute -top-10 left-1/2 -translate-x-1/2
+                        opacity-0 group-hover:opacity-100
+                        transition-opacity duration-200
+                        pointer-events-none"
+            >
+              <span
+                className="px-2 py-1 text-xs text-white bg-gray-800
+                         rounded-md whitespace-nowrap"
+              >
+                {member.name}
+              </span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+
   return (
     <tr className="border-b border-gray-100">
       <td className="py-4 pl-6">
@@ -32,7 +74,7 @@ const TableRow = ({ application, show = '' }) => {
           <div
             className={clsx(
               'w-3 h-3 rounded-full',
-              TASK_TYPE[application.stage]
+              TASK_TYPE[application?.status]
             )}
           />
           <p className="text-base font-medium text-gray-800 line-clamp-2">
@@ -57,7 +99,7 @@ const TableRow = ({ application, show = '' }) => {
 
       <td className="py-4">
         <span className="text-sm font-medium text-gray-600 px-3 py-1.5 rounded-lg bg-gray-50">
-          {formatDate(new Date(application?.date))}
+          {formatDate(new Date(application?.createdAt))}
         </span>
       </td>
 
@@ -73,24 +115,14 @@ const TableRow = ({ application, show = '' }) => {
           />
           <StatIcon
             icon={<Chart2 size="18" color="#4B5563" />}
-            count={`0/${application?.subTasks?.length}`}
+            count={`0/${application?.tasks?.length}`}
           />
         </div>
       </td>
 
       <td className="py-4">
         <div className="flex -space-x-2">
-          {application?.team?.map((member, index) => (
-            <div
-              key={member._id}
-              className={clsx(
-                'w-8 h-8 rounded-full border-2 border-white flex items-center justify-center',
-                BGS[index % BGS?.length]
-              )}
-            >
-              <UserInfo user={member} />
-            </div>
-          ))}
+          <TeamMembers team={application?.teamMembers} />
         </div>
       </td>
 

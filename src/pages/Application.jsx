@@ -9,12 +9,14 @@ import Title from '../components/common/Title'
 import ButtonElement from '../components/common/ButtonElement'
 import Tabs from '../components/apps/application/Tabs'
 import TaskTitle from '../components/apps/application/TaskTitle'
-import { tasks as applications } from '../assets/data'
+// import { tasks as applications } from '../assets/data'
 import BoardView from '../components/apps/application/BoardView'
 import ListView from '../components/apps/application/ListView'
 import AddApplication from './../components/apps/modal/AddApplication'
+import { useGetAllApplicationQuery } from '../redux/slices/api/applicationApiSlice'
 
 const Application = () => {
+  const { data: applications } = useGetAllApplicationQuery()
   const Tab = [
     {
       title: 'Board View',
@@ -75,11 +77,15 @@ const Application = () => {
           )}
           {selected === 0 ? (
             <div>
-              <BoardView applications={applications} />
+              <BoardView
+                applications={applications || applications?.applications}
+              />
             </div>
           ) : (
             <div>
-              <ListView applications={applications} />
+              <ListView
+                applications={applications || applications?.applications}
+              />
             </div>
           )}
         </Tabs>

@@ -13,6 +13,7 @@ import {
 import Loading from '../components/common/Loading'
 import PieChartUsage from '../components/apps/dashboard/PieChartUsage'
 import BarChartHorizon from '../components/apps/dashboard/BarChartHorizon'
+import SubTitle from '../components/common/SubTitle'
 
 const Dashboard = () => {
   const { data: priorityData } = useGetPriorityAppQuery()
@@ -139,29 +140,48 @@ const Dashboard = () => {
       </div>
 
       <div className="w-[90%] bg-white mt-10 p-4 rounded-xl shadow-md flex flex-col">
-        <h1 className="pb-10 text-4xl text-center capitalize font-bold impressive-title">
-          Chart
-        </h1>
-        <div className="flex flex-row items-center justify-center">
-          <BarChartVertical data={priority_data} />
-          <PieChartUsage data={statusData?.untrashedStatistic?.[0]?.detail} />
-        </div>
-        <BarChartHorizon
-          data={[
-            {
-              name: 'John Doe',
-              todo: 5,
-              inProgress: 3,
-              completed: 8,
-            },
-            {
-              name: 'Jane Smith',
-              todo: 2,
-              inProgress: 4,
-              completed: 6,
-            },
-          ]}
+        <Title
+          title="Informative Chart"
+          className="pb-10 text-4xl text-center capitalize font-bold impressive-title"
         />
+        <div className="flex flex-row items-center justify-center">
+          <div className="flex flex-col">
+            <SubTitle
+              subtitle="Priority Data"
+              className="capitalize text-center"
+            />
+            <BarChartVertical data={priority_data} />
+          </div>
+          <div className="flex flex-col">
+            <SubTitle
+              subtitle="Usage Data"
+              className="capitalize text-center"
+            />
+            <PieChartUsage data={statusData?.untrashedStatistic?.[0]?.detail} />
+          </div>
+        </div>
+        <div className="flex flex-col mt-2">
+          <SubTitle
+            subtitle="Task Distribution"
+            className="capitalize text-center"
+          />
+          <BarChartHorizon
+            data={[
+              {
+                name: 'John Doe',
+                todo: 5,
+                inProgress: 3,
+                completed: 8,
+              },
+              {
+                name: 'Jane Smith',
+                todo: 2,
+                inProgress: 4,
+                completed: 6,
+              },
+            ]}
+          />
+        </div>
       </div>
     </div>
   )

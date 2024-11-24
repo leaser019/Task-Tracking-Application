@@ -4,6 +4,7 @@ import authReducer from './slices/authenticationSlice'
 import userReducer from './slices/userSlice'
 import teamReducer from './slices/teamSlice'
 import dashboardReducer from './slices/dashboardSlice'
+import applicationReducer from './slices/applicationSlice'
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     users: userReducer,
     team: teamReducer,
     dashboard: dashboardReducer,
+    application: applicationReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),

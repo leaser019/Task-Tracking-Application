@@ -16,12 +16,16 @@ import { DatePicker } from '@mui/x-date-pickers'
 import { styled } from '@mui/material/styles'
 import Button from '@mui/material/Button'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+import { useCreateApplicationMutation } from '../../../redux/slices/api/applicationApiSlice'
+import { toast } from 'sonner'
 
 const AddApplication = ({ open, setOpen }) => {
-  const taskStage = ['To Do', 'Implement', 'QA/QC', 'Production']
-  const priorityLevel = ['Low', 'Normal', 'High']
+  const taskStatus = ['To Do', 'Implementing', 'Testing', 'Production']
+  const priorityLevel = ['Low', 'Medium', 'High']
+  const [createApplication] = useCreateApplicationMutation()
   var task = ''
   const [team, setTeam] = React.useState(task?.team || [])
+
   const {
     register,
     control,
@@ -40,7 +44,13 @@ const AddApplication = ({ open, setOpen }) => {
     width: 1,
   })
   const submitHandler = (payload) => {
-    console.log(payload)
+    try {
+      createApplication({ ...payload, description: 'Not Have' })
+      setOpen(false)
+      toast.success('Application created successfully')
+    } catch (error) {
+      toast.error('Error creating application')
+    }
   }
   return (
     <>
@@ -81,29 +91,35 @@ const AddApplication = ({ open, setOpen }) => {
               <Grid xs={12}>
                 <Controller
                   name="assign"
+                  fullWidth
                   control={control}
                   defaultValue={[]}
                   render={({ field }) => (
-                    <UserList {...field} team={team} setTeam={setTeam} />
+                    <UserList
+                      {...field}
+                      team={team}
+                      setTeam={setTeam}
+                      fullWidth
+                    />
                   )}
                 />
               </Grid>
               <Grid xs={5} className="py-4 mr-8">
                 <FormControl fullWidth>
-                  <InputLabel id="application-stage">
-                    Application Stage
+                  <InputLabel id="application-Status">
+                    Application Status
                   </InputLabel>
                   <Select
-                    labelId="application-stage"
-                    id="application-stage"
-                    {...register('stage', {
-                      required: 'Application Stage is required',
+                    labelId="application-status"
+                    id="application-status"
+                    {...register('status', {
+                      required: 'Application Status is required',
                     })}
-                    label="Application Stage"
+                    label="Application Status"
                   >
-                    {taskStage.map((stage) => (
-                      <MenuItem key={stage} value={stage}>
-                        {stage}
+                    {taskStatus.map((status) => (
+                      <MenuItem key={status} value={status}>
+                        {status}
                       </MenuItem>
                     ))}
                   </Select>

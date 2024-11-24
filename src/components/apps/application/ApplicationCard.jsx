@@ -45,7 +45,7 @@ const ApplicationCard = ({ application }) => {
       <div
         className={clsx(
           'w-3 h-3 rounded-full group-hover:scale-110 transition-transform',
-          TASK_TYPE[application.stage]
+          TASK_TYPE[application?.status]
         )}
       />
       <h3 className="text-lg font-medium line-clamp-1 group-hover:line-clamp-none">
@@ -79,11 +79,11 @@ const ApplicationCard = ({ application }) => {
         />
         <StatItem
           icon={<Chart2 size="20" />}
-          count={`0/${application?.subTasks?.length}`}
+          count={`0/${application?.tasks?.length}`}
           label="Sub Tasks Progress"
         />
       </div>
-      <TeamMembers team={application?.team} className="z-5" />
+      <TeamMembers team={application?.teamMembers} className="z-5" />
     </div>
   )
 
@@ -131,26 +131,26 @@ const ApplicationCard = ({ application }) => {
 
   const SubTaskSection = () => (
     <div className="border-t border-gray-100 pt-4 hover:bg-gray-50 transition-colors rounded-md p-2">
-      {application?.subTasks?.length > 0 ? (
+      {application?.tasks?.length > 0 ? (
         <div className="space-y-3 cursor-pointer">
           <h4 className="font-medium text-gray-900 hover:text-blue-600 transition-colors">
-            {application?.subTasks[0].title}
+            {application?.tasks[0].title}
           </h4>
           <div className="flex items-center gap-4">
             <span className="text-sm text-gray-500 hover:text-gray-700 transition-colors">
-              {formatDate(new Date(application?.subTasks[0]?.date))}
+              {formatDate(new Date(application?.tasks[0]?.date))}
             </span>
             <span
               className="px-3 py-1 text-sm bg-blue-50 text-blue-600 rounded-full
                            hover:bg-blue-100 hover:text-blue-700 transition-colors"
             >
-              {application?.subTasks[0].tag}
+              {application?.tasks[0].tag}
             </span>
           </div>
         </div>
       ) : (
         <p className="text-gray-500 text-sm hover:text-gray-700 transition-colors">
-          No Sub Task
+          No Task
         </p>
       )}
     </div>
@@ -164,19 +164,19 @@ const ApplicationCard = ({ application }) => {
       <CardHeader />
       <TaskTitle />
       <span className="text-sm text-gray-500 hover:text-gray-700 transition-colors">
-        {formatDate(new Date(application?.date))}
+        {formatDate(new Date(application?.createdAt))}
       </span>
       <Statistics />
       <SubTaskSection />
       <button
         onClick={() => setOpen(true)}
-        disabled={!user.isAdmin}
+        disabled={!user?.isAdmin}
         className="w-full mt-4 py-2 text-sm font-medium text-gray-600
                    hover:bg-gray-50 hover:text-gray-800 active:bg-gray-100
                    disabled:text-gray-300 disabled:cursor-not-allowed
                    transition-all duration-200 rounded-md"
       >
-        ADD SUBTASK
+        ADD TASK
       </button>
     </div>
   )
