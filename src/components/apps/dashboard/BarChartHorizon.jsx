@@ -7,7 +7,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer
+  ResponsiveContainer,
 } from 'recharts'
 
 const BarChartHorizon = ({ data }) => {
@@ -44,9 +44,23 @@ const BarChartHorizon = ({ data }) => {
           top: 20,
           right: 20,
           bottom: 20,
-          left: 100
+          left: 20,
         }}
       >
+        <defs>
+          <linearGradient id="colorTodo" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="5%" stopColor="#fb923c" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#f97316" stopOpacity={0.8} />
+          </linearGradient>
+          <linearGradient id="colorInProgress" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#2563eb" stopOpacity={0.8} />
+          </linearGradient>
+          <linearGradient id="colorCompleted" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="5%" stopColor="#4ade80" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#22c55e" stopOpacity={0.8} />
+          </linearGradient>
+        </defs>
         <CartesianGrid stroke="#f5f5f5" />
         <XAxis type="number" />
         <YAxis
@@ -63,21 +77,21 @@ const BarChartHorizon = ({ data }) => {
           stackId="a"
           name="To Do"
           barSize={20}
-          fill="#fb923c"
+          fill="url(#colorTodo)"
         />
         <Bar
           dataKey="inProgress"
           stackId="a"
           name="In Progress"
           barSize={20}
-          fill="#3b82f6"
+          fill="url(#colorInProgress)"
         />
         <Bar
           dataKey="completed"
           stackId="a"
           name="Completed"
           barSize={20}
-          fill="#4ade80"
+          fill="url(#colorCompleted)"
         />
       </BarChart>
     </ResponsiveContainer>
@@ -85,6 +99,3 @@ const BarChartHorizon = ({ data }) => {
 }
 
 export default BarChartHorizon
-
-
-

@@ -324,13 +324,7 @@ const Login = () => {
         dispatch(setCredentials(res))
         navigate('/')
       } catch (error) {
-        toast.error(
-          error?.message ||
-            error?.data?.message ||
-            error?.data?.detail ||
-            error?.data?.errors ||
-            'An error occurred: unknown error'
-        )
+        toast.error('Your email or password is incorrect. Please try again!')
       }
     }
     return (

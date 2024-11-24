@@ -12,6 +12,9 @@ export function getInitials(fullName) {
 }
 
 export const PRIORITY_STYLES = {
+  High: 'text-red-600',
+  Medium: 'text-yellow-600',
+  Low: 'text-blue-600',
   high: 'text-red-600',
   medium: 'text-yellow-600',
   low: 'text-blue-600',
@@ -51,17 +54,22 @@ export function dateFormatter(dateString) {
 
 export const TASK_TYPE = {
   todo: 'bg-blue-600',
-  'in progress': 'bg-yellow-600', // need to remove after product
-  completed: 'bg-green-600', // need to remove after product
   implement: 'bg-yellow-600',
-  'qa-qc': 'bg-purple-600',
+  testing: 'bg-purple-600',
   production: 'bg-green-600',
+  Todo: 'bg-blue-600',
+  Implement: 'bg-yellow-600',
+  Testing: 'bg-purple-600',
+  Production: 'bg-green-600',
 }
 
 export const ICONS = {
   high: <MdKeyboardDoubleArrowUp />,
   medium: <MdKeyboardArrowUp />,
   low: <MdKeyboardArrowDown />,
+  High: <MdKeyboardDoubleArrowUp />,
+  Medium: <MdKeyboardArrowUp />,
+  Low: <MdKeyboardArrowDown />,
 }
 
 export const scrollToSection = (elementId) => {

@@ -42,7 +42,7 @@ const UserAvatar = () => {
       const { data } = await logout({})
       dispatch(setCredentials(null))
       toast.success(
-        data?.message + ' Have a nice day!' ||
+        (data?.message && `${data?.message}! Have a nice day!`) ||
           'Logout successfully! Have a nice day!'
       )
       navigate('/login')
@@ -243,6 +243,7 @@ const UserAvatar = () => {
                         variant="outlined"
                         defaultValue={user?.user_name}
                         fullWidth
+                        required
                       />
                     </Grid>
                     <Grid item xs={12}>
@@ -257,6 +258,7 @@ const UserAvatar = () => {
                         variant="outlined"
                         defaultValue={user?.role}
                         fullWidth
+                        required
                       />
                     </Grid>
                     <Grid item xs={12}>
@@ -269,6 +271,7 @@ const UserAvatar = () => {
                         defaultValue={user?.email}
                         fullWidth
                         disabled
+                        required
                       />
                     </Grid>
                     <Grid item xs={12}>
@@ -281,6 +284,7 @@ const UserAvatar = () => {
                         defaultValue={user?.isAdmin ? 'Admin' : 'Member'}
                         fullWidth
                         disabled
+                        required
                       />
                     </Grid>
 

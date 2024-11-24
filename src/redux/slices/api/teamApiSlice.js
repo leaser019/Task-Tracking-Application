@@ -28,12 +28,21 @@ export const teamApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ['Users'],
     }),
     updateUsers: builder.mutation({
-      query: (body) => ({
-        url: `${TEAM_URL}/profile`,
-        method: 'PUT',
+      query: ({ body, email }) => ({
+        url: `${TEAM_URL}/admin/update-user/${email}`,
+        method: 'PATCH',
         body,
         credentials: 'include',
       }),
+      invalidatesTags: ['Users'],
+    }),
+    deleteUserForever: builder.mutation({
+      query: (email) => ({
+        url: `${TEAM_URL}/delete/${email}`,
+        method: 'DELETE',
+        credentials: 'include',
+      }),
+      invalidatesTags: ['Users'],
     }),
   }),
 })
@@ -43,4 +52,5 @@ export const {
   useDeleteUserMutation,
   useActiveAccountMutation,
   useUpdateUsersMutation,
+  useDeleteUserForeverMutation,
 } = teamApiSlice

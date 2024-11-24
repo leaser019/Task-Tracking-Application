@@ -10,10 +10,8 @@ import {
   Bar,
   Cell,
 } from 'recharts'
-import { chartData } from '../../../assets/data'
 
-const BarChartVertical = () => {
-  const data = chartData
+const BarChartVertical = ({ data }) => {
   const gradientOffset = () => {
     const dataMax = Math.max(...data.map((i) => i.total))
     const dataMin = Math.min(...data.map((i) => i.total))
@@ -39,14 +37,18 @@ const BarChartVertical = () => {
               <stop offset="95%" stopColor="#ADD8E6" stopOpacity={0.8} />
             </linearGradient>
           </defs>
-          <XAxis dataKey="name" />
+          <XAxis dataKey="priority" />
           <YAxis />
           <Tooltip
             contentStyle={{ backgroundColor: '#8884d8', color: '#fff' }}
           />
-          <Legend />
+          <Legend verticalAlign="bottom" height={36} />
           <CartesianGrid strokeDasharray="5 4" />
-          <Bar dataKey="total" fill="url(#colorUv)">
+          <Bar
+            name="Number Of Applications"
+            dataKey="count"
+            fill="url(#colorUv)"
+          >
             {data.map((entry, index) => (
               <Cell key={`cell-${index}`} />
             ))}

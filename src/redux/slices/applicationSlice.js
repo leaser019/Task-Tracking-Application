@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  application: [],
+  applications: [],
 }
 
 const applicationSlice = createSlice({
@@ -9,7 +9,17 @@ const applicationSlice = createSlice({
   initialState: initialState,
   reducers: {
     getAllApplication: (state, action) => {
-      state.application = action.payload
+      state.applications = action.payload
+    },
+    createApplication: (state, action) => {
+      state.applications.push(action.payload)
+    },
+    duplicateApplication: (state, action) => {
+      state.applications.push(action.payload)
     },
   },
 })
+
+export const { getAllApplication, createApplication, duplicateApplication } =
+  applicationSlice.actions
+export default applicationSlice.reducer

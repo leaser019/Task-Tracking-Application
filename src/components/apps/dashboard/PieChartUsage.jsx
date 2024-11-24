@@ -21,7 +21,7 @@ const PieChartUsage = ({ data }) => {
     return (
       <g>
         <text x={cx} y={cy} dy={-20} textAnchor="middle" fill={fill}>
-          {payload.name}
+          {payload.status}
         </text>
         <text x={cx} y={cy} dy={20} textAnchor="middle" fill="#999">
           {`${(percent * 100).toFixed(2)}%`}
@@ -66,7 +66,7 @@ const PieChartUsage = ({ data }) => {
           innerRadius={100}
           outerRadius={120}
           fill="#8884d8"
-          dataKey="value"
+          dataKey="count"
           onMouseEnter={onPieEnter}
         >
           {data.map((entry, index) => (
