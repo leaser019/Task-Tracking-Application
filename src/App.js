@@ -107,14 +107,20 @@ function App() {
     <div>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" Navigate to="/dashboard" />
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/team" element={<Team />} />
           <Route path="/application" element={<Application />} />
-          <Route path="/todo/:status" element={<Application />} />
-          <Route path="/implement/:status" element={<Application />} />
-          <Route path="/qa-qc/:status" element={<Application />} />
-          <Route path="/production/:status" element={<Application />} />
+          <Route path="/todo" element={<Application status="todo" />} />
+          <Route
+            path="/implement"
+            element={<Application status="implement" />}
+          />
+          <Route path="/qa-qc" element={<Application status="testing" />} />
+          <Route
+            path="/production"
+            element={<Application status="production" />}
+          />
           <Route path="/application/:id" element={<ApplicationDetail />} />
           <Route path="/trash" element={<TrashBin />} />
         </Route>

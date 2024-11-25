@@ -30,7 +30,7 @@ export const teamApiSlice = apiSlice.injectEndpoints({
     updateUsers: builder.mutation({
       query: ({ body, email }) => ({
         url: `${TEAM_URL}/admin/update-user/${email}`,
-        method: 'PATCH',
+        method: 'PUT',
         body,
         credentials: 'include',
       }),

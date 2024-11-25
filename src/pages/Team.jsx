@@ -181,7 +181,11 @@ const Team = () => {
     [editClick, deleteClick, deleteHandler, activateHandler]
   )
 
-  return (
+  return isLoading ? (
+    <div className="flex justify-center items-center h-screen">
+      <Loading />
+    </div>
+  ) : (
     <>
       <div className="w-full md:px-2 px-0 mb-6">
         <div className="flex items-center justify-between mb-8">

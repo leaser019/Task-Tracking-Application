@@ -14,8 +14,12 @@ import Loading from '../components/common/Loading'
 import PieChartUsage from '../components/apps/dashboard/PieChartUsage'
 import BarChartHorizon from '../components/apps/dashboard/BarChartHorizon'
 import SubTitle from '../components/common/SubTitle'
+import Error from '../components/common/Error'
+import { useDispatch } from 'react-redux'
+import { setAllApplication } from '../redux/slices/applicationSlice'
 
 const Dashboard = () => {
+  const dispatch = useDispatch()
   const { data: priorityData } = useGetPriorityAppQuery()
   var priority_data = priorityData?.Statistic
   const { data: statusData, isLoading, error } = useGetStatusQuery()
@@ -73,7 +77,7 @@ const Dashboard = () => {
     {
       id: '2',
       label: 'To Do',
-      total: statusData?.untrashedStatistic?.[0]?.detail[3]?.count || 0,
+      total: statusData?.untrashedStatistic?.[0]?.detail[1]?.count || 0,
       icon: <TaskSquare />,
       bg: 'bg-gradient-to-r from-red-500 to-pink-500',
     },
@@ -87,14 +91,14 @@ const Dashboard = () => {
     {
       id: '4',
       label: 'QA/QC',
-      total: statusData?.untrashedStatistic?.[0]?.detail[1]?.count || 0,
+      total: statusData?.untrashedStatistic?.[0]?.detail[0]?.count || 0,
       icon: <TbBrandSpeedtest />,
       bg: 'bg-gradient-to-r from-blue-500 to-cyan-500',
     },
     {
       id: '5',
       label: 'Production',
-      total: statusData?.untrashedStatistic?.[0]?.detail[0]?.count || 0,
+      total: statusData?.untrashedStatistic?.[0]?.detail[3]?.count || 0,
       icon: <MdCloudDone />,
       bg: 'bg-gradient-to-r from-green-500 to-teal-500',
     },
@@ -106,10 +110,14 @@ const Dashboard = () => {
       bg: 'bg-gradient-to-r from-red-500 to-purple-500',
     },
   ]
-
+  React.useEffect(() => {
+    if (statusData) {
+      dispatch(setAllApplication(statusData))
+    }
+  }, [statusData, dispatch])
   if (isLoading) {
     return (
-      <div className="w-full py-4">
+      <div className="flex justify-center items-center h-screen">
         <Loading />.
       </div>
     )
@@ -117,7 +125,9 @@ const Dashboard = () => {
 
   if (error) {
     return (
-      <div className="w-full py-4 text-red-500">Error: {error.message}</div>
+      <div>
+        <Error />
+      </div>
     )
   }
 
