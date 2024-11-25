@@ -61,6 +61,7 @@ export const TASK_TYPE = {
   Implement: 'bg-yellow-600',
   Testing: 'bg-purple-600',
   Production: 'bg-green-600',
+  'To Do': 'bg-blue-600',
 }
 
 export const ICONS = {

@@ -5,8 +5,8 @@ import Loading from '../../common/Loading'
 const BoardView = ({ applications }) => {
   if (!applications || applications.length === 0) {
     return (
-      <div className="flex mb-16">
-        <Loading className="text-center" />
+      <div className="flex h-screen justify-center items-center">
+        <Loading />
       </div>
     )
   }
