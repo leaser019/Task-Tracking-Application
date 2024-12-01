@@ -61,7 +61,7 @@ const Application = ({ status: appStatus = '' }) => {
       queryGetAll = queryGetAllApplication
   }
 
-  const { data: applications, isLoading, isError } = queryGetAll
+  const { data: applications, isLoading, isError, refetch } = queryGetAll
   const Tab = [
     {
       title: 'Board View',
@@ -86,10 +86,8 @@ const Application = ({ status: appStatus = '' }) => {
   const [open, setOpen] = useState(false)
 
   const getCount = (index) => {
-    return (
-      priority?.applications?.untrashedStatistic?.[0]?.detail?.[index]?.count ||
-      '0'
-    )
+    let countdata = JSON.parse(localStorage.getItem('statusData'))
+    return countdata?.untrashedStatistic?.[0]?.detail?.[index]?.count
   }
   const displayedApplications =
     searchResults.length > 0
@@ -162,7 +160,7 @@ const Application = ({ status: appStatus = '' }) => {
           )}
           {selected === 0 ? (
             <div>
-              <BoardView applications={displayedApplications} />
+              <BoardView applications={displayedApplications} refetch={refetch} />
             </div>
           ) : (
             <div>

@@ -17,6 +17,7 @@ import SubTitle from '../components/common/SubTitle'
 import Error from '../components/common/Error'
 import { useDispatch } from 'react-redux'
 import { setAllApplication } from '../redux/slices/applicationSlice'
+import Application from './Application'
 
 const Dashboard = () => {
   const dispatch = useDispatch()
@@ -159,14 +160,14 @@ const Dashboard = () => {
         <div className="flex flex-row items-center justify-center">
           <div className="flex flex-col">
             <SubTitle
-              subtitle="Priority Data"
+              subtitle="Application Count By Priority Level"
               className="capitalize text-center"
             />
             <BarChartVertical data={priority_data} />
           </div>
           <div className="flex flex-col">
             <SubTitle
-              subtitle="Usage Data"
+              subtitle="Application Count By Status"
               className="capitalize text-center"
             />
             <PieChartUsage data={statusData?.untrashedStatistic?.[0]?.detail} />
@@ -174,7 +175,7 @@ const Dashboard = () => {
         </div>
         <div className="flex flex-col mt-2">
           <SubTitle
-            subtitle="Task Distribution"
+            subtitle="Application Assigned Per Team Member"
             className="capitalize text-center"
           />
           <BarChartHorizon

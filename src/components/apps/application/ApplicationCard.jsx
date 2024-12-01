@@ -12,10 +12,9 @@ import {
 import ApplicationDialog from './applicationDetail/ApplicationDialog'
 import UserInfo from './UserInfo'
 
-const ApplicationCard = ({ application }) => {
+const ApplicationCard = ({ application, refetch }) => {
   const { user } = useSelector((state) => state.authentication)
   const [open, setOpen] = React.useState(false)
-
   const CardHeader = () => (
     <div className="flex justify-between items-center mb-4 group">
       <div
@@ -34,7 +33,7 @@ const ApplicationCard = ({ application }) => {
       </div>
       {user?.isAdmin && (
         <div className="relative z-[100]">
-          <ApplicationDialog application={application} />
+          <ApplicationDialog application={application} refetch={refetch} />
         </div>
       )}
     </div>

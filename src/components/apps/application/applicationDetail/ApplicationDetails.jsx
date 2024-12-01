@@ -20,7 +20,6 @@ import { PRIORITY_STYLES, TASK_TYPE, getInitials } from '../../../../utils'
 import Loading from '../../../common/Loading'
 import ButtonElement from './../../../common/ButtonElement'
 import Title from './../../../common/Title'
-import Application from './../../../../pages/Application'
 
 const assets = [
   'https://images.pexels.com/photos/2418664/pexels-photo-2418664.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',

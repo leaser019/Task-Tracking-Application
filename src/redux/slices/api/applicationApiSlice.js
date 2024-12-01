@@ -85,8 +85,16 @@ export const applicationApiSlice = apiSlice.injectEndpoints({
     }),
     duplicateApplication: builder.mutation({
       query: (body) => ({
-        url: `${APPLICATION_URL}/duplicate/${body?._id}`,
+        url: `${APPLICATION_URL}/duplicate/${body}`,
         method: 'POST',
+        body,
+        credentials: 'include',
+      }),
+    }),
+    deleteApplication: builder.mutation({
+      query: (body) => ({
+        url: `${APPLICATION_URL}/delete/${body}`,
+        method: 'DELETE',
         body,
         credentials: 'include',
       }),
@@ -107,4 +115,5 @@ export const {
   useSearchImplementApplicationQuery,
   useSearchTestingApplicationQuery,
   useSearchProductionApplicationQuery,
+  useDeleteApplicationMutation,
 } = applicationApiSlice

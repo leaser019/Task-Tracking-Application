@@ -42,7 +42,14 @@ const BarChartVertical = ({ data }) => {
           <Tooltip
             contentStyle={{ backgroundColor: '#8884d8', color: '#fff' }}
           />
-          <Legend verticalAlign="bottom" height={36} />
+          <Legend
+            verticalAlign="bottom"
+            height={36}
+            iconType="circle"
+            iconSize={10}
+            layout="horizontal"
+            align="center"
+          />
           <CartesianGrid strokeDasharray="5 4" />
           <Bar
             name="Number Of Applications"

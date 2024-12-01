@@ -18,12 +18,15 @@ import Button from '@mui/material/Button'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { useCreateApplicationMutation } from '../../../redux/slices/api/applicationApiSlice'
 import { toast } from 'sonner'
+import dayjs from 'dayjs'
+import { storage } from '../../../firebase'
 
-const AddApplication = ({ open, setOpen }) => {
+const AddApplication = ({ application, open, setOpen }) => {
   const taskStatus = ['To Do', 'Implement', 'Testing', 'Production']
   const priorityLevel = ['Low', 'Medium', 'High']
   const [createApplication] = useCreateApplicationMutation()
-  var task = ''
+  let task = application
+
   const [team, setTeam] = React.useState(task?.team || [])
 
   const {
@@ -85,6 +88,7 @@ const AddApplication = ({ open, setOpen }) => {
                   })}
                   id="applicationTitle"
                   name="title"
+                  value={task?.title}
                   label="Application Title"
                   size="normal"
                   variant="outlined"
@@ -92,24 +96,23 @@ const AddApplication = ({ open, setOpen }) => {
                   required
                 />
               </Grid>
-              {!task && (
-                <>
-                  <Grid xs={12} className="pb-4">
-                    <TextField
-                      {...register('description', {
-                        required: 'Description Is Required',
-                      })}
-                      id="applicationDescription"
-                      name="description"
-                      label="Description"
-                      size="normal"
-                      variant="outlined"
-                      fullWidth
-                      required
-                    />
-                  </Grid>
-                </>
-              )}
+              <>
+                <Grid xs={12} className="pb-4">
+                  <TextField
+                    {...register('description', {
+                      required: 'Description Is Required',
+                    })}
+                    id="applicationDescription"
+                    name="description"
+                    label="Description"
+                    value={application?.description}
+                    size="normal"
+                    variant="outlined"
+                    fullWidth
+                    required
+                  />
+                </Grid>
+              </>
               <Grid xs={12}>
                 <Controller
                   name="teamMembers"
@@ -141,6 +144,7 @@ const AddApplication = ({ open, setOpen }) => {
                           required: 'Application Status is required',
                         })}
                         label="Application Status"
+                        value={task?.status}
                       >
                         {taskStatus.map((status) => (
                           <MenuItem key={status} value={status}>
@@ -154,7 +158,11 @@ const AddApplication = ({ open, setOpen }) => {
                     <Controller
                       name="date"
                       control={control}
-                      defaultValue={null}
+                      defaultValue={
+                        task?.createdAt
+                          ? dayjs(task.createdAt)
+                          : dayjs('2024-11-29T08:55:00.226Z')
+                      }
                       render={({ field }) => (
                         <DatePicker
                           {...field}
@@ -179,6 +187,7 @@ const AddApplication = ({ open, setOpen }) => {
                           required: 'Application Status is required',
                         })}
                         label="Application Status"
+                        value={task?.status}
                       >
                         {taskStatus.map((status) => (
                           <MenuItem key={status} value={status}>
@@ -200,6 +209,7 @@ const AddApplication = ({ open, setOpen }) => {
                       required: 'Priority Level is required',
                     })}
                     label="Priority Level"
+                    value={task?.priority}
                   >
                     {priorityLevel.map((stage) => (
                       <MenuItem key={stage} value={stage}>
@@ -250,7 +260,7 @@ const AddApplication = ({ open, setOpen }) => {
                 </Grid>
                 <Grid item xs={6}>
                   <Button variant="outlined" type="submit">
-                    Submit
+                    {task ? 'Update' : 'Create'}
                   </Button>
                 </Grid>
               </Grid>

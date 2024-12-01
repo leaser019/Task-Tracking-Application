@@ -35,6 +35,11 @@ const applicationSlice = createSlice({
     clearSearchResults: (state) => {
       state.searchResults = []
     },
+    deleteApplication: (state, action) => {
+      state.applications = state.applications.filter(
+        (app) => app._id !== action.payload
+      )
+    },
   },
 })
 
@@ -46,6 +51,7 @@ export const {
   createApplication,
   duplicateApplication,
   clearSearchResults,
+  deleteApplication,
 } = applicationSlice.actions
 
 export default applicationSlice.reducer
