@@ -6,19 +6,16 @@ const initialState = {
   implement: [],
   testing: [],
   production: [],
-  searchResults: {
-    application: [],
-    todo: [],
-    implement: [],
-    testing: [],
-    production: [],
-  },
+  searchResults: [],
 }
 
 const applicationSlice = createSlice({
   name: 'application',
   initialState,
   reducers: {
+    getAllResults: (state, action) => {
+      state.applications = action.payload
+    },
     setAllApplication: (state, action) => {
       state.applications = action.payload
     },
@@ -27,8 +24,7 @@ const applicationSlice = createSlice({
       state[type] = data
     },
     setSearchResults: (state, action) => {
-      const { type, data } = action.payload
-      state.searchResults[type] = data
+      state.searchResults = action.payload
     },
     createApplication: (state, action) => {
       state.applications.push(action.payload)
@@ -36,15 +32,26 @@ const applicationSlice = createSlice({
     duplicateApplication: (state, action) => {
       state.applications.push(action.payload)
     },
+    clearSearchResults: (state) => {
+      state.searchResults = []
+    },
+    deleteApplication: (state, action) => {
+      state.applications = state.applications.filter(
+        (app) => app._id !== action.payload
+      )
+    },
   },
 })
 
 export const {
   setAllApplication,
+  getAllResults,
   setApplications,
   setSearchResults,
   createApplication,
   duplicateApplication,
+  clearSearchResults,
+  deleteApplication,
 } = applicationSlice.actions
 
 export default applicationSlice.reducer

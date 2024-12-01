@@ -10,23 +10,51 @@ import AddApplication from '../../modal/AddApplication'
 import AddSubApplication from '../../modal/AddSubApplication'
 import ConfirmatioDialog from '../../team/Dialog'
 import Application from './../../../../pages/Application'
+import {
+  useDuplicateApplicationMutation,
+  useDeleteApplicationMutation,
+} from '../../../../redux/slices/api/applicationApiSlice'
+import { toast } from 'sonner'
+import Loading from '../../../common/Loading'
+import { useSelector } from 'react-redux'
 
-const ApplicationDialog = ({ application }) => {
+const ApplicationDialog = ({ application, refetch }) => {
   const [open, setOpen] = useState(false)
   const [openEdit, setOpenEdit] = useState(false)
   const [openDialog, setOpenDialog] = useState(false)
-
+  const [duplicateApplication] = useDuplicateApplicationMutation()
+  const [deleteApplication] = useDeleteApplicationMutation()
   const navigate = useNavigate()
+  console.log(application)
+  const duplicateHandler = async () => {
+    try {
+      await duplicateApplication(application?._id)
+      toast.success('Application duplicated successfully')
+      refetch()
+    } catch (error) {
+      toast.error(error?.message || 'Failed to duplicate application')
+    }
+  }
 
-  const duplicateHandler = () => {}
-  const deleteClicks = () => {}
-  const deleteHandler = () => {}
+  const deleteClicks = () => {
+    setOpenDialog(true)
+  }
+  const deleteHandler = async () => {
+    try {
+      await deleteApplication(application?._id)
+      toast.success('Application deleted successfully')
+      setOpenDialog(false)
+      refetch()
+    } catch (error) {
+      toast.error(error?.message || 'Failed to delete application')
+    }
+  }
 
   const items = [
     {
       label: 'Open Application',
       icon: <AiTwotoneFolderOpen className="mr-2 h-5 w-5" aria-hidden="true" />,
-      onClick: () => navigate(`/Application/${Application._id}`),
+      onClick: () => navigate(`/application/${application._id}`),
     },
     {
       label: 'Edit',
@@ -107,7 +135,7 @@ const ApplicationDialog = ({ application }) => {
       <AddApplication
         open={openEdit}
         setOpen={setOpenEdit}
-        Application={Application}
+        application={application}
         key={new Date().getTime()}
       />
 

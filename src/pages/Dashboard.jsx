@@ -17,6 +17,7 @@ import SubTitle from '../components/common/SubTitle'
 import Error from '../components/common/Error'
 import { useDispatch } from 'react-redux'
 import { setAllApplication } from '../redux/slices/applicationSlice'
+import Application from './Application'
 
 const Dashboard = () => {
   const dispatch = useDispatch()
@@ -113,6 +114,8 @@ const Dashboard = () => {
   React.useEffect(() => {
     if (statusData) {
       dispatch(setAllApplication(statusData))
+      // save local storage
+      localStorage.setItem('statusData', JSON.stringify(statusData))
     }
   }, [statusData, dispatch])
   if (isLoading) {
@@ -157,14 +160,14 @@ const Dashboard = () => {
         <div className="flex flex-row items-center justify-center">
           <div className="flex flex-col">
             <SubTitle
-              subtitle="Priority Data"
+              subtitle="Application Count By Priority Level"
               className="capitalize text-center"
             />
             <BarChartVertical data={priority_data} />
           </div>
           <div className="flex flex-col">
             <SubTitle
-              subtitle="Usage Data"
+              subtitle="Application Count By Status"
               className="capitalize text-center"
             />
             <PieChartUsage data={statusData?.untrashedStatistic?.[0]?.detail} />
@@ -172,7 +175,7 @@ const Dashboard = () => {
         </div>
         <div className="flex flex-col mt-2">
           <SubTitle
-            subtitle="Task Distribution"
+            subtitle="Application Assigned Per Team Member"
             className="capitalize text-center"
           />
           <BarChartHorizon
@@ -188,6 +191,72 @@ const Dashboard = () => {
                 todo: 2,
                 inProgress: 4,
                 completed: 6,
+              },
+              {
+                name: 'Alice Johnson',
+                todo: 7,
+                inProgress: 2,
+                completed: 5,
+              },
+              {
+                name: 'Bob Williams',
+                todo: 4,
+                inProgress: 6,
+                completed: 7,
+              },
+              {
+                name: 'Emma Brown',
+                todo: 3,
+                inProgress: 5,
+                completed: 9,
+              },
+              {
+                name: 'Charlie Davis',
+                todo: 6,
+                inProgress: 4,
+                completed: 10,
+              },
+              {
+                name: 'Sophia Wilson',
+                todo: 8,
+                inProgress: 3,
+                completed: 7,
+              },
+              {
+                name: 'Liam Martinez',
+                todo: 2,
+                inProgress: 7,
+                completed: 6,
+              },
+              {
+                name: 'Mia Garcia',
+                todo: 5,
+                inProgress: 5,
+                completed: 5,
+              },
+              {
+                name: 'Noah Lopez',
+                todo: 9,
+                inProgress: 1,
+                completed: 8,
+              },
+              {
+                name: 'Ava Clark',
+                todo: 3,
+                inProgress: 6,
+                completed: 4,
+              },
+              {
+                name: 'William Lewis',
+                todo: 7,
+                inProgress: 2,
+                completed: 9,
+              },
+              {
+                name: 'Isabella Walker',
+                todo: 4,
+                inProgress: 3,
+                completed: 8,
               },
             ]}
           />

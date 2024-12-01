@@ -1,14 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Menu } from '@headlessui/react'
-import { Transition } from '@headlessui/react'
-import { useState } from 'react'
+import { Menu, Transition } from '@headlessui/react'
 import Avatar from 'react-nice-avatar'
 import { genConfig } from 'react-nice-avatar'
 import { useNavigate } from 'react-router-dom'
-import { Profile } from 'iconsax-react'
-import { Lock } from 'iconsax-react'
-import { Logout } from 'iconsax-react'
+import { Profile, Lock, Logout } from 'iconsax-react'
 import Modal from '../../common/modal/Modal'
 import TextField from '@mui/material/TextField'
 import Grid from '@mui/material/Grid'
@@ -119,11 +115,11 @@ const UserAvatar = () => {
     reset: resetPassword,
   } = useForm()
 
-  const passwordSubmitHandler = (payload) => {
+  const passwordSubmitHandler = async (payload) => {
     if (payload.newPassword !== payload.reTypeNewPassword) {
       toast.error('New password does not match')
     } else {
-      updatePasswordHandler(payload)
+      await updatePasswordHandler(payload)
       resetPassword()
     }
   }
@@ -134,8 +130,8 @@ const UserAvatar = () => {
       <div>
         <form onSubmit={submitPassword(passwordSubmitHandler)}>
           <Modal show={openPassword} onClose={handlePassword}>
-            <div className="flex flex-row justify-center items-center text-center w-[100%] gap-2">
-              <div className="bg-white p-6 rounded-lg w-[100%] md:w-[93%] lg:w-[95%]">
+            <div className="flex flex-row justify-center items-center text-center w-full gap-2">
+              <div className="bg-white p-8 rounded-lg w-full md:w-11/12 lg:w-11/12">
                 <h1 className="text-2xl font-bold">Change Password</h1>
                 <div className="flex justify-center">
                   <Avatar className="w-20 h-20 px-1" {...config} />
@@ -144,7 +140,7 @@ const UserAvatar = () => {
                   {user?.user_name}
                 </h1>
                 <p>{user?.role}</p>
-                <div className="flex flex-row w-[100%] gap-4 py-6">
+                <div className="flex flex-row w-full gap-4 py-6">
                   <Grid container spacing={3}>
                     <Grid item xs={12}>
                       <TextField
@@ -219,8 +215,8 @@ const UserAvatar = () => {
       <div>
         <form onSubmit={submitProfile(profileSubmitHandler)}>
           <Modal show={modal} onClose={handleModal}>
-            <div className="flex flex-row justify-center items-center text-center w-[100%] gap-2">
-              <div className="bg-white p-6 rounded-lg w-[100%] md:w-[93%] lg:w-[95%]">
+            <div className="flex flex-row justify-center items-center text-center w-full gap-2">
+              <div className="bg-white p-8 rounded-lg w-full md:w-11/12 lg:w-11/12">
                 <h1 className="text-2xl font-bold">Edit Your Profile</h1>
                 <div className="flex justify-center">
                   <Avatar className="w-20 h-20 px-1" {...config} />
@@ -229,7 +225,7 @@ const UserAvatar = () => {
                   {user?.user_name}
                 </h1>
                 <p>{user?.role}</p>
-                <div className="flex flex-row w-[100%] gap-4 py-6">
+                <div className="flex flex-row w-full gap-4 py-6">
                   <Grid container spacing={3}>
                     <Grid item xs={12}>
                       <TextField
@@ -311,14 +307,16 @@ const UserAvatar = () => {
         </form>
       </div>
       {/* Main User Avatar Component */}
-      <Menu as="div" className="relative inline-block text-left pl-5">
+      <Menu as="div" className="relative inline-block text-left pr-2">
         <div>
-          <Menu.Button className="inline-flex w-full justify-center rounded-md bg-[#0084ff] px-2 py-2 text-sm font-medium text-white hover:bg-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
-            <div className="flex flex-col font-semibold hidden md:block">
-              <h5>{user?.user_name}</h5>
-              <p>{user?.role}</p>
+          <Menu.Button className="flex items-center p-2 border border-gray-200 rounded-full bg-white shadow-sm px-2">
+            <div className="hidden md:flex flex-col font-semibold mr-2">
+              <h5 className="text-base font-medium text-gray-900">
+                {user?.user_name}
+              </h5>
+              <p className="text-xs text-gray-500">{user?.role}</p>
             </div>
-            <Avatar className="w-8 h-8 px-1" {...config} />
+            <Avatar className="w-8 h-8" {...config} />
           </Menu.Button>
         </div>
         <Transition
@@ -335,9 +333,7 @@ const UserAvatar = () => {
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    onClick={() => {
-                      handleModal()
-                    }}
+                    onClick={handleModal}
                     className="text-gray-700 group flex w-full items-center rounded-md px-2 py-2 text-base"
                   >
                     <Profile size="25" color="#374151" className="pr-2" />
@@ -349,10 +345,8 @@ const UserAvatar = () => {
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    onClick={() => {
-                      handlePassword()
-                    }}
-                    className={`text-gray-700 group flex w-full items-center rounded-md px-2 py-2 text-base`}
+                    onClick={handlePassword}
+                    className="text-gray-700 group flex w-full items-center rounded-md px-2 py-2 text-base"
                   >
                     <Lock size="25" color="#374151" className="pr-2" />
                     Change Password
@@ -364,7 +358,7 @@ const UserAvatar = () => {
                 {({ active }) => (
                   <button
                     onClick={logoutHandler}
-                    className={`text-red-600 group flex w-full items-center rounded-md px-2 py-2 text-base`}
+                    className="text-red-600 group flex w-full items-center rounded-md px-2 py-2 text-base"
                   >
                     <Logout size="25" color="#dc2626" className="pr-2" />
                     Logout

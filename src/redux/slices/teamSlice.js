@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   teams: [],
+  searchResults: [],
 }
 const teamSlice = createSlice({
   name: 'team',
@@ -36,6 +37,12 @@ const teamSlice = createSlice({
     deleteTeam: (state, action) => {
       state.teams = state.teams.filter((team) => team.id !== action.payload)
     },
+    searchResult: (state, action) => {
+      state.searchResults = action.payload
+    },
+    cleanTeamSearch: (state) => {
+      state.searchResults = []
+    },
   },
 })
 
@@ -47,6 +54,8 @@ export const {
   removeTeam,
   updateUsers,
   deleteTeam,
+  searchResult,
+  cleanTeamSearch,
 } = teamSlice.actions
 
 export default teamSlice.reducer

@@ -44,6 +44,13 @@ export const teamApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Users'],
     }),
+    searchTeams: builder.query({
+      query: (searchTerm) => ({
+        url: `${TEAM_URL}/search/${searchTerm}`,
+        method: 'GET',
+        credentials: 'include',
+      }),
+    }),
   }),
 })
 
@@ -53,4 +60,5 @@ export const {
   useActiveAccountMutation,
   useUpdateUsersMutation,
   useDeleteUserForeverMutation,
+  useSearchTeamsQuery,
 } = teamApiSlice

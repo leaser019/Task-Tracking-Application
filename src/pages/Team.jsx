@@ -18,9 +18,11 @@ import {
 } from '../redux/slices/api/teamApiSlice'
 import { toast } from 'sonner'
 import Loading from './../components/common/Loading'
+import { useSelector } from 'react-redux'
 
 const Team = () => {
   const dispatch = useDispatch()
+  const searchResults = useSelector((state) => state.team.searchResults)
   const [openDialog, setOpenDialog] = React.useState(false)
   const [open, setOpen] = React.useState(false)
   const [openAction, setOpenAction] = React.useState(false)
@@ -29,6 +31,8 @@ const Team = () => {
   const [deleteUser] = useDeleteUserMutation()
   const [activeAccount] = useActiveAccountMutation()
   const [deleteTeam] = useDeleteUserForeverMutation()
+
+  const displayedTeam = searchResults.length > 0 ? searchResults : users
 
   const userActionHandler = () => {}
 
@@ -212,7 +216,7 @@ const Team = () => {
                     </td>
                   </tr>
                 ) : (
-                  users?.map((user, index) => (
+                  displayedTeam?.map((user, index) => (
                     <TableRow key={index} user={user} />
                   ))
                 )}
