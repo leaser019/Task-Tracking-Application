@@ -44,7 +44,6 @@ const BarChartHorizon = ({ data }) => {
           top: 20,
           right: 20,
           bottom: 20,
-          left: 20,
         }}
       >
         <defs>
@@ -67,8 +66,8 @@ const BarChartHorizon = ({ data }) => {
           dataKey="name"
           type="category"
           scale="band"
-          width={80}
-          tick={{ fill: '#666' }}
+          width={150}
+          tick={{ fill: '#666', fontSize: 12 }}
         />
         <Tooltip content={<CustomTooltip />} />
         <Legend />
