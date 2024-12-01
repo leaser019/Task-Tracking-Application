@@ -14,6 +14,7 @@ import {
   useSearchProductionApplicationQuery,
 } from '../../redux/slices/api/applicationApiSlice'
 import { useForm } from 'react-hook-form'
+import { clearSearchResults } from '../../redux/slices/applicationSlice'
 
 const NavBar = () => {
   const { user } = useSelector((state) => state.authentication)
@@ -60,6 +61,10 @@ const NavBar = () => {
     }
   }, [searchResults, dispatch, searchTerm, searchType])
 
+  useEffect(() => {
+    dispatch(clearSearchResults())
+  }, [dispatch, location])
+
   return (
     <div className="flex justify-between items-center bg-white px-4 py-3 2xl:py-4 sticky z-10 top-0 shadow-md shadow-gray-200/50">
       <div className="flex gap-4">
@@ -73,21 +78,22 @@ const NavBar = () => {
           location.pathname !== '/team' &&
           location.pathname !== '/trash' && (
             <form
-              className="sm:w-30 w-[500px] 2xl:w-[400px] flex items-center py-2 px-3 gap-2 rounded-full bg-[#f3f4f6]"
+              className="items-center focus:bg-white focus:border focus:border-gray-300 sm:w-30 w-[500px] 2xl:w-[400px] flex items-center py-2 px-3 gap-2 rounded-full bg-[#f3f4f6] focus:ring focus:ring-gray-200"
               onSubmit={handleSubmit(onSubmit)}
             >
               <SearchNormal1 size="25" color="#555555" />
               <input
-                className="w-[350px] sm:w-25 2xl:w-[300px] outline-none bg-transparent placeholder:#555555"
+                className=" w-[370px] sm:w-25 2xl:w-[300px] outline-none bg-transparent placeholder-gray-500 px-2 py-1 rounded-full  "
                 type="text"
                 placeholder="Search for anything..."
                 {...register('searchTerm')}
               />
               <select
                 {...register('searchType')}
-                className="outline-none bg-transparent"
+                className="outline-none bg-transparent border-none text-gray-700   focus:ring focus:ring-opacity-50"
                 value={searchType}
                 onChange={(e) => setSearchType(e.target.value)}
+                disabled
               >
                 <option value="application">Application</option>
                 <option value="todo">To Do</option>

@@ -100,7 +100,7 @@ const Application = ({ status: appStatus = '' }) => {
   React.useEffect(() => {
     if (prevAppStatus !== appStatus) {
       setPrevAppStatus(appStatus)
-      queryGetAll.refetch()
+      //   queryGetAll.refetch()
     }
   }, [appStatus, prevAppStatus, queryGetAll])
 
