@@ -119,11 +119,14 @@ const UserAvatar = () => {
     reset: resetPassword,
   } = useForm()
 
-  const passwordSubmitHandler = (payload) => {
+  const passwordSubmitHandler = async (payload) => {
     if (payload.newPassword !== payload.reTypeNewPassword) {
       toast.error('New password does not match')
     } else {
-      updatePasswordHandler(payload)
+      await updatePasswordHandler({
+        oldPassword: payload.oldPassword,
+        newPassword: payload.newPassword,
+      })
       resetPassword()
     }
   }

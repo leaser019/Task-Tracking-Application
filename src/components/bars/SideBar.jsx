@@ -107,7 +107,7 @@ const SideBar = () => {
         </div>
         <span
           className={clsx(
-            'ml-3 font-medium text-base transition-colors duration-200',
+            'ml-3 font-medium text-base transition-colors duration-200 hidden md:flex',
             path === element.link.split('/')[0] ? 'text-white' : 'text-gray-700'
           )}
         >

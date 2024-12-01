@@ -9,7 +9,7 @@ import {
 import Loading from './Loading'
 import { useGetAllUsersQuery } from '../../redux/slices/api/teamApiSlice'
 
-const UserList = ({ value, onChange, team, setTeam, fullWidth }) => {
+const UserList = ({ value, onChange, team, setTeam, fullWidth, ...field }) => {
   const { data, isLoading } = useGetAllUsersQuery()
   const [selectUser, setSelectUser] = React.useState(value)
 
@@ -39,12 +39,13 @@ const UserList = ({ value, onChange, team, setTeam, fullWidth }) => {
       <Select
         labelId="assign-to"
         id="assign-to"
-        name="assign"
+        name="teamMembers"
         fullWidth={fullWidth}
         multiple
         value={selectUser}
         onChange={handleChange}
         input={<OutlinedInput label="Assign To" />}
+        {...field}
       >
         {data.map((user) => (
           <MenuItem key={user.id} value={user}>

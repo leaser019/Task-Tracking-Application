@@ -10,7 +10,6 @@ import Login from './pages/Login'
 import Team from './pages/Team'
 import { Toaster } from 'sonner'
 import Application from './pages/Application'
-import UserDetail from './pages/UserDetail'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { useRef } from 'react'
@@ -83,7 +82,7 @@ const Layout = () => {
   return location.pathname != '/contact' ? (
     user ? (
       <div className="w-full h-screen flex flex-col md:flex-row">
-        <div className="w-1/5 h-screen bg-white sticky top-0 hidden md:block shadow-lg rounded-tr-lg">
+        <div className="w-1/5 h-screen bg-white sticky top-0 md:block shadow-lg rounded-tr-lg">
           <SideBar />
         </div>
         <MobileSideBar />
@@ -126,7 +125,6 @@ function App() {
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/user/:id" element={<UserDetail />} />
       </Routes>
       <Toaster richColors />
     </div>

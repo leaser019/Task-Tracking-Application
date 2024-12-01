@@ -93,17 +93,13 @@ const ApplicationCard = ({ application }) => {
         <div
           key={index}
           className={clsx(
-            // Base styles
             'w-8 h-8 rounded-full -ml-2',
             'border-2 border-white',
             'flex items-center justify-center',
-            // Hover effects
             'transform transition-all duration-200',
             'hover:scale-110 hover:border-blue-200',
             'hover:shadow-lg hover:z-[2]',
-            // Text styles
             'text-white text-sm font-medium',
-            // Background color
             BGS[index % BGS?.length]
           )}
         >

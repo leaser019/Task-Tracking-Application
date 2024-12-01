@@ -20,7 +20,7 @@ import { useCreateApplicationMutation } from '../../../redux/slices/api/applicat
 import { toast } from 'sonner'
 
 const AddApplication = ({ open, setOpen }) => {
-  const taskStatus = ['To Do', 'Implementing', 'Testing', 'Production']
+  const taskStatus = ['To Do', 'Implement', 'Testing', 'Production']
   const priorityLevel = ['Low', 'Medium', 'High']
   const [createApplication] = useCreateApplicationMutation()
   var task = ''
@@ -31,7 +31,11 @@ const AddApplication = ({ open, setOpen }) => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm()
+  } = useForm({
+    defaultValues: {
+      teamMembers: [],
+    },
+  })
   const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
     clipPath: 'inset(50%)',
@@ -43,9 +47,9 @@ const AddApplication = ({ open, setOpen }) => {
     whiteSpace: 'nowrap',
     width: 1,
   })
-  const submitHandler = (payload) => {
+  const submitHandler = async (payload) => {
     try {
-      createApplication({ ...payload, description: 'Not Have' })
+      await createApplication(payload)
       setOpen(false)
       toast.success('Application created successfully')
     } catch (error) {
@@ -88,9 +92,27 @@ const AddApplication = ({ open, setOpen }) => {
                   required
                 />
               </Grid>
+              {!task && (
+                <>
+                  <Grid xs={12} className="pb-4">
+                    <TextField
+                      {...register('description', {
+                        required: 'Description Is Required',
+                      })}
+                      id="applicationDescription"
+                      name="description"
+                      label="Description"
+                      size="normal"
+                      variant="outlined"
+                      fullWidth
+                      required
+                    />
+                  </Grid>
+                </>
+              )}
               <Grid xs={12}>
                 <Controller
-                  name="assign"
+                  name="teamMembers"
                   fullWidth
                   control={control}
                   defaultValue={[]}
@@ -100,46 +122,75 @@ const AddApplication = ({ open, setOpen }) => {
                       team={team}
                       setTeam={setTeam}
                       fullWidth
+                      {...register('teamMembers')}
                     />
                   )}
                 />
               </Grid>
-              <Grid xs={5} className="py-4 mr-8">
-                <FormControl fullWidth>
-                  <InputLabel id="application-Status">
-                    Application Status
-                  </InputLabel>
-                  <Select
-                    labelId="application-status"
-                    id="application-status"
-                    {...register('status', {
-                      required: 'Application Status is required',
-                    })}
-                    label="Application Status"
-                  >
-                    {taskStatus.map((status) => (
-                      <MenuItem key={status} value={status}>
-                        {status}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid xs={6} className="py-4">
-                <Controller
-                  name="date"
-                  control={control}
-                  defaultValue={null}
-                  render={({ field }) => (
-                    <DatePicker
-                      {...field}
-                      label="Application Date"
-                      renderInput={(params) => <TextField {...params} />}
+              {task ? (
+                <>
+                  <Grid xs={5} className="py-4 mr-8">
+                    <FormControl fullWidth>
+                      <InputLabel id="application-Status">
+                        Application Status
+                      </InputLabel>
+                      <Select
+                        labelId="application-status"
+                        id="application-status"
+                        {...register('status', {
+                          required: 'Application Status is required',
+                        })}
+                        label="Application Status"
+                      >
+                        {taskStatus.map((status) => (
+                          <MenuItem key={status} value={status}>
+                            {status}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid xs={6} className="py-4">
+                    <Controller
+                      name="date"
+                      control={control}
+                      defaultValue={null}
+                      render={({ field }) => (
+                        <DatePicker
+                          {...field}
+                          label="Application Date"
+                          renderInput={(params) => <TextField {...params} />}
+                        />
+                      )}
                     />
-                  )}
-                />
-              </Grid>
-              <Grid xs={5} className="py-4 mr-8">
+                  </Grid>
+                </>
+              ) : (
+                <>
+                  <Grid xs={12} className="py-4">
+                    <FormControl fullWidth>
+                      <InputLabel id="application-Status">
+                        Application Status
+                      </InputLabel>
+                      <Select
+                        labelId="application-status"
+                        id="application-status"
+                        {...register('status', {
+                          required: 'Application Status is required',
+                        })}
+                        label="Application Status"
+                      >
+                        {taskStatus.map((status) => (
+                          <MenuItem key={status} value={status}>
+                            {status}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </>
+              )}
+              <Grid xs={5} className="pb-4 mr-8">
                 <FormControl fullWidth>
                   <InputLabel id="priority-level">Priority Level</InputLabel>
                   <Select
@@ -158,7 +209,7 @@ const AddApplication = ({ open, setOpen }) => {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid xs={6} className="py-2 mt-5">
+              <Grid xs={6} className="pb-1  mt-3">
                 <Controller
                   name="assets"
                   control={control}

@@ -21,10 +21,17 @@ import {
 } from '../redux/slices/api/applicationApiSlice'
 import Error from '../components/common/Error'
 import { useSelector } from 'react-redux'
-import { useGetStatusQuery } from '../redux/slices/api/dashboardApiSlice'
+import { useDispatch } from 'react-redux'
+import {
+  clearSearchResults,
+  getAllResults,
+} from '../redux/slices/applicationSlice'
 
 const Application = ({ status: appStatus = '' }) => {
   const priority = useSelector((state) => state.application)
+  const searchResults = useSelector((state) => state.application.searchResults)
+  const [prevAppStatus, setPrevAppStatus] = useState(appStatus)
+  const dispatch = useDispatch()
   const stage = appStatus || ''
   const queryGetAllTodo = useGetAllTodoQuery()
   const queryGetAllImplement = useGetAllImplementQuery()
@@ -53,6 +60,7 @@ const Application = ({ status: appStatus = '' }) => {
     default:
       queryGetAll = queryGetAllApplication
   }
+
   const { data: applications, isLoading, isError } = queryGetAll
   const Tab = [
     {
@@ -72,7 +80,6 @@ const Application = ({ status: appStatus = '' }) => {
     qaqc: 'bg-purple-600',
     production: 'bg-green-600',
   }
-  console.log(priority?.applications?.untrashedStatistic)
   const params = useParams()
   const status = params?.status || ''
   const [selected, setSelected] = useState(0)
@@ -84,7 +91,25 @@ const Application = ({ status: appStatus = '' }) => {
       '0'
     )
   }
+  const displayedApplications =
+    searchResults.length > 0
+      ? searchResults
+      : applications?.applications || applications
+  console.log(displayedApplications)
 
+  React.useEffect(() => {
+    if (prevAppStatus !== appStatus) {
+      setPrevAppStatus(appStatus)
+      queryGetAll.refetch()
+    }
+  }, [appStatus, prevAppStatus, queryGetAll])
+
+  React.useEffect(() => {
+    if (appStatus !== prevAppStatus) {
+      dispatch(clearSearchResults())
+      dispatch(getAllResults())
+    }
+  }, [appStatus, prevAppStatus, dispatch])
   return isLoading ? (
     <div className="flex justify-center items-center h-screen">
       <Loading />
@@ -126,26 +151,22 @@ const Application = ({ status: appStatus = '' }) => {
               <TaskTitle
                 label="QA/QC"
                 className={ApplicationType.qaqc}
-                number={getCount(0)}
+                number={getCount(3)}
               />
               <TaskTitle
                 label="Production"
                 className={ApplicationType.production}
-                number={getCount(3)}
+                number={getCount(0)}
               />
             </div>
           )}
           {selected === 0 ? (
             <div>
-              <BoardView
-                applications={applications?.applications || applications}
-              />
+              <BoardView applications={displayedApplications} />
             </div>
           ) : (
             <div>
-              <ListView
-                applications={applications?.applications || applications}
-              />
+              <ListView applications={displayedApplications} />
             </div>
           )}
         </Tabs>
