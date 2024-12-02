@@ -10,22 +10,19 @@ import i18n from './translation/i18n'
 import { I18nextProvider } from 'react-i18next'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { SpeedInsights } from '@vercel/speed-insights/react'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
-    <SpeedInsights>
-      <I18nextProvider i18n={i18n}>
-        <Provider store={store}>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </LocalizationProvider>
-        </Provider>
-      </I18nextProvider>
-    </SpeedInsights>
+    <I18nextProvider i18n={i18n}>
+      <Provider store={store}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </LocalizationProvider>
+      </Provider>
+    </I18nextProvider>
   </React.StrictMode>
 )
 
