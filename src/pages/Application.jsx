@@ -93,7 +93,6 @@ const Application = ({ status: appStatus = '' }) => {
     searchResults.length > 0
       ? searchResults
       : applications?.applications || applications
-  console.log(displayedApplications)
 
   React.useEffect(() => {
     if (prevAppStatus !== appStatus) {
@@ -160,11 +159,17 @@ const Application = ({ status: appStatus = '' }) => {
           )}
           {selected === 0 ? (
             <div>
-              <BoardView applications={displayedApplications} refetch={refetch} />
+              <BoardView
+                applications={displayedApplications}
+                refetch={refetch}
+              />
             </div>
           ) : (
             <div>
-              <ListView applications={displayedApplications} />
+              <ListView
+                applications={displayedApplications}
+                refetch={refetch}
+              />
             </div>
           )}
         </Tabs>

@@ -4,18 +4,33 @@ import { Button } from '@mui/material'
 import { TiDelete } from 'react-icons/ti'
 import { GrPowerReset } from 'react-icons/gr'
 import TableHeader from '../components/common/table/TableHeader'
-import { tasks as applications } from '../assets/data'
 import TableRow from '../components/common/table/TableRow'
 import clsx from 'clsx'
 import ButtonElement from '../components/common/ButtonElement'
+import { useGetAllTrashApplicationQuery } from '../redux/slices/api/applicationApiSlice'
+import Loading from '../components/common/Loading'
+import Error from '../components/common/Error'
 
 const Trash = () => {
   const [open, setOpen] = React.useState(false)
   const [openDialog, setOpenDialog] = React.useState(false)
   const [action, setAction] = React.useState(false)
   const [selected, setSelected] = React.useState(null)
-
-  return (
+  const {
+    data: applications,
+    isLoading,
+    isError,
+    refetch,
+  } = useGetAllTrashApplicationQuery()
+  return isLoading ? (
+    <div className="flex justify-center items-center h-screen">
+      <Loading />
+    </div>
+  ) : isError ? (
+    <>
+      <Error />
+    </>
+  ) : (
     <>
       <div className="w-full md:px-2 px-0 mb-6">
         <div className="flex item-center justify-between mb-8">
@@ -54,8 +69,12 @@ const Trash = () => {
           <table className="w-full">
             <TableHeader />
             <tbody className="w-full">
-              {applications.map((application, index) => (
-                <TableRow key={index} application={application} />
+              {applications.map((application) => (
+                <TableRow
+                  key={application?._id}
+                  application={application}
+                  refetch={refetch}
+                />
               ))}
             </tbody>
           </table>
