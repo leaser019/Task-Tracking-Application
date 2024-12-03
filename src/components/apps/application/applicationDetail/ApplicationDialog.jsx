@@ -45,6 +45,7 @@ const ApplicationDialog = ({ application, refetch }) => {
       setOpenDialog(false)
       refetch()
     } catch (error) {
+      setOpenDialog(false)
       toast.error(error?.message || 'Failed to delete application')
     }
   }
