@@ -85,7 +85,7 @@ const NavBar = () => {
     <div className="flex justify-between items-center bg-white px-4 py-3 2xl:py-4 sticky z-10 top-0 shadow-md shadow-gray-200/50">
       <div className="flex gap-4">
         <button
-          className="text-2xl text-gray-500 block md:hidden"
+          className="text-2xl text-gray-500 block md:hidden "
           onClick={() => dispatch(setSlideBarOpen(true))}
         >
           <Menu size="32" color="#555555" />

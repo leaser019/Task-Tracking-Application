@@ -1,10 +1,10 @@
 import React from 'react'
 import ApplicationTable from './ApplicationTable'
 
-const ListView = ({ applications }) => {
+const ListView = ({ applications, refetch }) => {
   return (
     <>
-      <ApplicationTable applications={applications} />
+      <ApplicationTable applications={applications} refetch={refetch} />
     </>
   )
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import TableHeader from '../../common/table/TableHeader'
 import TableRow from '../../common/table/TableRow'
 
-const ApplicationTable = ({ applications }) => {
+const ApplicationTable = ({ applications, refetch }) => {
   const TableHeaderContent = React.useCallback(
     () => (
       <>
@@ -14,8 +14,13 @@ const ApplicationTable = ({ applications }) => {
   const TableRowContent = React.useCallback(
     () => (
       <>
-        {applications.map((application, index) => (
-          <TableRow key={index} application={application} show="list-view" />
+        {applications.map((application) => (
+          <TableRow
+            key={application?._id}
+            application={application}
+            show="list-view"
+            refetch={refetch}
+          />
         ))}
       </>
     ),

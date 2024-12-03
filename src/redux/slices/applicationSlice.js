@@ -6,6 +6,7 @@ const initialState = {
   implement: [],
   testing: [],
   production: [],
+  trash: [],
   searchResults: [],
 }
 

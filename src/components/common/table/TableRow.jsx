@@ -13,10 +13,23 @@ import {
 } from '../../../utils'
 import ButtonElement from '../../common/ButtonElement'
 import UserInfo from '../../apps/application/UserInfo'
+import {
+  useRestoreTrashApplicationMutation,
+  useDeleteApplicationForRealMutation,
+  useMakeTrashApplicationMutation,
+} from '../../../redux/slices/api/applicationApiSlice'
+import AddApplication from '../../apps/modal/AddApplication'
+import { toast } from 'sonner'
+import { useLocation } from 'react-router-dom'
 
-const TableRow = ({ application, show = '' }) => {
-  const [openDialog, setOpenDialog] = React.useState(false)
+const TableRow = ({ application, show = '', refetch }) => {
+  const location = useLocation()
+  console.log(location)
+  const [openEditDialog, setOpenEditDialog] = React.useState(false)
   const [selected, setSelected] = React.useState(null)
+  const [restoreApplication] = useRestoreTrashApplicationMutation()
+  const [deleteApplication] = useDeleteApplicationForRealMutation()
+  const [makeTrashApplication] = useMakeTrashApplicationMutation()
 
   const StatIcon = ({ icon, count }) => (
     <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50">
@@ -25,6 +38,33 @@ const TableRow = ({ application, show = '' }) => {
     </div>
   )
 
+  const handleRestoreApplication = async () => {
+    try {
+      await restoreApplication(application?.title)
+      toast.success('Application restored successfully')
+      refetch()
+    } catch (error) {
+      toast.error(error?.message || 'Failed to restore application')
+    }
+  }
+  const handleDeleteApplicationTrash = async () => {
+    try {
+      await deleteApplication(application?._id)
+      toast.success('Application deleted successfully')
+      refetch()
+    } catch (error) {
+      toast.error(error?.message || 'Failed to restore application')
+    }
+  }
+  const handleDeleteApplication = async () => {
+    try {
+      await makeTrashApplication(application?.title)
+      toast.success('Application moved to trash successfully')
+      refetch()
+    } catch (error) {
+      toast.error(error?.message || 'Failed to delete application')
+    }
+  }
   const TeamMembers = ({ team }) => (
     <div className="relative flex flex-row-reverse" style={{ zIndex: 1 }}>
       {team?.map((member, index) => (
@@ -68,92 +108,106 @@ const TableRow = ({ application, show = '' }) => {
   )
 
   return (
-    <tr className="border-b border-gray-100">
-      <td className="py-4 pl-6">
-        <div className="flex items-center gap-3">
+    <>
+      <AddApplication
+        open={openEditDialog}
+        setOpen={setOpenEditDialog}
+        application={application}
+        key={new Date().getTime()}
+      />
+      <tr className="border-b border-gray-100">
+        <td className="py-4 pl-6">
+          <div className="flex items-center gap-3">
+            <div
+              className={clsx(
+                'w-3 h-3 rounded-full',
+                TASK_TYPE[application?.status]
+              )}
+            />
+            <p className="text-base font-medium text-gray-800 line-clamp-2">
+              {application?.title}
+            </p>
+          </div>
+        </td>
+
+        <td className="py-4">
           <div
             className={clsx(
-              'w-3 h-3 rounded-full',
-              TASK_TYPE[application?.status]
+              'flex items-center gap-2 px-3 py-1.5 rounded-full',
+              PRIORITY_STYLES[application?.priority]
             )}
-          />
-          <p className="text-base font-medium text-gray-800 line-clamp-2">
-            {application?.title}
-          </p>
-        </div>
-      </td>
+          >
+            <span className="text-xl">{ICONS[application?.priority]}</span>
+            <span className="text-sm font-medium capitalize">
+              {application?.priority} Priority
+            </span>
+          </div>
+        </td>
 
-      <td className="py-4">
-        <div
-          className={clsx(
-            'flex items-center gap-2 px-3 py-1.5 rounded-full',
-            PRIORITY_STYLES[application?.priority]
-          )}
-        >
-          <span className="text-xl">{ICONS[application?.priority]}</span>
-          <span className="text-sm font-medium capitalize">
-            {application?.priority} Priority
+        <td className="py-4">
+          <span className="text-sm font-medium text-gray-600 px-3 py-1.5 rounded-lg bg-gray-50">
+            {formatDate(new Date(application?.createdAt))}
           </span>
-        </div>
-      </td>
+        </td>
 
-      <td className="py-4">
-        <span className="text-sm font-medium text-gray-600 px-3 py-1.5 rounded-lg bg-gray-50">
-          {formatDate(new Date(application?.createdAt))}
-        </span>
-      </td>
-
-      <td className="py-4">
-        <div className="flex items-center gap-4">
-          <StatIcon
-            icon={<Message size="18" color="#4B5563" />}
-            count={application?.activities?.length}
-          />
-          <StatIcon
-            icon={<AttachSquare size="18" color="#4B5563" />}
-            count={application?.assets?.length}
-          />
-          <StatIcon
-            icon={<Chart2 size="18" color="#4B5563" />}
-            count={`0/${application?.tasks?.length}`}
-          />
-        </div>
-      </td>
-
-      <td className="py-4">
-        <div className="flex -space-x-2">
-          <TeamMembers team={application?.teamMembers} />
-        </div>
-      </td>
-
-      <td className="py-4 pr-6">
-        <div className="flex items-center justify-end gap-3">
-          {show === 'list-view' ? (
-            <ButtonElement
-              className="px-4 py-2 rounded-lg bg-blue-50 text-blue-600 flex items-center gap-2"
-              icon={<BiMessageSquareEdit size="18" />}
-              label="Edit"
-              type="button"
+        <td className="py-4">
+          <div className="flex items-center gap-4">
+            <StatIcon
+              icon={<Message size="18" color="#4B5563" />}
+              count={application?.activities?.length}
             />
-          ) : (
-            <ButtonElement
-              className="px-4 py-2 rounded-lg bg-green-50 text-green-600 flex items-center gap-2"
-              icon={<GrPowerReset size="18" />}
-              label="Restore"
-              type="button"
+            <StatIcon
+              icon={<AttachSquare size="18" color="#4B5563" />}
+              count={application?.assets?.length}
             />
-          )}
+            <StatIcon
+              icon={<Chart2 size="18" color="#4B5563" />}
+              count={`0/${application?.tasks?.length}`}
+            />
+          </div>
+        </td>
 
-          <ButtonElement
-            className="px-4 py-2 rounded-lg bg-red-50 text-red-600 flex items-center gap-2"
-            icon={<TiDelete size="18" />}
-            label="Delete"
-            type="button"
-            onClick={() => {}}
-          />
-        </div>
-      </td>
-    </tr>
+        <td className="py-4">
+          <div className="flex -space-x-2">
+            <TeamMembers team={application?.teamMembers} />
+          </div>
+        </td>
+
+        <td className="py-4 pr-6">
+          <div className="flex items-center justify-end gap-3">
+            {show === 'list-view' ? (
+              <ButtonElement
+                className="px-4 py-2 rounded-lg bg-blue-50 text-blue-600 flex items-center gap-2"
+                icon={<BiMessageSquareEdit size="18" />}
+                label="Edit"
+                type="button"
+                onClick={() => setOpenEditDialog(true)}
+              />
+            ) : (
+              <ButtonElement
+                className="px-4 py-2 rounded-lg bg-green-50 text-green-600 flex items-center gap-2"
+                icon={<GrPowerReset size="18" />}
+                label="Restore"
+                type="button"
+                onClick={() => handleRestoreApplication()}
+              />
+            )}
+
+            <ButtonElement
+              className="px-4 py-2 rounded-lg bg-red-50 text-red-600 flex items-center gap-2"
+              icon={<TiDelete size="18" />}
+              label="Delete"
+              type="button"
+              onClick={() =>
+                location.pathname.includes('/trash')
+                  ? handleDeleteApplicationTrash()
+                  : handleDeleteApplication()
+              }
+            />
+          </div>
+        </td>
+      </tr>
+    </>
   )
 }
 

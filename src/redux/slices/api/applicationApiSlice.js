@@ -91,13 +91,39 @@ export const applicationApiSlice = apiSlice.injectEndpoints({
         credentials: 'include',
       }),
     }),
-    deleteApplication: builder.mutation({
+    makeTrashApplication: builder.mutation({
+      query: (body) => ({
+        url: `${APPLICATION_URL}/trash/${body}`,
+        method: 'PUT',
+        body,
+        credentials: 'include',
+      }),
+    }),
+    getAllTrashApplication: builder.query({
+      query: () => ({
+        url: `${APPLICATION_URL}/get-trashed-app`,
+        method: 'GET',
+        credentials: 'include',
+      }),
+    }),
+    restoreTrashApplication: builder.mutation({
+      query: (body) => ({
+        url: `${APPLICATION_URL}/restore/${body}`,
+        method: 'PUT',
+        body,
+        credentials: 'include',
+      }),
+    }),
+    deleteApplicationForReal: builder.mutation({
       query: (body) => ({
         url: `${APPLICATION_URL}/delete/${body}`,
         method: 'DELETE',
         body,
         credentials: 'include',
       }),
+      //   onQueryStarted: (body, { dispatch, queryFulfilled }) => {
+      //     dispatch(deleteApplication(body))
+      //   },
     }),
   }),
 })
@@ -115,5 +141,8 @@ export const {
   useSearchImplementApplicationQuery,
   useSearchTestingApplicationQuery,
   useSearchProductionApplicationQuery,
-  useDeleteApplicationMutation,
+  useMakeTrashApplicationMutation,
+  useGetAllTrashApplicationQuery,
+  useRestoreTrashApplicationMutation,
+  useDeleteApplicationForRealMutation,
 } = applicationApiSlice

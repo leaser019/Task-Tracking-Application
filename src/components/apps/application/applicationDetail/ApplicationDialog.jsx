@@ -9,10 +9,9 @@ import { Menu, Transition } from '@headlessui/react'
 import AddApplication from '../../modal/AddApplication'
 import AddSubApplication from '../../modal/AddSubApplication'
 import ConfirmatioDialog from '../../team/Dialog'
-import Application from './../../../../pages/Application'
 import {
   useDuplicateApplicationMutation,
-  useDeleteApplicationMutation,
+  useMakeTrashApplicationMutation,
 } from '../../../../redux/slices/api/applicationApiSlice'
 import { toast } from 'sonner'
 import Loading from '../../../common/Loading'
@@ -23,9 +22,9 @@ const ApplicationDialog = ({ application, refetch }) => {
   const [openEdit, setOpenEdit] = useState(false)
   const [openDialog, setOpenDialog] = useState(false)
   const [duplicateApplication] = useDuplicateApplicationMutation()
-  const [deleteApplication] = useDeleteApplicationMutation()
+  const [deleteApplication] = useMakeTrashApplicationMutation()
   const navigate = useNavigate()
-  console.log(application)
+
   const duplicateHandler = async () => {
     try {
       await duplicateApplication(application?._id)
@@ -41,7 +40,7 @@ const ApplicationDialog = ({ application, refetch }) => {
   }
   const deleteHandler = async () => {
     try {
-      await deleteApplication(application?._id)
+      await deleteApplication(application?.title)
       toast.success('Application deleted successfully')
       setOpenDialog(false)
       refetch()

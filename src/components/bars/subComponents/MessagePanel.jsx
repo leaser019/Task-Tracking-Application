@@ -3,7 +3,7 @@ import { FiMessageCircle } from 'react-icons/fi'
 
 const MessagePanel = () => {
   return (
-    <div className="flex items-center p-2 border border-gray-200 rounded-full bg-white shadow-sm">
+    <div className="flex items-center p-2 border border-gray-200 rounded-xl bg-white shadow-sm">
       <i className="mr-2">
         <FiMessageCircle size="24" color="#1877F2" />
       </i>
