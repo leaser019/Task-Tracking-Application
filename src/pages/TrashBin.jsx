@@ -35,7 +35,7 @@ const Trash = () => {
       <div className="w-full md:px-2 px-0 mb-6">
         <div className="flex item-center justify-between mb-8">
           <Title title="Deleted Application" />
-          <div className="button flex flex-row">
+          {/* <div className="button flex flex-row">
             <ButtonElement
               className={clsx(
                 'px-4 py-2 rounded-lg',
@@ -63,7 +63,7 @@ const Trash = () => {
               type="button"
               onClick={() => {}}
             />
-          </div>
+          </div> */}
         </div>
         <div className="overflow-x-auto px-2 py-2">
           <table className="w-full">
