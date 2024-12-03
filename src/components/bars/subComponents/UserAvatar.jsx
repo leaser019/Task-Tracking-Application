@@ -309,7 +309,7 @@ const UserAvatar = () => {
       {/* Main User Avatar Component */}
       <Menu as="div" className="relative inline-block text-left pr-2">
         <div>
-          <Menu.Button className="flex items-center p-2 border border-gray-200 rounded-full bg-white shadow-sm px-2">
+          <Menu.Button className="flex items-center p-2 border border-gray-200 rounded-xl bg-white shadow-sm px-2">
             <div className="hidden md:flex flex-col font-semibold mr-2">
               <h5 className="text-base font-medium text-gray-900">
                 {user?.user_name}
