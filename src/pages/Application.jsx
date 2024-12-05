@@ -107,6 +107,11 @@ const Application = ({ status: appStatus = '' }) => {
       dispatch(getAllResults())
     }
   }, [appStatus, prevAppStatus, dispatch])
+
+  React.useEffect(() => {
+    refetch()
+  }, [refetch])
+
   return isLoading ? (
     <div className="flex justify-center items-center h-screen">
       <Loading />

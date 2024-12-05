@@ -22,7 +22,9 @@ import clsx from 'clsx'
 import { CloseCircle } from 'iconsax-react'
 import TrashBin from './pages/TrashBin'
 import Contact from './components/apps/login/Contact'
+import ChatRoom from './components/apps/chat/ChatRoom'
 import ApplicationDetail from './components/apps/application/applicationDetail/ApplicationDetails'
+import socket from './services/socket'
 
 const MobileSideBar = () => {
   const { isSideBarOpen } = useSelector((state) => state?.authentication)
@@ -83,11 +85,15 @@ const Layout = () => {
     user ? (
       <div className="w-full h-screen flex flex-col md:flex-row">
         <div className="w-1/5 h-screen bg-white sticky top-0 md:block shadow-lg rounded-tr-lg">
-          <SideBar />
+          {!location.pathname.includes('/chat') ? (
+            <SideBar />
+          ) : (
+            <SideBar status="chat" />
+          )}
         </div>
         <MobileSideBar />
         <div className="flex-1 overflow-y-auto shadow-lg rounded-tl-lg">
-          <NavBar />
+          {!location.pathname.includes('/chat') ? <NavBar /> : null}
           <div className="p-4 2x1:px-10">
             <Outlet />
           </div>
@@ -102,6 +108,26 @@ const Layout = () => {
 }
 
 function App() {
+  const { user } = useSelector((state) => state.authentication)
+  // WebSocket set up
+  React.useEffect(() => {
+    socket.on('connect', () => {
+      console.log('Connected to WebSocket server')
+    })
+
+    socket.on('disconnect', () => {
+      console.log('Disconnected from WebSocket server')
+    })
+
+    socket.on('message', (data) => {
+      console.log('Received message:', data)
+    })
+    return () => {
+      socket.off('connect')
+      socket.off('disconnect')
+      socket.off('message')
+    }
+  })
   return (
     <div>
       <Routes>
@@ -122,6 +148,10 @@ function App() {
           />
           <Route path="/application/:id" element={<ApplicationDetail />} />
           <Route path="/trash" element={<TrashBin />} />
+          <Route
+            path="/chat"
+            element={<ChatRoom username={user?.user_name} />}
+          />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/contact" element={<Contact />} />

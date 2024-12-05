@@ -19,7 +19,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { useCreateApplicationMutation } from '../../../redux/slices/api/applicationApiSlice'
 import { toast } from 'sonner'
 import dayjs from 'dayjs'
-import { storage } from '../../../firebase'
+import { storage } from '../../../services/firebase'
 
 const AddApplication = ({ application, open, setOpen }) => {
   const taskStatus = ['To Do', 'Implement', 'Testing', 'Production']

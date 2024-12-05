@@ -122,7 +122,7 @@ const NavBar = () => {
       </div>
       <div className="flex gap-1 items-center">
         <MessagePanel />
-        <NotificationPanel />
+        {/* <NotificationPanel /> */}
         <UserAvatar />
       </div>
     </div>
