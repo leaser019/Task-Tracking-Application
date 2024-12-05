@@ -23,7 +23,7 @@ const Dashboard = () => {
   const dispatch = useDispatch()
   const { data: priorityData } = useGetPriorityAppQuery()
   var priority_data = priorityData?.Statistic
-  const { data: statusData, isLoading, error } = useGetStatusQuery()
+  const { data: statusData, isLoading, error, refetch } = useGetStatusQuery()
   const Card = React.memo(({ icon, label, bg, total }) => {
     return (
       <div
@@ -114,10 +114,12 @@ const Dashboard = () => {
   React.useEffect(() => {
     if (statusData) {
       dispatch(setAllApplication(statusData))
-      // save local storage
       localStorage.setItem('statusData', JSON.stringify(statusData))
     }
   }, [statusData, dispatch])
+  React.useEffect(() => {
+    refetch()
+  }, [refetch])
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">

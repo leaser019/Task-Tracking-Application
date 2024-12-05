@@ -10,6 +10,7 @@ import i18n from './translation/i18n'
 import { I18nextProvider } from 'react-i18next'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+// import { Analytics } from '@vercel/analytics/next'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(

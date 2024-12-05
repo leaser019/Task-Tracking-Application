@@ -20,6 +20,7 @@ import { PRIORITY_STYLES, TASK_TYPE, getInitials } from '../../../../utils'
 import Loading from '../../../common/Loading'
 import ButtonElement from './../../../common/ButtonElement'
 import Title from './../../../common/Title'
+import { useGetAppicationByIdQuery } from '../../../../redux/slices/api/applicationApiSlice'
 
 const assets = [
   'https://images.pexels.com/photos/2418664/pexels-photo-2418664.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
@@ -32,12 +33,18 @@ const ICONS = {
   high: <MdKeyboardDoubleArrowUp />,
   medium: <MdKeyboardArrowUp />,
   low: <MdKeyboardArrowDown />,
+  High: <MdKeyboardDoubleArrowUp />,
+  Medium: <MdKeyboardArrowUp />,
+  Low: <MdKeyboardArrowDown />,
 }
 
 const bgColor = {
   high: 'bg-red-200',
   medium: 'bg-yellow-200',
   low: 'bg-blue-200',
+  High: 'bg-red-200',
+  Medium: 'bg-yellow-200',
+  Low: 'bg-blue-200',
 }
 
 const TABS = [
@@ -46,32 +53,32 @@ const TABS = [
 ]
 
 const TASKTYPEICON = {
-  commented: (
+  QC1: (
     <div className="w-10 h-10 rounded-full bg-gray-500 flex items-center justify-center text-white">
       <MdOutlineMessage />
     </div>
   ),
-  started: (
+  'Requirement Clarification': (
     <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white">
       <FaThumbsUp size={20} />
     </div>
   ),
-  assigned: (
+  QC2: (
     <div className="w-6 h-6 flex items-center justify-center rounded-full bg-gray-500 text-white">
       <FaUser size={14} />
     </div>
   ),
-  bug: (
+  UAT: (
     <div className="text-red-600">
       <FaBug size={24} />
     </div>
   ),
-  completed: (
+  Deployment: (
     <div className="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center text-white">
       <MdOutlineDoneAll size={24} />
     </div>
   ),
-  'in progress': (
+  Implementation: (
     <div className="w-8 h-8 flex items-center justify-center rounded-full bg-violet-600 text-white">
       <GrInProgress size={16} />
     </div>
@@ -79,19 +86,25 @@ const TASKTYPEICON = {
 }
 
 const act_types = [
-  'Started',
-  'Completed',
-  'In Progress',
-  'Commented',
-  'Bug',
-  'Assigned',
+  'Clarification',
+  'Implementation',
+  'QC1',
+  'UAT',
+  'QC2',
+  'Deployment',
 ]
 
 const ApplicationDetail = () => {
   const { id } = useParams()
+  const {
+    data: task,
+    refetch,
+    isLoading,
+    isError,
+  } = useGetAppicationByIdQuery(id)
+  console.log(task)
 
   const [selected, setSelected] = useState(0)
-  const task = tasks[3]
 
   return (
     <div className="w-full flex flex-col gap-3 mb-4 overflow-y-hidden">
@@ -119,16 +132,25 @@ const ApplicationDetail = () => {
                     <div
                       className={clsx(
                         'w-4 h-4 rounded-full',
-                        TASK_TYPE[task.stage]
+                        TASK_TYPE[task?.title]
                       )}
                     />
-                    <span className="text-black uppercase">{task?.stage}</span>
+                    <span className="text-black uppercase">{task?.status}</span>
                   </div>
                 </div>
 
                 <p className="text-gray-500">
-                  Created At: {new Date(task?.date).toDateString()}
+                  Created At: {new Date(task?.createdAt).toDateString()}
                 </p>
+
+                <div className="space-y-4 py-6">
+                  <p className="text-gray-500 font-semibold text-sm">
+                    DESCRIPTION
+                  </p>
+                  <div className="space-y-8">
+                    <p className="text-gray-700">{task?.description}</p>
+                  </div>
+                </div>
 
                 <div className="flex items-center gap-8 p-4 border-y border-gray-200">
                   <div className="space-x-2">
@@ -140,7 +162,7 @@ const ApplicationDetail = () => {
 
                   <div className="space-x-2">
                     <span className="font-semibold">Task :</span>
-                    <span>{task?.subTasks?.length}</span>
+                    <span>{task?.tasks?.length}</span>
                   </div>
                 </div>
 
@@ -174,7 +196,7 @@ const ApplicationDetail = () => {
                 <div className="space-y-4 py-6">
                   <p className="text-gray-500 font-semibold text-sm">TASKS</p>
                   <div className="space-y-8">
-                    {task?.subTasks?.map((el, index) => (
+                    {task?.tasks?.map((el, index) => (
                       <div key={index} className="flex gap-3">
                         <div className="w-10 h-10 flex items-center justify-center rounded-full bg-violet-50-200">
                           <MdTaskAlt className="text-violet-600" size={26} />
@@ -237,7 +259,7 @@ const Activities = ({ activity, id }) => {
       <div className="flex space-x-4">
         <div className="flex flex-col items-center flex-shrink-0">
           <div className="w-10 h-10 flex items-center justify-center">
-            {TASKTYPEICON[item?.type]}
+            {TASKTYPEICON[item?.title]}
           </div>
           <div className="w-full flex items-center">
             <div className="w-0.5 bg-gray-300 h-full"></div>
@@ -245,10 +267,10 @@ const Activities = ({ activity, id }) => {
         </div>
 
         <div className="flex flex-col gap-y-1 mb-8">
-          <p className="font-semibold">{item?.by?.name}</p>
+          <p className="font-semibold">{item?.title}</p>
           <div className="text-gray-500 space-y-2">
-            <span className="capitalize">{item?.type}</span>
-            <span className="text-sm">{moment(item?.date).fromNow()}</span>
+            <span className="capitalize">{item?.comment}</span>
+            {/* <span className="text-sm">{moment(item?.date).fromNow()}</span> */}
           </div>
           <div className="text-gray-700">{item?.activity}</div>
         </div>
@@ -273,7 +295,7 @@ const Activities = ({ activity, id }) => {
       </div>
 
       <div className="w-full md:w-[100%]">
-        <h4 className="text-gray-600 font-semibold text-lg mb-5">Add Task</h4>
+        <h4 className="text-gray-600 font-semibold text-lg">Add Activity</h4>
         <div className="w-full flex flex-wrap gap-5">
           {act_types.map((item, index) => (
             <div key={item} className="flex gap-2 items-center">

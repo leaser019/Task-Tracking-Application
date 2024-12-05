@@ -125,6 +125,13 @@ export const applicationApiSlice = apiSlice.injectEndpoints({
       //     dispatch(deleteApplication(body))
       //   },
     }),
+    getAppicationById: builder.query({
+      query: (id) => ({
+        url: `${APPLICATION_URL}/get-app-id/${id}`,
+        method: 'GET',
+        credentials: 'include',
+      }),
+    }),
   }),
 })
 
@@ -145,4 +152,5 @@ export const {
   useGetAllTrashApplicationQuery,
   useRestoreTrashApplicationMutation,
   useDeleteApplicationForRealMutation,
+  useGetAppicationByIdQuery,
 } = applicationApiSlice

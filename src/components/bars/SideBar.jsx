@@ -1,19 +1,23 @@
 import React from 'react'
-import { Category } from 'iconsax-react'
-import { TaskSquare } from 'iconsax-react'
-import { Bookmark } from 'iconsax-react'
-import { Edit } from 'iconsax-react'
-import { Check } from 'iconsax-react'
-import { Task } from 'iconsax-react'
-import { Profile2User } from 'iconsax-react'
-import { Trash } from 'iconsax-react'
-import { Stickynote } from 'iconsax-react'
-import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux'
-import { useLocation } from 'react-router-dom'
-import { Link } from 'react-router-dom'
+import {
+  Category,
+  TaskSquare,
+  Bookmark,
+  Edit,
+  Check,
+  Task,
+  Profile2User,
+  Trash,
+  Stickynote,
+} from 'iconsax-react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useLocation, Link } from 'react-router-dom'
 import { setSlideBarOpen } from '../../redux/slices/authenticationSlice'
 import clsx from 'clsx'
+import RoomList from '../apps/chat/RoomList'
+import UserAvatar from './subComponents/UserAvatar'
+import { IoArrowBack } from 'react-icons/io5'
+import Title from '../common/Title'
 
 const iconSize = '24'
 const colorTag = '#4B5563'
@@ -70,7 +74,7 @@ const defaultData = [
   },
 ]
 
-const SideBar = () => {
+const SideBar = ({ status }) => {
   const user = useSelector((state) => state.authentication)
   const dispatch = useDispatch()
   const location = useLocation()
@@ -120,28 +124,48 @@ const SideBar = () => {
   return (
     <div className="w-full h-full flex flex-col bg-white shadow-xl">
       <div className="px-6 py-8">
-        <div className="flex items-center gap-3">
-          <img
-            src="./assets/logo/logoApp.png"
-            alt="Logo"
-            className="w-10 h-10 object-contain hidden xl:block"
-          />
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
-            Kepler.
-          </h1>
-        </div>
+        <Link to="/dashboard">
+          <div className="flex items-center gap-3">
+            <img
+              src="./assets/logo/logoApp.png"
+              alt="Logo"
+              className="w-10 h-10 object-contain hidden xl:block"
+            />
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+              Kepler.
+            </h1>
+          </div>
+        </Link>
       </div>
 
-      <nav className="flex-1 px-3 py-6 space-y-2">
-        {sideBarUserData.map((element, index) => (
-          <NavigationLink key={index} element={element} />
-        ))}
+      <nav className="flex-1 px-3 py-6 space-y-1 overflow-y-auto">
+        {status === 'chat' ? (
+          <div className="flex flex-col space-y-2 ">
+            <Title
+              title="Kepler Chat Room"
+              className="text-center items-center"
+            />
+            {/* <div className="flex flex-row space-x-3 items-center">
+              <Link
+                to="/dashboard"
+                className="flex items-center text-blue-600 space-x-2"
+              >
+                <IoArrowBack size={iconSize} />
+                <span className="font-medium">Back</span>
+              </Link>
+              <UserAvatar className="z-1" />
+            </div> */}
+            <RoomList />
+          </div>
+        ) : (
+          sideBarUserData.map((element, index) => (
+            <NavigationLink key={index} element={element} />
+          ))
+        )}
       </nav>
-      {!user?.user?.isAdmin && (
-        <div className="p-4">
-          <div className="px-3 py-2 text-sm text-gray-500">© 2024 Kepler</div>
-        </div>
-      )}
+      <div className="p-4">
+        <div className="px-3 py-2 text-sm text-gray-500">© 2024 Kepler</div>
+      </div>
     </div>
   )
 }
