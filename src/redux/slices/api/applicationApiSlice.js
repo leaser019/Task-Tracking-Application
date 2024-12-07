@@ -132,6 +132,14 @@ export const applicationApiSlice = apiSlice.injectEndpoints({
         credentials: 'include',
       }),
     }),
+    updateApplication: builder.mutation({
+      query: ({ body, _id }) => ({
+        url: `${APPLICATION_URL}/edit/${_id}`,
+        method: 'PUT',
+        body,
+        credentials: 'include',
+      }),
+    }),
   }),
 })
 
@@ -153,4 +161,5 @@ export const {
   useRestoreTrashApplicationMutation,
   useDeleteApplicationForRealMutation,
   useGetAppicationByIdQuery,
+  useUpdateApplicationMutation,
 } = applicationApiSlice

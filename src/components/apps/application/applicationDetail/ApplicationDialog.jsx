@@ -136,6 +136,7 @@ const ApplicationDialog = ({ application, refetch }) => {
         open={openEdit}
         setOpen={setOpenEdit}
         application={application}
+        refetch={refetch}
         key={new Date().getTime()}
       />
 

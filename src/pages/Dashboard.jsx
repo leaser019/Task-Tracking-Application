@@ -71,46 +71,56 @@ const Dashboard = () => {
     {
       id: '1',
       label: 'Total Applications',
-      total: statusData?.untrashedStatistic?.[0]?.total || 0,
+      total: statusData?.untrashedStatistic?.[0]['total'] || 0,
       icon: <IoIosApps />,
       bg: 'bg-gradient-to-r from-blue-500 to-indigo-500',
     },
     {
       id: '2',
       label: 'To Do',
-      total: statusData?.untrashedStatistic?.[0]?.detail[1]?.count || 0,
+      total: statusData?.untrashedStatistic?.[0]['To Do'] || 0,
       icon: <TaskSquare />,
       bg: 'bg-gradient-to-r from-red-500 to-pink-500',
     },
     {
       id: '3',
       label: 'Implement',
-      total: statusData?.untrashedStatistic?.[0]?.detail[2]?.count || 0,
+      total: statusData?.untrashedStatistic?.[0]['Implement'] || 0,
       icon: <FaFileCode />,
       bg: 'bg-gradient-to-r from-yellow-500 to-orange-500',
     },
     {
       id: '4',
       label: 'QA/QC',
-      total: statusData?.untrashedStatistic?.[0]?.detail[0]?.count || 0,
+      total: statusData?.untrashedStatistic?.[0]['Testing'] || 0,
       icon: <TbBrandSpeedtest />,
       bg: 'bg-gradient-to-r from-blue-500 to-cyan-500',
     },
     {
       id: '5',
       label: 'Production',
-      total: statusData?.untrashedStatistic?.[0]?.detail[3]?.count || 0,
+      total: statusData?.untrashedStatistic?.[0]['Production'] || 0,
       icon: <MdCloudDone />,
       bg: 'bg-gradient-to-r from-green-500 to-teal-500',
     },
     {
       id: '6',
       label: 'Trash',
-      total: statusData?.trashedStatistic?.[0]?.total || 0,
+      total: statusData?.trashedStatistic?.[0]['total'] || 0,
       icon: <FaTrash />,
       bg: 'bg-gradient-to-r from-red-500 to-purple-500',
     },
   ]
+
+  const statusDataArray = statusData?.untrashedStatistic?.[0]
+    ? Object.entries(statusData.untrashedStatistic[0])
+        .filter(([key]) => key !== 'total')
+        .map(([key, value]) => ({
+          status: key,
+          count: value,
+        }))
+    : []
+
   React.useEffect(() => {
     if (statusData) {
       dispatch(setAllApplication(statusData))
@@ -172,7 +182,7 @@ const Dashboard = () => {
               subtitle="Application Count By Status"
               className="capitalize text-center"
             />
-            <PieChartUsage data={statusData?.untrashedStatistic?.[0]?.detail} />
+            <PieChartUsage data={statusDataArray} />
           </div>
         </div>
         <div className="flex flex-col mt-2">
