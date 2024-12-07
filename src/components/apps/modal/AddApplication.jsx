@@ -20,11 +20,13 @@ import { useCreateApplicationMutation } from '../../../redux/slices/api/applicat
 import { toast } from 'sonner'
 import dayjs from 'dayjs'
 import { storage } from '../../../services/firebase'
+import { useUpdateApplicationMutation } from '../../../redux/slices/api/applicationApiSlice'
 
-const AddApplication = ({ application, open, setOpen }) => {
+const AddApplication = ({ application, open, setOpen, refetch }) => {
   const taskStatus = ['To Do', 'Implement', 'Testing', 'Production']
   const priorityLevel = ['Low', 'Medium', 'High']
   const [createApplication] = useCreateApplicationMutation()
+  const [updateApplication] = useUpdateApplicationMutation()
   let task = application
 
   const [team, setTeam] = React.useState(task?.team || [])
@@ -52,11 +54,21 @@ const AddApplication = ({ application, open, setOpen }) => {
   })
   const submitHandler = async (payload) => {
     try {
-      await createApplication(payload)
-      setOpen(false)
-      toast.success('Application created successfully')
+      if (task) {
+        const { _id, createdAt, ...updatePayload } = payload
+        console.log(_id)
+        await updateApplication({ body: updatePayload, _id })
+        setOpen(false)
+        refetch()
+        toast.success('Application updated successfully')
+      } else {
+        await createApplication(payload)
+        setOpen(false)
+        refetch()
+        toast.success('Application created successfully')
+      }
     } catch (error) {
-      toast.error('Error creating application')
+      toast.error('Error')
     }
   }
   return (
@@ -88,7 +100,7 @@ const AddApplication = ({ application, open, setOpen }) => {
                   })}
                   id="applicationTitle"
                   name="title"
-                  value={task?.title}
+                  defaultValue={task?.title}
                   label="Application Title"
                   size="normal"
                   variant="outlined"
@@ -105,7 +117,7 @@ const AddApplication = ({ application, open, setOpen }) => {
                     id="applicationDescription"
                     name="description"
                     label="Description"
-                    value={application?.description}
+                    defaultValue={application?.description}
                     size="normal"
                     variant="outlined"
                     fullWidth
@@ -118,7 +130,7 @@ const AddApplication = ({ application, open, setOpen }) => {
                   name="teamMembers"
                   fullWidth
                   control={control}
-                  defaultValue={[]}
+                  defaultValue={task?.teamMembers || []}
                   render={({ field }) => (
                     <UserList
                       {...field}
@@ -144,7 +156,7 @@ const AddApplication = ({ application, open, setOpen }) => {
                           required: 'Application Status is required',
                         })}
                         label="Application Status"
-                        value={task?.status}
+                        defaultValue={task?.status}
                       >
                         {taskStatus.map((status) => (
                           <MenuItem key={status} value={status}>
@@ -156,7 +168,7 @@ const AddApplication = ({ application, open, setOpen }) => {
                   </Grid>
                   <Grid xs={6} className="py-4">
                     <Controller
-                      name="date"
+                      name="createdAt"
                       control={control}
                       defaultValue={
                         task?.createdAt
@@ -187,7 +199,7 @@ const AddApplication = ({ application, open, setOpen }) => {
                           required: 'Application Status is required',
                         })}
                         label="Application Status"
-                        value={task?.status}
+                        defaultValue={task?.status}
                       >
                         {taskStatus.map((status) => (
                           <MenuItem key={status} value={status}>
@@ -209,7 +221,7 @@ const AddApplication = ({ application, open, setOpen }) => {
                       required: 'Priority Level is required',
                     })}
                     label="Priority Level"
-                    value={task?.priority}
+                    defaultValue={task?.priority}
                   >
                     {priorityLevel.map((stage) => (
                       <MenuItem key={stage} value={stage}>
@@ -266,6 +278,17 @@ const AddApplication = ({ application, open, setOpen }) => {
               </Grid>
             </Grid>
           </div>
+          {task ? (
+            <TextField
+              {...register('_id')}
+              id="_id"
+              name="_id"
+              defaultValue={application?._id}
+              sx={{ display: 'none' }}
+            />
+          ) : (
+            ''
+          )}
         </form>
       </ModalWrapper>
     </>

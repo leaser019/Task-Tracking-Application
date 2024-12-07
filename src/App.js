@@ -24,7 +24,7 @@ import TrashBin from './pages/TrashBin'
 import Contact from './components/apps/login/Contact'
 import ChatRoom from './components/apps/chat/ChatRoom'
 import ApplicationDetail from './components/apps/application/applicationDetail/ApplicationDetails'
-import socket from './services/socket'
+// import socket from './services/socket'
 
 const MobileSideBar = () => {
   const { isSideBarOpen } = useSelector((state) => state?.authentication)
@@ -110,24 +110,24 @@ const Layout = () => {
 function App() {
   const { user } = useSelector((state) => state.authentication)
   // WebSocket set up
-  React.useEffect(() => {
-    socket.on('connect', () => {
-      console.log('Connected to WebSocket server')
-    })
+  //   React.useEffect(() => {
+  //     socket.on('connect', () => {
+  //       console.log('Connected to WebSocket server')
+  //     })
 
-    socket.on('disconnect', () => {
-      console.log('Disconnected from WebSocket server')
-    })
+  //     socket.on('disconnect', () => {
+  //       console.log('Disconnected from WebSocket server')
+  //     })
 
-    socket.on('message', (data) => {
-      console.log('Received message:', data)
-    })
-    return () => {
-      socket.off('connect')
-      socket.off('disconnect')
-      socket.off('message')
-    }
-  })
+  //     socket.on('message', (data) => {
+  //       console.log('Received message:', data)
+  //     })
+  //     return () => {
+  //       socket.off('connect')
+  //       socket.off('disconnect')
+  //       socket.off('message')
+  //     }
+  //   })
   return (
     <div>
       <Routes>
