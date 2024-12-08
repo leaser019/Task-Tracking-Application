@@ -72,7 +72,7 @@ const AddSubApplication = ({ open, setOpen, id }) => {
                   )}
                 />
               </Grid>
-              <Grid xs={6} className='ml-4'>
+              <Grid xs={6} className="ml-4">
                 <TextField
                   {...register('tag', {
                     required: 'Tag Is Required',

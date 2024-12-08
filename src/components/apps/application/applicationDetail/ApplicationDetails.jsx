@@ -13,7 +13,9 @@ import {
 } from 'react-icons/md'
 import { RxActivityLog } from 'react-icons/rx'
 import { useParams } from 'react-router-dom'
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import { toast } from 'sonner'
+import { useForm } from 'react-hook-form'
 import Tabs from '../Tabs'
 import { PRIORITY_STYLES, TASK_TYPE, getInitials } from '../../../../utils'
 import Loading from '../../../common/Loading'
@@ -106,8 +108,20 @@ const ApplicationDetail = () => {
     isError,
   } = useGetAppicationByIdQuery(id)
   console.log(task)
-
+  const [tasks, setTasks] = useState(task?.tasks || [])
   const [selected, setSelected] = useState(0)
+
+  const updateTaskStatus = (taskId, newStatus) => {
+    const updatedTasks = tasks.map((task) =>
+      task.id === taskId ? { ...task, status: newStatus } : task
+    )
+    setTasks(updatedTasks)
+  }
+
+  const deleteTask = (taskId) => {
+    const updatedTasks = tasks.filter((task) => task.id !== taskId)
+    setTasks(updatedTasks)
+  }
 
   return isLoading ? (
     <div className="flex justify-center items-center h-screen ">
@@ -185,10 +199,18 @@ const ApplicationDetail = () => {
                   </div>
 
                   {/* Team Members */}
-                  <div className="bg-white rounded-xl shadow-sm p-6 space-y-4">
-                    <h3 className="font-semibold text-gray-700">
-                      Team Members
-                    </h3>
+                  <div className=" bg-white rounded-xl shadow-sm p-6 space-y-4">
+                    <div className="flex space-x-40">
+                      <h3 className="font-semibold text-gray-700">
+                        Team Members
+                      </h3>
+                      <ButtonElement
+                        onClick={() => toast('Invite Team Member')}
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-8 rounded-lg shadow-md transition-all duration-300 text-xs pb-2
+                        "
+                        label=" Add Team Member"
+                      ></ButtonElement>
+                    </div>
                     <div className="divide-y divide-gray-100">
                       {task?.teamMembers?.map((member, index) => (
                         <div
@@ -214,7 +236,16 @@ const ApplicationDetail = () => {
                 <div className="space-y-6">
                   {/* Tasks */}
                   <div className="bg-white rounded-xl shadow-sm p-6 space-y-4">
-                    <h3 className="font-semibold text-gray-700">Tasks</h3>
+                    <div className="flex justify-between items-center">
+                      <h3 className="font-semibold text-gray-700">Tasks</h3>
+                      <div className="flex items-center space-x-2">
+                        <ButtonElement
+                          onClick={() => toast('Invite Team Member')}
+                          className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-8 rounded-lg shadow-md transition-all duration-300 text-xs pb-2"
+                          label="Add Task"
+                        />
+                      </div>
+                    </div>
                     <div className="space-y-4">
                       {task?.tasks?.map((task, index) => (
                         <div
@@ -224,8 +255,11 @@ const ApplicationDetail = () => {
                           <div className="w-10 h-10 flex-shrink-0 rounded-full bg-blue-50 flex items-center justify-center">
                             <MdTaskAlt className="text-blue-600 w-5 h-5" />
                           </div>
-                          <div>
+                          <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1">
+                              <p className="text-gray-700 font-medium flex-1">
+                                {task.title}
+                              </p>
                               <span className="text-sm text-gray-500">
                                 Deadline:{' '}
                                 {new Date(task?.deadline).toDateString()}
@@ -234,13 +268,44 @@ const ApplicationDetail = () => {
                                 {task.tag}
                               </span>
                             </div>
-                            <p className="text-gray-700">{task.title}</p>
+                            <div className="flex pl-4 items-center gap-2 p-4 rounded-lg w-full">
+                              <FormControl
+                                variant="standard"
+                                sx={{ m: 1, minWidth: 120 }}
+                              >
+                                <InputLabel>Status</InputLabel>
+                                <Select
+                                  value={task.status}
+                                  onChange={(e) =>
+                                    updateTaskStatus(task.id, e.target.value)
+                                  }
+                                  label="Status"
+                                >
+                                  <MenuItem value="to do">To Do</MenuItem>
+                                  <MenuItem value="in progress">
+                                    In Progress
+                                  </MenuItem>
+                                  <MenuItem value="done">Done</MenuItem>
+                                </Select>
+                              </FormControl>
+                              <button
+                                className="text-blue-500 hover:blue-red-700 font-semibold py-2 px-4 rounded-lg transition-all duration-300"
+                                onClick={() => deleteTask(task.id)}
+                              >
+                                Edit
+                              </button>
+                              <button
+                                className="text-red-500 hover:text-red-700 font-semibold py-2 px-4 rounded-lg transition-all duration-300"
+                                onClick={() => deleteTask(task.id)}
+                              >
+                                Delete
+                              </button>
+                            </div>
                           </div>
                         </div>
                       ))}
                     </div>
                   </div>
-
                   {/* Assets Gallery */}
                   <div className="bg-white rounded-xl shadow-sm p-6 space-y-4">
                     <h3 className="font-semibold text-gray-700">
@@ -281,10 +346,12 @@ const Activities = ({ activity, id }) => {
     bgColor: { mainColor },
   })
   const [selected, setSelected] = useState(act_types[0])
-  const [text, setText] = useState('')
-  const isLoading = false
 
-  const handleSubmit = async () => {}
+  const { register, handleSubmit: handleFormSubmit } = useForm()
+
+  const handleSubmit = async (payload) => {
+    console.log({ ...payload, selected })
+  }
 
   const Card = ({ item }) => {
     return (
@@ -324,106 +391,79 @@ const Activities = ({ activity, id }) => {
   }
 
   return (
-    <div className="w-full flex flex-col lg:flex-row gap-8 2xl:gap-20 min-h-screen p-6 rounded-xl">
-      {/* Activities Timeline */}
-      <div className="w-full lg:w-3/5">
-        <h4 className="text-gray-800 font-semibold text-xl mb-8 pb-2 border-b border-gray-200">
-          Activities Timeline
-        </h4>
+    <form onSubmit={handleFormSubmit(handleSubmit)}>
+      <div className="w-full flex flex-col lg:flex-row gap-8 2xl:gap-20 min-h-screen p-6 rounded-xl">
+        {/* Activities Timeline */}
+        <div className="w-full lg:w-3/5">
+          <h4 className="text-gray-800 font-semibold text-xl mb-8 pb-2 border-b border-gray-200">
+            Activities Timeline
+          </h4>
 
-        <div className="w-full space-y-2">
-          {activity?.map((el, index) => (
-            <Card
-              key={index}
-              item={el}
-              isConnected={index < activity.length - 1}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Add Activity Form */}
-      <div className="w-full lg:w-2/5 bg-gray-50 p-6 rounded-xl h-fit sticky top-4">
-        <h4 className="text-gray-800 font-semibold text-xl mb-6">
-          Add New Activity
-        </h4>
-
-        <div className="space-y-6">
-          {/* Activity Type Selection */}
-          <div className="grid grid-cols-2 gap-4">
-            {act_types.map((item) => (
-              <div
-                key={item}
-                className={`flex items-center gap-2 p-3 rounded-xl cursor-pointer transition-all duration-300 ${
-                  selected === item
-                    ? 'bg-blue-50 border-2 border-blue-500'
-                    : 'bg-white border border-gray-200 hover:border-blue-300'
-                }`}
-                onClick={() => setSelected(item)}
-              >
-                <input
-                  type="checkbox"
-                  className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
-                  checked={selected === item}
-                  onChange={() => setSelected(item)}
-                />
-                <p className="text-sm font-medium text-gray-700 p-2">{item}</p>
-              </div>
+          <div className="w-full space-y-2">
+            {activity?.map((el, index) => (
+              <Card
+                key={index}
+                item={el}
+                isConnected={index < activity.length - 1}
+              />
             ))}
           </div>
+        </div>
 
-          {/* Activity Description */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">
-              Activity Description
-            </label>
-            <textarea
-              rows={6}
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              placeholder="Describe the activity details..."
-              className="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 resize-none shadow-sm transition-all duration-300 p-4"
-            />
-          </div>
+        {/* Add Activity Form */}
+        <div className="w-full lg:w-2/5 bg-gray-50 p-6 rounded-xl h-fit sticky top-4">
+          <h4 className="text-gray-800 font-semibold text-xl mb-6">
+            Add New Activity
+          </h4>
 
-          {/* Submit Button */}
-          <button
-            onClick={handleSubmit}
-            disabled={isLoading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg shadow-md transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-          >
-            {isLoading ? (
-              <>
-                <svg
-                  className="animate-spin h-5 w-5 text-white"
-                  viewBox="0 0 24 24"
+          <div className="space-y-6">
+            {/* Activity Type Selection */}
+            <div className="grid grid-cols-2 gap-4">
+              {act_types.map((item) => (
+                <div
+                  key={item}
+                  className={`flex items-center gap-2 p-3 rounded-xl cursor-pointer transition-all duration-300 ${
+                    selected === item
+                      ? 'bg-blue-50 border-2 border-blue-500'
+                      : 'bg-white border border-gray-200 hover:border-blue-300'
+                  }`}
+                  onClick={() => setSelected(item)}
                 >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                    fill="none"
+                  <input
+                    type="checkbox"
+                    className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                    checked={selected === item}
                   />
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  />
-                </svg>
-                <span>
-                  <Loading />
-                </span>
-              </>
-            ) : (
-              'Add Activity'
-            )}
-          </button>
+                  <p className="text-sm font-medium text-gray-700 p-2">
+                    {item}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* Activity Description */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                Activity Description
+              </label>
+              <textarea
+                rows={6}
+                placeholder="Describe the activity details..."
+                className="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 resize-none shadow-sm transition-all duration-300 p-4"
+              />
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg shadow-md transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              Add Activity
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </form>
   )
 }
 export default ApplicationDetail
