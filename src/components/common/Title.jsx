@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
 import styled from 'styled-components'
 
 const Title = ({ title, className = '' }) => {
+  const [animate, setAnimate] = useState(true)
+
+  useEffect(() => {
+    setAnimate(true)
+    const timer = setTimeout(() => setAnimate(false), 1000)
+    return () => clearTimeout(timer)
+  }, [])
+
   const StyledWrapper = styled.div`
     @keyframes fadeIn {
       from {
@@ -16,7 +24,6 @@ const Title = ({ title, className = '' }) => {
     }
 
     .impressive-title {
-      animation: fadeIn 0.6s ease-out;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
       letter-spacing: 0.5px;
     }
@@ -25,13 +32,15 @@ const Title = ({ title, className = '' }) => {
       animation: fadeIn 0.6s ease-out;
     }
   `
+
   return (
     <StyledWrapper>
       <h2
         className={clsx(
           'text-2xl capitalize font-bold impressive-title',
           'bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-500',
-          'animate-fade-in hover:scale-105 transition-transform',
+          { 'animate-fade-in': animate },
+          'hover:scale-105 transition-transform',
           className
         )}
       >

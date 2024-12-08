@@ -87,7 +87,7 @@ const Application = ({ status: appStatus = '' }) => {
 
   const getCount = (index) => {
     let countdata = JSON.parse(localStorage.getItem('statusData'))
-    return countdata?.untrashedStatistic?.[0]?.detail?.[index]?.count
+    return countdata?.untrashedStatistic?.[0][index]
   }
   const displayedApplications =
     searchResults.length > 0
@@ -122,7 +122,7 @@ const Application = ({ status: appStatus = '' }) => {
     </>
   ) : (
     <>
-      <AddApplication open={open} setOpen={setOpen} />
+      <AddApplication open={open} setOpen={setOpen} refetch={refetch} />
       <div className="w-full p-4">
         <div className="flex items-center justify-between mb-4">
           <Title
@@ -143,22 +143,26 @@ const Application = ({ status: appStatus = '' }) => {
               <TaskTitle
                 label="To Do"
                 className={ApplicationType.todo}
-                number={getCount(1)}
+                number={getCount('To Do')}
+                link="/todo"
               />
               <TaskTitle
                 label="Implement"
                 className={ApplicationType.implement}
-                number={getCount(2)}
+                number={getCount('Implement')}
+                link="/implement"
               />
               <TaskTitle
                 label="QA/QC"
                 className={ApplicationType.qaqc}
-                number={getCount(3)}
+                number={getCount('Testing')}
+                link="/qa-qc"
               />
               <TaskTitle
                 label="Production"
                 className={ApplicationType.production}
-                number={getCount(0)}
+                number={getCount('Production')}
+                link="/production"
               />
             </div>
           )}

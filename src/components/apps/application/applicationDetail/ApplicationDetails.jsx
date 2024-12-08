@@ -21,6 +21,7 @@ import Loading from '../../../common/Loading'
 import ButtonElement from './../../../common/ButtonElement'
 import Title from './../../../common/Title'
 import { useGetAppicationByIdQuery } from '../../../../redux/slices/api/applicationApiSlice'
+import Error from '../../../common/Error'
 
 const assets = [
   'https://images.pexels.com/photos/2418664/pexels-photo-2418664.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
@@ -106,7 +107,13 @@ const ApplicationDetail = () => {
 
   const [selected, setSelected] = useState(0)
 
-  return (
+  return isLoading ? (
+    <div className="flex justify-center items-center h-screen">
+      <Loading />
+    </div>
+  ) : isError ? (
+    <Error />
+  ) : (
     <div className="w-full flex flex-col gap-3 mb-4 overflow-y-hidden">
       <Title title={task?.title} className="pointer-events-none" />
 

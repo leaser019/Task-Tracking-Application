@@ -24,6 +24,7 @@ import TrashBin from './pages/TrashBin'
 import Contact from './components/apps/login/Contact'
 import ChatRoom from './components/apps/chat/ChatRoom'
 import ApplicationDetail from './components/apps/application/applicationDetail/ApplicationDetails'
+import Error from './components/common/Error'
 // import socket from './services/socket'
 
 const MobileSideBar = () => {
@@ -155,6 +156,7 @@ function App() {
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="*" element={<Error />} />
       </Routes>
       <Toaster richColors />
     </div>

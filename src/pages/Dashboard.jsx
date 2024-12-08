@@ -17,7 +17,6 @@ import SubTitle from '../components/common/SubTitle'
 import Error from '../components/common/Error'
 import { useDispatch } from 'react-redux'
 import { setAllApplication } from '../redux/slices/applicationSlice'
-import Application from './Application'
 
 const Dashboard = () => {
   const dispatch = useDispatch()
