@@ -4,8 +4,8 @@ import { getInitialsUsername } from '../../../utils'
 import { genConfig } from 'react-nice-avatar'
 import Avatar from 'react-nice-avatar'
 
-const UserInfo = ({ user = '' }) => {
-  const mainColor = '#0084ff'
+const UserInfo = ({ user = '', color }) => {
+  const mainColor = color ? color : '#0084ff'
   const { users } = useSelector((state) => state.authentication)
   const config = genConfig({
     id: JSON.stringify(user?.user_name),

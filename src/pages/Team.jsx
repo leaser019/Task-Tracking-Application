@@ -19,6 +19,7 @@ import {
 import { toast } from 'sonner'
 import Loading from './../components/common/Loading'
 import { useSelector } from 'react-redux'
+import UserInfo from '../components/apps/application/UserInfo'
 
 const Team = () => {
   const dispatch = useDispatch()
@@ -122,9 +123,9 @@ const Team = () => {
       <tr className="border-b border-gray-200 text-gray-600">
         <td className="p-2">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full text-white flex items-center justify-center text-sm bg-blue-700">
+            <div className="w-9 h-9 rounded-full text-white flex items-center justify-center text-sm bg-white-700">
               <span className="text-xs md:text-sm text-center">
-                {getInitialsUsername(user?.user_name) || ''}
+                {<UserInfo user={user} color="#ffffff" />}
               </span>
             </div>
             {user?.user_name || 'Unknown User'}
