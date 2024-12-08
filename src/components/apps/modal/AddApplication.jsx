@@ -55,14 +55,22 @@ const AddApplication = ({ application, open, setOpen, refetch }) => {
   const submitHandler = async (payload) => {
     try {
       if (task) {
-        const { _id, createdAt, ...updatePayload } = payload
-        console.log(_id)
+        const {
+          _id,
+          createdAt,
+          teamMembers: teamMember,
+          ...otherFields
+        } = payload
+        const teamMembers = teamMember.map((member) => member._id)
+        const updatePayload = { ...otherFields, teamMembers }
         await updateApplication({ body: updatePayload, _id })
         setOpen(false)
         refetch()
         toast.success('Application updated successfully')
       } else {
-        await createApplication(payload)
+        const { teamMembers: teamMember, ...otherFields } = payload
+        const teamMembers = teamMember.map((member) => member._id)
+        await createApplication({ ...otherFields, teamMembers })
         setOpen(false)
         refetch()
         toast.success('Application created successfully')

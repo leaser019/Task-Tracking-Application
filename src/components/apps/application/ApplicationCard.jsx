@@ -11,6 +11,7 @@ import {
 } from '../../../utils'
 import ApplicationDialog from './applicationDetail/ApplicationDialog'
 import UserInfo from './UserInfo'
+import { Link } from 'react-router-dom'
 
 const ApplicationCard = ({ application, refetch }) => {
   const { user } = useSelector((state) => state.authentication)
@@ -41,15 +42,20 @@ const ApplicationCard = ({ application, refetch }) => {
 
   const TaskTitle = () => (
     <div className="flex items-center gap-3 mb-2 group cursor-pointer hover:bg-gray-50 p-2 rounded-md transition-all">
-      <div
-        className={clsx(
-          'w-3 h-3 rounded-full group-hover:scale-110 transition-transform',
-          TASK_TYPE[application?.status]
-        )}
-      />
-      <h3 className="text-lg font-medium line-clamp-1 group-hover:line-clamp-none">
-        {application?.title}
-      </h3>
+      <Link
+        className="flex items-center gap-3 mb-2 group cursor-pointer hover:bg-gray-50 p-2 rounded-md transition-all"
+        to={`/application/${application?._id}`}
+      >
+        <div
+          className={clsx(
+            'w-3 h-3 rounded-full group-hover:scale-110 transition-transform',
+            TASK_TYPE[application?.status]
+          )}
+        />
+        <h3 className="text-lg font-medium line-clamp-1 group-hover:line-clamp-none">
+          {application?.title}
+        </h3>
+      </Link>
     </div>
   )
 
@@ -98,24 +104,18 @@ const ApplicationCard = ({ application, refetch }) => {
             'transform transition-all duration-200',
             'hover:scale-110 hover:border-blue-200',
             'hover:shadow-lg hover:z-[2]',
+            'hover:bg-blue-500 hover:text-white',
             'text-white text-sm font-medium',
             BGS[index % BGS?.length]
           )}
+          title={`${member.name} - ${member.role}`} // Add name and role on hover
         >
           <div className="relative group">
             <UserInfo user={member} />
             {/* Tooltip */}
-            <div
-              className="absolute -top-10 left-1/2 -translate-x-1/2
-                        opacity-0 group-hover:opacity-100
-                        transition-opacity duration-200
-                        pointer-events-none"
-            >
-              <span
-                className="px-2 py-1 text-xs text-white bg-gray-800
-                         rounded-md whitespace-nowrap"
-              >
-                {member.name}
+            <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+              <span className="px-2 py-1 text-xs text-white bg-gray-800 rounded-md whitespace-nowrap">
+                {member.user_name} - {member.role}
               </span>
             </div>
           </div>
@@ -128,20 +128,26 @@ const ApplicationCard = ({ application, refetch }) => {
     <div className="border-t border-gray-100 pt-4 hover:bg-gray-50 transition-colors rounded-md p-2">
       {application?.tasks?.length > 0 ? (
         <div className="space-y-3 cursor-pointer">
-          <h4 className="font-medium text-gray-900 hover:text-blue-600 transition-colors">
-            {application?.tasks[0].title}
-          </h4>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-500 hover:text-gray-700 transition-colors">
-              {formatDate(new Date(application?.tasks[0]?.date))}
-            </span>
-            <span
-              className="px-3 py-1 text-sm bg-blue-50 text-blue-600 rounded-full
+          {application.tasks.map((task, index) => (
+            <div key={index}>
+              <div className="flex items-center gap-4">
+                <h4 className="font-medium text-gray-900 hover:text-blue-600 transition-colors">
+                  {task.title}
+                </h4>
+                <span
+                  className="px-3 py-1 text-sm bg-blue-50 text-blue-600 rounded-full
                            hover:bg-blue-100 hover:text-blue-700 transition-colors"
-            >
-              {application?.tasks[0].tag}
-            </span>
-          </div>
+                >
+                  {task.tag}
+                </span>
+              </div>
+              <div className="flex items-center gap-4">
+                <span className="text-sm text-gray-500 hover:text-gray-700 transition-colors italic">
+                  Deadline: {formatDate(new Date(task.deadline))}
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
       ) : (
         <p className="text-gray-500 text-sm hover:text-gray-700 transition-colors">

@@ -20,11 +20,10 @@ import {
 } from '../../../redux/slices/api/applicationApiSlice'
 import AddApplication from '../../apps/modal/AddApplication'
 import { toast } from 'sonner'
-import { useLocation } from 'react-router-dom'
+import { useLocation, Link } from 'react-router-dom'
 
 const TableRow = ({ application, show = '', refetch }) => {
   const location = useLocation()
-  console.log(location)
   const [openEditDialog, setOpenEditDialog] = React.useState(false)
   const [selected, setSelected] = React.useState(null)
   const [restoreApplication] = useRestoreTrashApplicationMutation()
@@ -117,7 +116,14 @@ const TableRow = ({ application, show = '', refetch }) => {
       />
       <tr className="border-b border-gray-100">
         <td className="py-4 pl-6">
-          <div className="flex items-center gap-3">
+          <Link
+            className="flex items-center gap-3"
+            to={
+              location.pathname.includes('/trash')
+                ? '/trash'
+                : `/application/${application?._id}`
+            }
+          >
             <div
               className={clsx(
                 'w-3 h-3 rounded-full',
@@ -127,7 +133,7 @@ const TableRow = ({ application, show = '', refetch }) => {
             <p className="text-base font-medium text-gray-800 line-clamp-2">
               {application?.title}
             </p>
-          </div>
+          </Link>
         </td>
 
         <td className="py-4">
