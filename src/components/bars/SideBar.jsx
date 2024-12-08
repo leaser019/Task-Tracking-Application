@@ -93,6 +93,7 @@ const SideBar = ({ status }) => {
         'w-full lg:w-[90%] mx-auto transition-all duration-200 ease-in-out',
         'flex items-center px-4 py-3 rounded-xl',
         'hover:bg-blue-50 hover:scale-105',
+
         path === element.link.split('/')[0]
           ? 'bg-blue-600 shadow-lg shadow-blue-200 text-white transform scale-105'
           : 'text-gray-700 hover:text-blue-600'

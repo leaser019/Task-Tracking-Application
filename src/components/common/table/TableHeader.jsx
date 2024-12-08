@@ -9,7 +9,7 @@ const TableHeader = () => {
         <th className="py-2 line-clamp-1 text-center">Created At</th>
         <th className="py-2 text-center pr-8">Assets</th>
         <th className="py-2">Team</th>
-        <th className="py-2 text-center">Action</th>
+        <th className="py-2 text-center">Actions</th>
       </tr>
     </thead>
   )
