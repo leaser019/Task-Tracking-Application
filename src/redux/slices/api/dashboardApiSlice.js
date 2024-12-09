@@ -20,7 +20,15 @@ export const dashboardApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ['Dashboard'],
     }),
+    getAppUser: builder.query({
+      query: () => ({
+        url: `${DASHBOARD_URL}/get-apps-user`,
+        method: 'GET',
+        credentials: 'include',
+      }),
+    }),
   }),
 })
 
-export const { useGetPriorityAppQuery, useGetStatusQuery } = dashboardApiSlice
+export const { useGetPriorityAppQuery, useGetStatusQuery, useGetAppUserQuery } =
+  dashboardApiSlice

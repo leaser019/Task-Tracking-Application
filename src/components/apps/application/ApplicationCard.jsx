@@ -12,6 +12,7 @@ import {
 import ApplicationDialog from './applicationDetail/ApplicationDialog'
 import UserInfo from './UserInfo'
 import { Link } from 'react-router-dom'
+import AddSubApplication from '../modal/AddSubApplication'
 
 const ApplicationCard = ({ application, refetch }) => {
   const { user } = useSelector((state) => state.authentication)
@@ -162,6 +163,7 @@ const ApplicationCard = ({ application, refetch }) => {
       className="bg-white rounded-lg shadow-sm hover:shadow-xl transform hover:-translate-y-1
                     transition-all duration-300 p-5"
     >
+      <AddSubApplication open={open} setOpen={setOpen} id={application?._id} />
       <CardHeader />
       <TaskTitle />
       <span className="text-sm text-gray-500 hover:text-gray-700 transition-colors">

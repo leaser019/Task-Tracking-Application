@@ -9,6 +9,7 @@ import BarChartVertical from '../components/apps/dashboard/BarChartVertical'
 import {
   useGetPriorityAppQuery,
   useGetStatusQuery,
+  useGetAppUserQuery,
 } from '../redux/slices/api/dashboardApiSlice'
 import Loading from '../components/common/Loading'
 import PieChartUsage from '../components/apps/dashboard/PieChartUsage'
@@ -23,6 +24,8 @@ const Dashboard = () => {
   const { data: priorityData } = useGetPriorityAppQuery()
   var priority_data = priorityData?.Statistic
   const { data: statusData, isLoading, error, refetch } = useGetStatusQuery()
+  const { data: appUserData } = useGetAppUserQuery()
+  console.log(appUserData)
   const Card = React.memo(({ icon, label, bg, total }) => {
     return (
       <div
@@ -189,88 +192,7 @@ const Dashboard = () => {
             subtitle="Application Assigned Per Team Member"
             className="capitalize text-center"
           />
-          <BarChartHorizon
-            data={[
-              {
-                name: 'John Doe',
-                todo: 5,
-                inProgress: 3,
-                completed: 8,
-              },
-              {
-                name: 'Jane Smith',
-                todo: 2,
-                inProgress: 4,
-                completed: 6,
-              },
-              {
-                name: 'Alice Johnson',
-                todo: 7,
-                inProgress: 2,
-                completed: 5,
-              },
-              {
-                name: 'Bob Williams',
-                todo: 4,
-                inProgress: 6,
-                completed: 7,
-              },
-              {
-                name: 'Emma Brown',
-                todo: 3,
-                inProgress: 5,
-                completed: 9,
-              },
-              {
-                name: 'Charlie Davis',
-                todo: 6,
-                inProgress: 4,
-                completed: 10,
-              },
-              {
-                name: 'Sophia Wilson',
-                todo: 8,
-                inProgress: 3,
-                completed: 7,
-              },
-              {
-                name: 'Liam Martinez',
-                todo: 2,
-                inProgress: 7,
-                completed: 6,
-              },
-              {
-                name: 'Mia Garcia',
-                todo: 5,
-                inProgress: 5,
-                completed: 5,
-              },
-              {
-                name: 'Noah Lopez',
-                todo: 9,
-                inProgress: 1,
-                completed: 8,
-              },
-              {
-                name: 'Ava Clark',
-                todo: 3,
-                inProgress: 6,
-                completed: 4,
-              },
-              {
-                name: 'William Lewis',
-                todo: 7,
-                inProgress: 2,
-                completed: 9,
-              },
-              {
-                name: 'Isabella Walker',
-                todo: 4,
-                inProgress: 3,
-                completed: 8,
-              },
-            ]}
-          />
+          <BarChartHorizon data={appUserData?.users} />
         </div>
       </div>
     </div>
