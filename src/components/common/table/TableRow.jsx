@@ -113,6 +113,7 @@ const TableRow = ({ application, show = '', refetch }) => {
         setOpen={setOpenEditDialog}
         application={application}
         key={new Date().getTime()}
+        refetch={refetch}
       />
       <tr className="border-b border-gray-100">
         <td className="py-4 pl-6">
