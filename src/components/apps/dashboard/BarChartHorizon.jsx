@@ -17,12 +17,8 @@ const BarChartHorizon = ({ data }) => {
       return (
         <div className="bg-white p-4 rounded-lg shadow-lg border">
           <p className="font-semibold mb-2">{label}</p>
-          {payload.map((entry) => (
-            <p
-              key={entry.dataKey}
-              className="text-sm"
-              style={{ color: entry.color }}
-            >
+          {payload.map((entry, index) => (
+            <p key={index} className="text-sm" style={{ color: entry.color }}>
               {entry.name}: {entry.value}
             </p>
           ))}
@@ -67,7 +63,7 @@ const BarChartHorizon = ({ data }) => {
           type="category"
           scale="band"
           width={150}
-          tick={{ fill: '#666', fontSize: 12 }}
+          tick={{ fill: '#666', fontSize: 9 }}
         />
         <Tooltip content={<CustomTooltip />} />
         <Legend />
