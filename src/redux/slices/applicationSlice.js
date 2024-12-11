@@ -8,6 +8,8 @@ const initialState = {
   production: [],
   trash: [],
   searchResults: [],
+  task: [],
+  activities: [],
 }
 
 const applicationSlice = createSlice({
@@ -41,6 +43,18 @@ const applicationSlice = createSlice({
         (app) => app._id !== action.payload
       )
     },
+    addTask: (state, action) => {
+      state.task.push(action.payload)
+    },
+    getTask: (state, action) => {
+      state.task = action.payload
+    },
+    addActivities: (state, action) => {
+      state.activities.push(action.payload)
+    },
+    getActivities: (state, action) => {
+      state.activities = action.payload
+    },
   },
 })
 
@@ -53,6 +67,10 @@ export const {
   duplicateApplication,
   clearSearchResults,
   deleteApplication,
+  addTask,
+  getTask,
+  addActivities,
+  getActivities,
 } = applicationSlice.actions
 
 export default applicationSlice.reducer

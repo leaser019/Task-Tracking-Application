@@ -32,13 +32,13 @@ const BarChartHorizon = ({ data }) => {
   }
 
   return (
-    <ResponsiveContainer width="100%" height={400}>
+    <ResponsiveContainer width="100%" height={600}>
       <BarChart
         layout="vertical"
         data={data}
         margin={{
           top: 20,
-          right: 20,
+          right: 70,
           bottom: 20,
         }}
       >
@@ -55,39 +55,82 @@ const BarChartHorizon = ({ data }) => {
             <stop offset="5%" stopColor="#4ade80" stopOpacity={0.8} />
             <stop offset="95%" stopColor="#22c55e" stopOpacity={0.8} />
           </linearGradient>
+          <linearGradient id="colorReview" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="5%" stopColor="#facc15" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#eab308" stopOpacity={0.8} />
+          </linearGradient>
+          <linearGradient id="colorApproved" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="5%" stopColor="#10b981" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#059669" stopOpacity={0.8} />
+          </linearGradient>
+          <linearGradient id="colorRejected" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="5%" stopColor="#ef4444" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#dc2626" stopOpacity={0.8} />
+          </linearGradient>
+          <linearGradient id="colorPending" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="10%" stopColor="#fbbf24" stopOpacity={0.8} />
+            <stop offset="90%" stopColor="#f59e0b" stopOpacity={0.8} />
+          </linearGradient>
         </defs>
         <CartesianGrid stroke="#f5f5f5" />
         <XAxis type="number" />
         <YAxis
           dataKey="name"
           type="category"
-          scale="band"
           width={150}
           tick={{ fill: '#666', fontSize: 9 }}
         />
         <Tooltip content={<CustomTooltip />} />
         <Legend />
         <Bar
-          dataKey="todo"
+          dataKey="Todo"
           stackId="a"
           name="To Do"
-          barSize={20}
+          barSize={10}
           fill="url(#colorTodo)"
         />
         <Bar
-          dataKey="inProgress"
+          dataKey="Implement"
           stackId="a"
-          name="In Progress"
-          barSize={20}
+          name="Implement"
+          barSize={10}
           fill="url(#colorInProgress)"
         />
         <Bar
-          dataKey="completed"
+          dataKey="Testing"
           stackId="a"
-          name="Completed"
-          barSize={20}
+          name="Testing"
+          barSize={10}
           fill="url(#colorCompleted)"
         />
+        <Bar
+          dataKey="Production"
+          stackId="a"
+          name="Production"
+          barSize={10}
+          fill="url(#colorReview)"
+        />
+        {/* <Bar
+                    dataKey="approved"
+                    stackId="a"
+                    name="Approved"
+                    barSize={6}
+                    fill="url(#colorApproved)"
+                />
+                <Bar
+                    dataKey="rejected"
+                    stackId="a"
+                    name="Rejected"
+                    barSize={6}
+                    fill="url(#colorRejected)"
+                />
+                <Bar
+                    dataKey="pending"
+                    stackId="a"
+                    name="Pending"
+                    barSize={6}
+                    fill="url(#colorPending)"
+                /> */}
       </BarChart>
     </ResponsiveContainer>
   )

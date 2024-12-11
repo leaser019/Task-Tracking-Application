@@ -17,6 +17,7 @@ import AddSubApplication from '../modal/AddSubApplication'
 const ApplicationCard = ({ application, refetch }) => {
   const { user } = useSelector((state) => state.authentication)
   const [open, setOpen] = React.useState(false)
+
   const CardHeader = () => (
     <div className="flex justify-between items-center mb-4 group">
       <div
@@ -71,25 +72,19 @@ const ApplicationCard = ({ application, refetch }) => {
   )
 
   const Statistics = () => (
-    <div className="flex items-center justify-between py-4">
+    <div className="flex items-center justify-evenly py-4">
       <div className="flex items-center gap-6">
         <StatItem
           icon={<Message size="20" />}
-          count={application?.activities?.length}
+          count={application?.activities?.length || 0}
           label="Activities"
         />
-        <StatItem
-          icon={<AttachSquare size="20" />}
-          count={application?.assets?.length}
-          label="Assets"
-        />
-        <StatItem
-          icon={<Chart2 size="20" />}
-          count={`0/${application?.tasks?.length}`}
-          label="Sub Tasks Progress"
-        />
       </div>
-      <TeamMembers team={application?.teamMembers} className="z-5" />
+      {application?.teamMembers ? (
+        <TeamMembers team={application?.teamMembers} className="z-5" />
+      ) : (
+        <p> Nobody ...</p>
+      )}
     </div>
   )
 
@@ -158,30 +153,44 @@ const ApplicationCard = ({ application, refetch }) => {
     </div>
   )
 
+  const handleTaskAdded = () => {
+    refetch()
+  }
+
   return (
-    <div
-      className="bg-white rounded-lg shadow-sm hover:shadow-xl transform hover:-translate-y-1
+    <>
+      <div
+        className="bg-white rounded-lg shadow-sm hover:shadow-xl transform hover:-translate-y-1
                     transition-all duration-300 p-5"
-    >
-      <AddSubApplication open={open} setOpen={setOpen} id={application?._id} />
-      <CardHeader />
-      <TaskTitle />
-      <span className="text-sm text-gray-500 hover:text-gray-700 transition-colors">
-        {formatDate(new Date(application?.createdAt))}
-      </span>
-      <Statistics />
-      <SubTaskSection />
-      <button
-        onClick={() => setOpen(true)}
-        disabled={!user?.isAdmin}
-        className="w-full mt-4 py-2 text-sm font-medium text-gray-600
+      >
+        <CardHeader />
+        <TaskTitle />
+        <span className="text-sm text-gray-500 hover:text-gray-700 transition-colors">
+          {formatDate(new Date(application?.createdAt))}
+        </span>
+        <Statistics />
+        <SubTaskSection />
+        <button
+          onClick={() => setOpen(true)}
+          disabled={!user?.isAdmin}
+          className="w-full mt-4 py-2 text-sm font-medium text-gray-600
                    hover:bg-gray-50 hover:text-gray-800 active:bg-gray-100
                    disabled:text-gray-300 disabled:cursor-not-allowed
                    transition-all duration-200 rounded-md"
-      >
-        ADD TASK
-      </button>
-    </div>
+        >
+          ADD TASK
+        </button>
+      </div>
+      {application?._id && (
+        <AddSubApplication
+          key={application._id}
+          open={open}
+          setOpen={setOpen}
+          id={application._id}
+          onTaskAdded={handleTaskAdded} // Pass the callback function
+        />
+      )}
+    </>
   )
 }
 

@@ -1,6 +1,6 @@
 import { get } from 'react-hook-form'
 import { apiSlice } from '../apiSlice'
-import { query } from 'firebase/database'
+import { query, update } from 'firebase/database'
 
 const APPLICATION_URL = '/app'
 
@@ -141,6 +141,53 @@ export const applicationApiSlice = apiSlice.injectEndpoints({
         credentials: 'include',
       }),
     }),
+    addActivity: builder.mutation({
+      query: ({ body, _id }) => ({
+        url: `${APPLICATION_URL}/add-activity-app`,
+        method: 'POST',
+        body,
+        credentials: 'include',
+      }),
+    }),
+    addTask: builder.mutation({
+      query: ({ body, app_id }) => ({
+        url: `${APPLICATION_URL}/add-task/${app_id}`,
+        method: 'PUT',
+        body,
+        credentials: 'include',
+      }),
+    }),
+    updateTask: builder.mutation({
+      query: ({ body, app_id, task_id }) => ({
+        url: `${APPLICATION_URL}/update-task/${app_id}/${task_id}`,
+        method: 'PUT',
+        body,
+        credentials: 'include',
+      }),
+    }),
+    deleteTask: builder.mutation({
+      query: ({ app_id, task_id }) => ({
+        url: `${APPLICATION_URL}/delete-task/${app_id}/${task_id}`,
+        method: 'DELETE',
+        credentials: 'include',
+      }),
+    }),
+    addMemberApplication: builder.mutation({
+      query: (body) => ({
+        url: `${APPLICATION_URL}/add-member-app`,
+        method: 'POST',
+        body,
+        credentials: 'include',
+      }),
+    }),
+    createActivityApplication: builder.mutation({
+      query: (body) => ({
+        url: `${APPLICATION_URL}/add-activity-app`,
+        method: 'POST',
+        body,
+        credentials: 'include',
+      }),
+    }),
   }),
 })
 
@@ -163,4 +210,10 @@ export const {
   useDeleteApplicationForRealMutation,
   useGetAppicationByIdQuery,
   useUpdateApplicationMutation,
+  useAddActivityMutation,
+  useAddTaskMutation,
+  useUpdateTaskMutation,
+  useDeleteTaskMutation,
+  useAddMemberApplicationMutation,
+  useCreateActivityApplicationMutation,
 } = applicationApiSlice

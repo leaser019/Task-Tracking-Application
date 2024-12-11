@@ -133,23 +133,28 @@ const AddApplication = ({ application, open, setOpen, refetch }) => {
                   />
                 </Grid>
               </>
-              <Grid xs={12}>
-                <Controller
-                  name="teamMembers"
-                  fullWidth
-                  control={control}
-                  defaultValue={task?.teamMembers || []}
-                  render={({ field }) => (
-                    <UserList
-                      {...field}
-                      team={team}
-                      setTeam={setTeam}
-                      fullWidth
-                      {...register('teamMembers')}
-                    />
-                  )}
-                />
-              </Grid>
+              {!task ? (
+                <Grid xs={12}>
+                  <Controller
+                    name="teamMembers"
+                    fullWidth
+                    control={control}
+                    defaultValue={task?.teamMembers || []}
+                    render={({ field }) => (
+                      <UserList
+                        {...field}
+                        defaultValue={task?.teamMembers || []}
+                        team={team}
+                        setTeam={setTeam}
+                        fullWidth
+                        {...register('teamMembers')}
+                      />
+                    )}
+                  />
+                </Grid>
+              ) : (
+                ''
+              )}
               {task ? (
                 <>
                   <Grid xs={5} className="py-4 mr-8">
@@ -179,9 +184,7 @@ const AddApplication = ({ application, open, setOpen, refetch }) => {
                       name="createdAt"
                       control={control}
                       defaultValue={
-                        task?.createdAt
-                          ? dayjs(task.createdAt)
-                          : dayjs('2024-11-29T08:55:00.226Z')
+                        task?.createdAt ? dayjs(task?.createdAt) : dayjs()
                       }
                       render={({ field }) => (
                         <DatePicker
