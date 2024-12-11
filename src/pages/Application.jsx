@@ -32,6 +32,7 @@ const Application = ({ status: appStatus = '' }) => {
   const searchResults = useSelector((state) => state.application.searchResults)
   const [prevAppStatus, setPrevAppStatus] = useState(appStatus)
   const dispatch = useDispatch()
+  const { user } = useSelector((state) => state.authentication)
   const stage = appStatus || ''
   const queryGetAllTodo = useGetAllTodoQuery()
   const queryGetAllImplement = useGetAllImplementQuery()
@@ -128,7 +129,7 @@ const Application = ({ status: appStatus = '' }) => {
           <Title
             title={nameTitle ? `${nameTitle} Application` : 'Application'}
           />
-          {(stage === '' || stage === 'todo') && (
+          {user.isAdmin === true && (stage === '' || stage === 'todo') && (
             <ButtonElement
               onClick={() => setOpen(true)}
               label="Create Application"
