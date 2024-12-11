@@ -214,7 +214,7 @@ const ApplicationDetail = () => {
         open={open}
         setOpen={setOpen}
         appDetail={selectedTask}
-        id={selectedTask?._id}
+        id={id}
         onTaskAdded={onTaskAdded}
       />
       <div className="min-h-screen bg-gray-50 px-4 py-8 md:px-6 lg:px-8">
@@ -331,7 +331,7 @@ const ApplicationDetail = () => {
                         <h3 className="font-semibold text-gray-700">Tasks</h3>
                         <div className="flex items-center space-x-2">
                           <ButtonElement
-                            onClick={() => toast('Invite Team Member')}
+                            onClick={() => setOpen(true)}
                             className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded transition duration-300 text-sm"
                             label="Add Task"
                           />
