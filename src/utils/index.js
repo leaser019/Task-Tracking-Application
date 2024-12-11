@@ -93,3 +93,14 @@ export function getInitialsUsername(fullName) {
     .join('')
     .toUpperCase()
 }
+
+export const extractApplicationId = (pathname) => {
+  try {
+    // Split path by '/' and get last segment
+    const segments = pathname.split('/')
+    return segments[segments.length - 1]
+  } catch (error) {
+    console.error('Error extracting application ID:', error)
+    return null
+  }
+}

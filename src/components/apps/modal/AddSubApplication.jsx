@@ -3,11 +3,28 @@ import ModalWrapper from '../../common/modal/ModalWrapper'
 import { Dialog } from '@headlessui/react'
 import { Grid } from '@mui/material'
 import { TextField } from '@mui/material'
-import { Button } from '@mui/material'
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from '@mui/material'
 import { Controller } from 'react-hook-form'
 import { DatePicker } from '@mui/x-date-pickers'
+import {
+  useAddActivityMutation,
+  useAddTaskMutation,
+  useUpdateTaskMutation,
+  useDeleteTaskMutation,
+} from '../../../redux/slices/api/applicationApiSlice'
+import { toast } from 'sonner'
+import React from 'react'
+import dayjs from 'dayjs'
+import { useLocation } from 'react-router-dom'
+import { extractApplicationId } from '../../../utils'
 
-const AddSubApplication = ({ open, setOpen, id }) => {
+const AddSubApplication = ({ open, setOpen, id, onTaskAdded, appDetail }) => {
   const {
     register,
     handleSubmit,
@@ -15,20 +32,46 @@ const AddSubApplication = ({ open, setOpen, id }) => {
     formState: { errors },
   } = useForm()
 
-  // const [addSbApplication] = useCreateSubApplicationMutation();
+  const location = useLocation()
+  const appId = extractApplicationId(location.pathname)
+
+  const taskStatus = ['To Do', 'In progress', 'Done']
+
+  const [addActivity] = useAddActivityMutation()
+  const [addTask] = useAddTaskMutation()
+  const [updateTask] = useUpdateTaskMutation()
+  const [deleteTask] = useDeleteTaskMutation()
 
   const handleOnSubmit = async (data) => {
-    // try {
-    //   const res = await addSbApplication({ data, id }).unwrap();
-    //   toast.success(res.message);
-    //   setTimeout(() => {
-    //     setOpen(false);
-    //   }, 500);
-    // } catch (err) {
-    //   console.log(err);
-    //   toast.error(err?.data?.message || err.error);
-    // }
+    try {
+      if (appDetail) {
+        const res = await updateTask({
+          body: data,
+          app_id: appId,
+          task_id: id,
+        }).unwrap()
+        toast.success('Update Task Successfully!!')
+        setOpen(false)
+        onTaskAdded()
+        return
+      } else {
+        const res = await addTask({ body: data, app_id: id }).unwrap()
+        toast.success('Create Task Successfully!!')
+        setOpen(false)
+        onTaskAdded()
+      }
+    } catch (err) {
+      toast.error(err?.data?.message || 'Failed to create task')
+    }
   }
+
+  React.useEffect(() => {
+    if (open && !id) {
+      console.error('Missing application ID')
+      setOpen(false)
+      toast.error('Missing application ID')
+    }
+  }, [open, id, setOpen])
 
   return (
     <>
@@ -41,7 +84,7 @@ const AddSubApplication = ({ open, setOpen, id }) => {
                   as="h1"
                   className="bg-white rounded-lg w-[100%] text-2xl font-bold py-4 text-center"
                 >
-                  ADD TASK
+                  {appDetail ? `Update ${appDetail?.title} Task` : 'Add Task'}
                 </Dialog.Title>
               </Grid>
               <Grid xs={12} className="my-4">
@@ -54,19 +97,47 @@ const AddSubApplication = ({ open, setOpen, id }) => {
                   label="Task Title"
                   size="normal"
                   variant="outlined"
+                  defaultValue={appDetail?.title}
                   fullWidth
                   required
                 />
               </Grid>
+              <Grid xs={12} className="mb-4">
+                <FormControl fullWidth>
+                  <InputLabel id="task-Status">Task Status</InputLabel>
+                  <Select
+                    labelId="task-status"
+                    id="task-status"
+                    {...register('status', {
+                      required: 'Task Status is required',
+                    })}
+                    label="Task Status"
+                    defaultValue={appDetail?.status}
+                  >
+                    {taskStatus.map((status) => (
+                      <MenuItem key={status} value={status}>
+                        {status}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
               <Grid xs={5} className="mr-4">
                 <Controller
-                  name="date"
+                  name="deadline"
                   control={control}
-                  defaultValue={null}
+                  defaultValue={
+                    appDetail?.deadline ? dayjs(appDetail?.deadline) : dayjs()
+                  }
                   render={({ field }) => (
                     <DatePicker
                       {...field}
-                      label="Application Date"
+                      label="Deadline Date"
+                      defaultValue={
+                        appDetail?.deadline
+                          ? dayjs(appDetail?.deadline)
+                          : dayjs()
+                      }
                       renderInput={(params) => <TextField {...params} />}
                     />
                   )}
@@ -82,6 +153,7 @@ const AddSubApplication = ({ open, setOpen, id }) => {
                   label="Task Tag"
                   size="normal"
                   variant="outlined"
+                  defaultValue={appDetail?.tag}
                   fullWidth
                   required
                 />

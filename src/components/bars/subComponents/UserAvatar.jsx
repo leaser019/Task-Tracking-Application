@@ -123,6 +123,13 @@ const UserAvatar = () => {
       resetPassword()
     }
   }
+  const AvatarCustomize = React.memo(() => (
+    <Avatar className="w-20 h-20 px-1" {...config} />
+  ))
+
+  const AvatarSmall = React.memo(() => (
+    <Avatar className="w-8 h-8 px-1" {...config} />
+  ))
 
   return (
     <React.Fragment>
@@ -134,7 +141,7 @@ const UserAvatar = () => {
               <div className="bg-white p-8 rounded-lg w-full md:w-11/12 lg:w-11/12">
                 <h1 className="text-2xl font-bold">Change Password</h1>
                 <div className="flex justify-center">
-                  <Avatar className="w-20 h-20 px-1" {...config} />
+                  <AvatarCustomize />
                 </div>
                 <h1 className="text-xl font-semibold mt-4">
                   {user?.user_name}
@@ -219,7 +226,7 @@ const UserAvatar = () => {
               <div className="bg-white p-8 rounded-lg w-full md:w-11/12 lg:w-11/12">
                 <h1 className="text-2xl font-bold">Edit Your Profile</h1>
                 <div className="flex justify-center">
-                  <Avatar className="w-20 h-20 px-1" {...config} />
+                  <AvatarCustomize />
                 </div>
                 <h1 className="text-xl font-semibold mt-4">
                   {user?.user_name}
@@ -316,7 +323,7 @@ const UserAvatar = () => {
               </h5>
               <p className="text-xs text-gray-500">{user?.role}</p>
             </div>
-            <Avatar className="w-8 h-8" {...config} />
+            <AvatarSmall />
           </Menu.Button>
         </div>
         <Transition
