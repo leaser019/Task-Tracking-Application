@@ -172,7 +172,6 @@ const ApplicationCard = ({ application, refetch }) => {
         <SubTaskSection />
         <button
           onClick={() => setOpen(true)}
-          disabled={!user?.isAdmin}
           className="w-full mt-4 py-2 text-sm font-medium text-gray-600
                    hover:bg-gray-50 hover:text-gray-800 active:bg-gray-100
                    disabled:text-gray-300 disabled:cursor-not-allowed
