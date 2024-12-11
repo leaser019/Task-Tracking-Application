@@ -2,6 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import { Message, AttachSquare, Chart2 } from 'iconsax-react'
 import { TiDelete } from 'react-icons/ti'
+import { AiTwotoneFolderOpen } from 'react-icons/ai'
 import { GrPowerReset } from 'react-icons/gr'
 import { BiMessageSquareEdit } from 'react-icons/bi'
 import {
@@ -21,9 +22,13 @@ import {
 import AddApplication from '../../apps/modal/AddApplication'
 import { toast } from 'sonner'
 import { useLocation, Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const TableRow = ({ application, show = '', refetch }) => {
+  const { user } = useSelector((state) => state.authentication)
   const location = useLocation()
+  const navigate = useNavigate()
   const [openEditDialog, setOpenEditDialog] = React.useState(false)
   const [selected, setSelected] = React.useState(null)
   const [restoreApplication] = useRestoreTrashApplicationMutation()
@@ -182,35 +187,46 @@ const TableRow = ({ application, show = '', refetch }) => {
 
         <td className="py-4 pr-6">
           <div className="flex items-center justify-end gap-3">
-            {show === 'list-view' ? (
-              <ButtonElement
-                className="px-4 py-2 rounded-lg bg-blue-50 text-blue-600 flex items-center gap-2"
-                icon={<BiMessageSquareEdit size="18" />}
-                label="Edit"
-                type="button"
-                onClick={() => setOpenEditDialog(true)}
-              />
+            {user.isAdmin === true ? (
+              <>
+                {show === 'list-view' ? (
+                  <ButtonElement
+                    className="px-4 py-2 rounded-lg bg-blue-50 text-blue-600 flex items-center gap-2"
+                    icon={<BiMessageSquareEdit size="18" />}
+                    label="Edit"
+                    type="button"
+                    onClick={() => setOpenEditDialog(true)}
+                  />
+                ) : (
+                  <ButtonElement
+                    className="px-4 py-2 rounded-lg bg-green-50 text-green-600 flex items-center gap-2"
+                    icon={<GrPowerReset size="18" />}
+                    label="Restore"
+                    type="button"
+                    onClick={() => handleRestoreApplication()}
+                  />
+                )}
+                <ButtonElement
+                  className="px-4 py-2 rounded-lg bg-red-50 text-red-600 flex items-center gap-2"
+                  icon={<TiDelete size="18" />}
+                  label="Delete"
+                  type="button"
+                  onClick={() =>
+                    location.pathname.includes('/trash')
+                      ? handleDeleteApplicationTrash()
+                      : handleDeleteApplication()
+                  }
+                />
+              </>
             ) : (
               <ButtonElement
-                className="px-4 py-2 rounded-lg bg-green-50 text-green-600 flex items-center gap-2"
-                icon={<GrPowerReset size="18" />}
-                label="Restore"
+                className="px-4 py-2 rounded-lg bg-blue-50 text-blue-600 flex items-center gap-2"
+                icon={<AiTwotoneFolderOpen size="18" />}
+                label="Open Application"
                 type="button"
-                onClick={() => handleRestoreApplication()}
+                onClick={() => navigate(`/application/${application?._id}`)}
               />
             )}
-
-            <ButtonElement
-              className="px-4 py-2 rounded-lg bg-red-50 text-red-600 flex items-center gap-2"
-              icon={<TiDelete size="18" />}
-              label="Delete"
-              type="button"
-              onClick={() =>
-                location.pathname.includes('/trash')
-                  ? handleDeleteApplicationTrash()
-                  : handleDeleteApplication()
-              }
-            />
           </div>
         </td>
       </tr>

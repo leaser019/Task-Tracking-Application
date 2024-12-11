@@ -34,6 +34,7 @@ import { genConfig } from 'react-nice-avatar'
 import AddSubApplication from '../../modal/AddSubApplication'
 import AddMember from './AddMember'
 import { useDeleteTaskMutation } from '../../../../redux/slices/api/applicationApiSlice'
+import { useSelector } from 'react-redux'
 
 const TaskIcon = ({ status }) => {
   let icon, taskBgColor, textColor
@@ -149,6 +150,7 @@ const act_types = [
 
 const ApplicationDetail = () => {
   const { id } = useParams()
+  const { user } = useSelector((state) => state.authentication)
   const {
     data: task,
     refetch,
@@ -289,14 +291,16 @@ const ApplicationDetail = () => {
                         <h3 className="font-semibold text-gray-700">
                           Team Members
                         </h3>
-                        <ButtonElement
-                          onClick={() => {
-                            setHandleAddMember(true)
-                          }}
-                          className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-8 rounded-lg shadow-md transition-all duration-300 text-xs pb-2
+                        {user?.isAdmin === true && (
+                          <ButtonElement
+                            onClick={() => {
+                              setHandleAddMember(true)
+                            }}
+                            className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-8 rounded-lg shadow-md transition-all duration-300 text-xs pb-2
                         "
-                          label=" Add Team Member"
-                        ></ButtonElement>
+                            label=" Add Team Member"
+                          ></ButtonElement>
+                        )}
                       </div>
                       <div className="divide-y divide-gray-100">
                         {task?.teamMembers?.map((member, index) => (
