@@ -7,7 +7,7 @@
    "The best way to predict the future is to create it."
   </p>
 
-  🌟 About the Project
+  ## 🌟 About the Project
 
 Kepler is a robust task tracking application designed to streamline project management and team collaboration. With a modern interface and advanced features, Kepler empowers teams to stay organized and productive.
 
@@ -102,7 +102,7 @@ Kepler is a robust task tracking application designed to streamline project mana
 
 <!-- Features -->
 
-🎯 Features
+### 🎯 Features
 
 Real-time updates: Stay in sync with live task tracking and updates.
 
@@ -110,7 +110,7 @@ User-friendly UI: Modern and intuitive design for seamless navigation.
 
 Collaboration tools: Assign tasks, set deadlines, and track progress in teams
 
-🌈 Future Enhancements
+### 🌈 Future Enhancements
 
 Integration with third-party tools such as Slack and Trello.
 
