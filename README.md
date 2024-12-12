@@ -7,6 +7,10 @@
    "The best way to predict the future is to create it."
   </p>
 
+  🌟 About the Project
+
+Kepler is a robust task tracking application designed to streamline project management and team collaboration. With a modern interface and advanced features, Kepler empowers teams to stay organized and productive.
+
 <!-- Badges -->
   <a href="https://github.com/Louis3797/awesome-readme-template/graphs/contributors">
     <img src="https://img.shields.io/github/contributors/Louis3797/awesome-readme-template" alt="contributors" />
@@ -41,30 +45,6 @@
 
 <br />
 
-<!-- Table of Contents -->
-
-# :notebook_with_decorative_cover: Table of Contents
-
-- [About the Project](#star2-about-the-project)
-  - [Screenshots](#camera-screenshots)
-  - [Tech Stack](#space_invader-tech-stack)
-  - [Features](#dart-features)
-  - [Color Reference](#art-color-reference)
-  - [Environment Variables](#key-environment-variables)
-- [Getting Started](#toolbox-getting-started)
-  - [Prerequisites](#bangbang-prerequisites)
-  - [Installation](#gear-installation)
-  - [Running Tests](#test_tube-running-tests)
-  - [Run Locally](#running-run-locally)
-  - [Deployment](#triangular_flag_on_post-deployment)
-- [Usage](#eyes-usage)
-- [Roadmap](#compass-roadmap)
-- [Contributing](#wave-contributing)
-  - [Code of Conduct](#scroll-code-of-conduct)
-- [FAQ](#grey_question-faq)
-- [License](#warning-license)
-- [Contact](#handshake-contact)
-- [Acknowledgements](#gem-acknowledgements)
 
 <!-- About the Project -->
 
@@ -122,22 +102,24 @@
 
 <!-- Features -->
 
-### :dart: Features
+🎯 Features
 
-- Feature 1
-- Feature 2
-- Feature 3
+Real-time updates: Stay in sync with live task tracking and updates.
+
+User-friendly UI: Modern and intuitive design for seamless navigation.
+
+Collaboration tools: Assign tasks, set deadlines, and track progress in teams
+
+🌈 Future Enhancements
+
+Integration with third-party tools such as Slack and Trello.
+
+Enhanced analytics and reporting capabilities.
+
+Mobile application development.
 
 <!-- Color Reference -->
 
-### :art: Color Reference
-
-| Color           | Hex                                                              |
-| --------------- | ---------------------------------------------------------------- |
-| Primary Color   | ![#222831](https://via.placeholder.com/10/222831?text=+) #222831 |
-| Secondary Color | ![#393E46](https://via.placeholder.com/10/393E46?text=+) #393E46 |
-| Accent Color    | ![#00ADB5](https://via.placeholder.com/10/00ADB5?text=+) #00ADB5 |
-| Text Color      | ![#EEEEEE](https://via.placeholder.com/10/EEEEEE?text=+) #EEEEEE |
 
 <!-- Env Variables -->
 
