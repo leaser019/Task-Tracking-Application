@@ -9,12 +9,12 @@ import {
   Profile2User,
   Trash,
   Stickynote,
+  Message,
 } from 'iconsax-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, Link } from 'react-router-dom'
 import { setSlideBarOpen } from '../../redux/slices/authenticationSlice'
 import clsx from 'clsx'
-import RoomList from '../apps/chat/RoomList'
 import UserAvatar from './subComponents/UserAvatar'
 import { IoArrowBack } from 'react-icons/io5'
 import Title from '../common/Title'
@@ -61,6 +61,12 @@ const defaultData = [
     iconChoose: <Task size={iconSize} color={colorChoose} />,
   },
   {
+    label: 'Messages',
+    link: 'chat',
+    icon: <Message size={iconSize} color={colorTag} />,
+    iconChoose: <Message size={iconSize} color={colorChoose} />,
+  },
+  {
     label: 'Team',
     link: 'team',
     icon: <Profile2User size={iconSize} color={colorTag} />,
@@ -80,7 +86,7 @@ const SideBar = ({ status }) => {
   const location = useLocation()
   const sideBarUserData = user?.user?.isAdmin
     ? defaultData
-    : defaultData.slice(0, 6)
+    : defaultData.slice(0, 7)
   const path = location.pathname.split('/')[1]
 
   const closeSideBar = () => dispatch(setSlideBarOpen(false))
@@ -140,29 +146,9 @@ const SideBar = ({ status }) => {
       </div>
 
       <nav className="flex-1 px-3 py-6 space-y-1 overflow-y-auto">
-        {status === 'chat' ? (
-          <div className="flex flex-col space-y-2 ">
-            <Title
-              title="Kepler Chat Room"
-              className="text-center items-center"
-            />
-            {/* <div className="flex flex-row space-x-3 items-center">
-              <Link
-                to="/dashboard"
-                className="flex items-center text-blue-600 space-x-2"
-              >
-                <IoArrowBack size={iconSize} />
-                <span className="font-medium">Back</span>
-              </Link>
-              <UserAvatar className="z-1" />
-            </div> */}
-            <RoomList />
-          </div>
-        ) : (
-          sideBarUserData.map((element, index) => (
-            <NavigationLink key={index} element={element} />
-          ))
-        )}
+        {sideBarUserData.map((element, index) => (
+          <NavigationLink key={index} element={element} />
+        ))}
       </nav>
       <div className="p-4">
         <div className="px-3 py-2 text-sm text-gray-500">© 2024 Kepler</div>
