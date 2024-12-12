@@ -107,40 +107,25 @@ const Content = () => {
       </section>
 
       {/* Features Grid */}
-      <motion.section
-        className="py-20 px-8"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={{
-          hidden: { opacity: 0 },
-          visible: { opacity: 1, transition: { staggerChildren: 0.3 } },
-        }}
-      >
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-          {features.map((feature, index) => (
-            <motion.div
-              key={index}
-              className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow"
-              variants={{
-                hidden: { scale: 0.8, opacity: 0 },
-                visible: {
-                  scale: 1,
-                  opacity: 1,
-                  transition: { duration: 0.5 },
-                },
-              }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              style={{ maxWidth: '100%', margin: '0 auto' }}
-            >
-              <div className="mb-4">{feature.icon}</div>
-              <h3 className="text-2xl font-bold mb-2">{feature.title}</h3>
-              <p className="text-gray-600">{feature.description}</p>
-            </motion.div>
-          ))}
-        </div>
-      </motion.section>
+
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 px-4 sm:px-6 lg:px-8 py-12 items-center">
+        {features.map((feature, index) => (
+          <div
+            key={index}
+            className="p-6 sm:p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:scale-105"
+          >
+            <div className="mb-6 text-primary-600 transform transition-transform duration-300 text-4xl">
+              {feature.icon}
+            </div>
+            <h3 className="text-xl sm:text-2xl font-bold mb-4 text-gray-900 tracking-tight">
+              {feature.title}
+            </h3>
+            <p className="text-gray-600 leading-relaxed text-base sm:text-lg">
+              {feature.description}
+            </p>
+          </div>
+        ))}
+      </div>
 
       <section id="mission" ref={missionRef}>
         {missionInView && <MissionContent />}
