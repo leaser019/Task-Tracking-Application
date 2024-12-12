@@ -133,7 +133,7 @@ const AddApplication = ({ application, open, setOpen, refetch }) => {
                   />
                 </Grid>
               </>
-              {!task ? (
+              {
                 <Grid xs={12}>
                   <Controller
                     name="teamMembers"
@@ -152,9 +152,7 @@ const AddApplication = ({ application, open, setOpen, refetch }) => {
                     )}
                   />
                 </Grid>
-              ) : (
-                ''
-              )}
+              }
               {task ? (
                 <>
                   <Grid xs={5} className="py-4 mr-8">

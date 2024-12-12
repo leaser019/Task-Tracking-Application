@@ -288,7 +288,7 @@ const Login = () => {
                 <img
                   src="./assets/logo/logoApp.png"
                   alt="Logo"
-                  className="w-[15%] h-[50%] flex mr-4"
+                  className="w-[15%] h-[50%] flex mr-4 animate-bounce"
                 />
                 Kepler.
               </span>
@@ -329,16 +329,16 @@ const Login = () => {
     }
     return (
       <>
-        <div className="w-full md:w-1/4 p-4 md:p-1 flex flex-col justify-center items-center">
+        <div>
           <form
             onSubmit={handleSubmit(submitHandler)}
-            className="form-container w-full md:w-[400px] flex flex-col gap-y-8 bg-white px-10 pt-14 pb-14"
+            className="w-full md:w-[400px] flex flex-col gap-y-8 px-10 pt-14 pb-14 rounded-lg shadow-md"
           >
-            <div className="">
+            <div className="mb-6">
               <p className="text-blue-600 text-3xl font-bold text-center">
                 Login
               </p>
-              <p className="text-center text-base text-gray-700 ">
+              <p className="text-center text-base text-gray-700">
                 Fill all your information
               </p>
             </div>
@@ -349,7 +349,7 @@ const Login = () => {
                 type="email"
                 name="email"
                 label="Email"
-                className="w-full rounded-full"
+                className="w-full rounded-full border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
                 register={register('email', {
                   required: 'Email is required!',
                 })}
@@ -360,17 +360,21 @@ const Login = () => {
                 type="password"
                 name="password"
                 label="Password"
-                className="w-full rounded-full"
+                className="w-full rounded-full border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
                 register={register('password', {
                   required: 'Password is required!',
                 })}
                 error={errors.password ? errors.password.message : ''}
               />
-              <span className="text-sm text-gray-500 hover:text-blue-600 hover:underline ">
+              <span className="text-sm text-gray-500 hover:text-blue-600 hover:underline cursor-pointer">
                 Forget Password?
               </span>
               <StyledWrapper>
-                <button type="submit" alt="Login" className="w-full">
+                <button
+                  type="submit"
+                  alt="Login"
+                  className="w-full bg-blue-600 text-white py-2 rounded-full hover:bg-blue-700 transition duration-300"
+                >
                   <i>s</i>
                   <i>t</i>
                   <i>a</i>
@@ -392,8 +396,11 @@ const Login = () => {
                 </button>
               </StyledWrapper>
               <span className="text-md text-black-700 text-center">
-                Don’t have an account ?
-                <span className="hover:text-blue-600"> Register</span>
+                Don’t have an account?
+                <span className="hover:text-blue-600 cursor-pointer">
+                  {' '}
+                  Register
+                </span>
               </span>
             </div>
           </form>
@@ -419,8 +426,8 @@ const Login = () => {
     <>
       <section id="login">
         <div className="w-full min-h-screen flex items-center justify-center flex-col lg:flex-row bg-[#f3f4f6] ">
-          <div className="w-full md:w-auto flex gap-0 md:gap-40 flex-col md:flex-row items-center justify-center">
-            <HeaderContent />
+          <HeaderContent className="mb-4" />
+          <div className="w-full md:w-auto flex gap-0 md:gap-40 flex-col md:flex-row items-center justify-center m-4">
             {/* Left side */}
             <LeftSideComponent />
             {/* Right side */}

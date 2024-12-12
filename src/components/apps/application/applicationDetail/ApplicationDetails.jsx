@@ -492,16 +492,14 @@ const Activities = ({ activity, id, refetch }) => {
               {moment(item?.date).fromNow()}
             </span>
           </div>
-
+          <div className=" flex text-gray-700 bg-white p-3 rounded-xl shadow-sm border border-gray-100">
+            <Avatar className="w-7 h-7" {...config} />{' '}
+            <div className="pt-1 pl-4">{item?.user_name}</div>
+          </div>
           <div className="text-gray-600 space-y-2">
             <p className="capitalize text-sm bg-gray-50 p-2 rounded-md">
               {item?.comment}
             </p>
-          </div>
-
-          <div className=" flex text-gray-700 bg-white p-3 rounded-xl shadow-sm border border-gray-100">
-            <Avatar className="w-7 h-7" {...config} />{' '}
-            <div className="pt-1 pl-4">{item?.user_name}</div>
           </div>
         </div>
       </div>

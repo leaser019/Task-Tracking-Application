@@ -74,33 +74,35 @@ const Mission = React.memo(() => {
   ]
 
   return (
-    <div className="p-8 bg-white rounded-lg shadow-md">
-      <h2 className="text-3xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-700 animate-gradient">
+    <div className="p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+      <h2 className="text-4xl font-extrabold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 animate-gradient tracking-tight">
         Our Mission
       </h2>
 
-      <div className="max-w-xs mx-auto mb-8">
+      <div className="max-w-xs mx-auto mb-12 transform hover:scale-105 transition-transform duration-300">
         <img
           src="./assets/images/mission/mission.jpg"
           alt="Mission Illustration"
-          className="w-full h-auto rounded-lg"
+          className="w-full h-auto rounded-lg shadow-md hover:shadow-lg"
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {missionPoints.map((point, index) => (
           <div
             key={index}
-            className="flex flex-row p-2 bg-gray-100 rounded-lg shadow-sm"
+            className="flex flex-row p-4 bg-gray-50 hover:bg-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
           >
-            <div className="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-lg mb-4 mt-[2%]">
+            <div className="flex items-center justify-center w-14 h-14 bg-blue-100 hover:bg-blue-200 rounded-lg mb-4 mt-[2%] transition-colors duration-300">
               {point.icon}
             </div>
-            <div className="flex flex-col ml-4 mt-2">
-              <h3 className="text-lg font-semibold text-gray-700 mb-2">
+            <div className="flex flex-col ml-6 mt-2">
+              <h3 className="text-xl font-bold text-gray-800 mb-3">
                 {point.text}
               </h3>
-              <p className="text-sm text-gray-600">{point.description}</p>
+              <p className="text-base text-gray-600 leading-relaxed">
+                {point.description}
+              </p>
             </div>
           </div>
         ))}
