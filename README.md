@@ -7,11 +7,11 @@
    "The best way to predict the future is to create it."
   </p>
 
-  ## 🌟 About the Project
+ <!-- ## 🌟 About the Project -->
 
 Kepler is a robust task tracking application designed to streamline project management and team collaboration. With a modern interface and advanced features, Kepler empowers teams to stay organized and productive.
 
-<!-- Badges -->
+<!-- Badges 
   <a href="https://github.com/Louis3797/awesome-readme-template/graphs/contributors">
     <img src="https://img.shields.io/github/contributors/Louis3797/awesome-readme-template" alt="contributors" />
   </a>
@@ -29,18 +29,17 @@ Kepler is a robust task tracking application designed to streamline project mana
   </a>
   <a href="https://github.com/Louis3797/awesome-readme-template/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/Louis3797/awesome-readme-template.svg" alt="license" />
-  </a>
+  </a> -->
 </p>
 
-<h4>
+<h3>
     <a href="https://dotkepler.vercel.app/">View Demo</a>
   <span> · </span>
-    <a href="https://github.com/leaser019/Task-Tracking-Application">Documentation</a>
+    <a href="https://drive.google.com/drive/folders/1AsCX11aeAtcip20aUPPfdWcBPl5QpVSO?usp=sharing">Report</a>
   <span> · </span>
-    <a href="https://github.com/leaser019/Task-Tracking-Application/issues">Report Bug</a>
-  <span> · </span>
-    <a href="https://github.com/leaser019/Task-Tracking-Application/issues">Request Feature</a>
-  </h4>
+    <a href="https://github.com/Khanhhungtran23/.Kepler-Task-Tracking-App-Server">Link Source Code Server</a>
+  
+  </h3>
 </div>
 
 <br />
