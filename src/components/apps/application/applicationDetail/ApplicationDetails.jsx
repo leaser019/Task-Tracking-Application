@@ -214,6 +214,7 @@ const ApplicationDetail = () => {
         open={open}
         setOpen={setOpen}
         appDetail={selectedTask}
+        setAppDetail={setSelectedTask}
         id={id}
         onTaskAdded={onTaskAdded}
       />
@@ -331,7 +332,10 @@ const ApplicationDetail = () => {
                         <h3 className="font-semibold text-gray-700">Tasks</h3>
                         <div className="flex items-center space-x-2">
                           <ButtonElement
-                            onClick={() => setOpen(true)}
+                            onClick={() => {
+                              setSelectedTask(null)
+                              setOpen(true)
+                            }}
                             className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded transition duration-300 text-sm"
                             label="Add Task"
                           />
