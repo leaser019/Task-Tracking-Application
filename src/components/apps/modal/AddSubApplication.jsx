@@ -24,11 +24,19 @@ import dayjs from 'dayjs'
 import { useLocation } from 'react-router-dom'
 import { extractApplicationId } from '../../../utils'
 
-const AddSubApplication = ({ open, setOpen, id, onTaskAdded, appDetail }) => {
+const AddSubApplication = ({
+  open,
+  setOpen,
+  id,
+  onTaskAdded,
+  appDetail,
+  setAppDetail,
+}) => {
   const {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm()
 
@@ -48,9 +56,10 @@ const AddSubApplication = ({ open, setOpen, id, onTaskAdded, appDetail }) => {
         const res = await updateTask({
           body: data,
           app_id: appId,
-          task_id: id,
+          task_id: appDetail?._id,
         }).unwrap()
         toast.success('Update Task Successfully!!')
+        setAppDetail('')
         setOpen(false)
         onTaskAdded()
         return
@@ -66,12 +75,27 @@ const AddSubApplication = ({ open, setOpen, id, onTaskAdded, appDetail }) => {
   }
 
   React.useEffect(() => {
+    if (appDetail) {
+      reset({
+        title: appDetail?.title || '',
+        status: appDetail?.status || '',
+        deadline: appDetail?.deadline ? dayjs(appDetail?.deadline) : dayjs(),
+        tag: appDetail?.tag || '',
+      })
+    } else {
+      reset({
+        title: '',
+        status: '',
+        deadline: dayjs(),
+        tag: '',
+      })
+    }
     if (open && !id) {
       console.error('Missing application ID')
       setOpen(false)
       toast.error('Missing application ID')
     }
-  }, [open, id, setOpen])
+  }, [open, id, setOpen, appDetail, reset])
 
   return (
     <>
